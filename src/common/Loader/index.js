@@ -7,3 +7,4 @@ const Loader = () => {
 };
 
 export default Loader;
+// git remote set-url origin git://new.url.here
