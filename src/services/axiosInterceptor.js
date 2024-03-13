@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios';
 
 // This code is used to access redux store in this file.
 let store;
@@ -9,14 +9,8 @@ export const injectStore = (_store) => {
 // Creating new axios instance
 export const instance = axios.create({
   withCredentials: true,
-  headers: { "Content-Type": "application/json" },
-  baseURL: `${
-    process.env.REACT_APP_WORKING_ENVIRONMENT === "development"
-      ? process.env.REACT_APP_API_BASE_URL_DEVELOPMENT
-      : process.env.REACT_APP_WORKING_ENVIRONMENT === "staging"
-      ? process.env.REACT_APP_API_BASE_URL_RENDER
-      : process.env.REACT_APP_API_BASE_URL_MAIN_PRODUCTION
-  }`,
+  headers: { 'Content-Type': 'application/json' },
+  baseURL: "https://petheeds-backend.onrender.com/api/v1",
 });
 
 instance.interceptors.request.use(
@@ -34,7 +28,7 @@ instance.interceptors.response.use(
     return response;
   },
   async (error) => {
-    let errorMessage = "";
+    let errorMessage = '';
     // Do something with response error
     let loggedInUserEmail = store.getState()?.auth?.loggedInUserData?.email;
     let originalRequest = error.config;
@@ -47,7 +41,7 @@ instance.interceptors.response.use(
       try {
         if (loggedInUserEmail) {
           await instance.post(
-            "/auth/refreshToken",
+            '/auth/refreshToken',
             { email: loggedInUserEmail },
             {
               withCredentials: true,
@@ -55,7 +49,7 @@ instance.interceptors.response.use(
           );
           return instance(originalRequest);
         } else {
-          errorMessage = "Unauthorized Access";
+          errorMessage = 'Unauthorized Access';
           return Promise.reject(errorMessage);
         }
       } catch (error) {
@@ -65,21 +59,21 @@ instance.interceptors.response.use(
 
     switch (Number(error.response.status)) {
       case 400:
-        errorMessage = error.response.data.message || "Bad Request";
+        errorMessage = error.response.data.message || 'Bad Request';
         break;
 
       case 404:
-        errorMessage = error.response.data.message || "Resource Not Found";
+        errorMessage = error.response.data.message || 'Resource Not Found';
         break;
 
       case 500:
-        errorMessage = error.response.data.message || "Internal Server Error";
+        errorMessage = error.response.data.message || 'Internal Server Error';
         break;
 
       default:
         errorMessage =
           error.response.data.message ||
-          "Sorry, something went wrong. Please try again later.";
+          'Sorry, something went wrong. Please try again later.';
     }
     return Promise.reject(errorMessage);
   }

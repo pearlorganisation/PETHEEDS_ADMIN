@@ -4,6 +4,9 @@ import storage from 'redux-persist/lib/storage';
 import { combineReducers } from 'redux';
 import { encryptTransform } from 'redux-persist-transform-encrypt';
 import authReducer from './slices/authenticationSlice';
+import product from './slices/product';
+import subject from './slices/subject';
+import appointment from './slices/appointment'
 
 // ---------------------------------------------------------
 
@@ -25,6 +28,9 @@ const persistConfig = {
 
 const reducer = combineReducers({
   auth: authReducer,
+  product,
+  subject,
+  appointment,
 
   // omitedPart: OmitReducer // not persisting this reducer
 });

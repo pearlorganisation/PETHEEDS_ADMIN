@@ -37,6 +37,33 @@ const ViewPermissions = lazy(() =>
 const UpdatePermission = lazy(() =>
   import('../pages/Authentication/permissions/UpdatePermission')
 );
+const CreateProduct = lazy(() =>
+  import('../pages/Products/CreateProduct')
+);
+const ViewProducts = lazy(() =>
+  import('../pages/Products/ViewProducts')
+);
+const UpdateProduct = lazy(() =>
+  import('../pages/Products/UpdateProduct')
+);
+const CreateAppointment = lazy(() =>
+  import('../pages/Appointments/CreateAppointment')
+);
+const ViewAppointments = lazy(() =>
+  import('../pages/Appointments/ViewAppointments')
+);
+const UpdateAppointment = lazy(() =>
+  import('../pages/Appointments/UpdateAppointment')
+);
+const CreateSubject = lazy(() =>
+  import('../pages/Subjects/CreateSubject')
+);
+const ViewSubjects = lazy(() =>
+  import('../pages/Subjects/ViewSubjects')
+);
+const UpdateSubject = lazy(() =>
+  import('../pages/Subjects/UpdateSubject')
+);
 
 // ------------------------------------------------------------------------------
 const coreRoutes = [
@@ -118,8 +145,56 @@ const coreRoutes = [
   },
   {
     path: '/roles/updateRole/:roleId',
-    title: 'Update Role',
+    title: 'Update Product',
     component: UpdateRole,
+  },
+  // Products Routes
+  {
+    path: '/createProduct',
+    title: 'Create Product',
+    component: CreateProduct,
+  },
+  {
+    path: '/product',
+    title: 'View Products',
+    component: ViewProducts,
+  },
+  {
+    path: '/updateProduct/:id',
+    title: 'Update Product',
+    component: UpdateProduct,
+  },
+  // Appointments Routes
+  {
+    path: '/createAppointment',
+    title: 'Create Appointment',
+    component: CreateAppointment,
+  },
+  {
+    path: '/appointment',
+    title: 'View Appointments',
+    component: ViewAppointments,
+  },
+  {
+    path: '/updateAppointment/:id',
+    title: 'Update Appointment',
+    component: UpdateAppointment,
+  },
+  // Subjects Routes
+  {
+    path: '/createSubject',
+    title: 'Create Subject',
+    component: CreateSubject,
+  },
+  {
+    path: '/subject',
+    title: 'View Subjects',
+    component: ViewSubjects,
+  },
+  {
+    path: '/updateSubject/:id',
+    title: 'Update Subject',
+    component: UpdateSubject,
   },
 
   // Permissions Routes
