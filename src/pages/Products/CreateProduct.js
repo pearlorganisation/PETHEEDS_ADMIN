@@ -13,7 +13,7 @@ const CreateProduct = () => {
 const [selectedPhoto,setSelectedPhoto]=useState("")
 const [selectedGallery,setSelectedGallery]=useState([])
 
-    const {register,handleSubmit,reset, formState: { errors },}=useForm({
+    const {register,handleSubmit,formState: { errors },}=useForm({
         defaultValues:{
           name:  "",
           price:"",
@@ -25,23 +25,23 @@ const [selectedGallery,setSelectedGallery]=useState([])
         const onSubmit = data =>{
           console.log(data)
           const formData = new FormData()
-          formData.append("name",data?.name)
+          formData.append("productName",data?.productName)
           formData.append("price",data?.price)
           formData.append("about",data?.about)
           formData.append("description",data?.description)
-          Array.from(selectedPhoto).forEach(img => {
-          formData.append("photo",img)
+          Array.from(data?.productImg).forEach((img) => {
+          formData.append("productImg",img)
           })
-          Array.from(selectedGallery).forEach((img) => {
+          Array.from(data?.gallery).forEach((img) => {
             formData.append("gallery", img);
           });
         
           console.log("formdata", formData.getAll('gallery'));
-          console.log("photo", formData.getAll('photo'));
+          console.log("productImg", formData.getAll('productImg'));
           
-          console.log("gallery::",selectedGallery)
-          console.log("photo::",selectedPhoto)
-          dispatch(createProduct(formData ));
+          console.log("gallery::",data?.gallery)
+          console.log("productImg::",data?.productImg)
+          dispatch(createProduct(formData));
 
         
           }
@@ -118,11 +118,11 @@ const [selectedGallery,setSelectedGallery]=useState([])
           <div>
             <label className="font-medium">Product Name</label>
             <input 
-            {...register('name', { required: 'Name is required' })}
+            {...register('productName', { required: 'Name is required' })}
               type="text"
               className="w-full mt-2 me-35 px-5 py-2 text-gray-500 border-slate-300 bg-transparent outline-none border focus:border-teal-400 shadow-sm rounded-lg"
             />
-             {errors.name && (
+             {errors.productName && (
                     <span className="text-red-500">
                       Name of Product is required
                     </span>
@@ -154,10 +154,10 @@ const [selectedGallery,setSelectedGallery]=useState([])
             <div className="border rounded-md border-slate-300 px-1">Click here to upload</div></label>
            
             <input
-             {...register('photo', { required: 'Photo is required',onChange:(e)=>{handlePhotoChange(e)} })}
+             {...register('productImg', { required: 'Photo is required',onChange:(e)=>{handlePhotoChange(e)} })}
            
              className="hidden w-54 sm:w-[455px] border-slate-300 text-sm text-gray-500 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" id="file_input" type="file"/>
-              {errors.photo && (
+              {errors.productImg && (
                     <span className="text-red-500">
                       Image of Product is required
                     </span>

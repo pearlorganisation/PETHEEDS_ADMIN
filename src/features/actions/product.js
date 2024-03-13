@@ -22,12 +22,12 @@ export const getAllProducts = createAsyncThunk(
 //delete product api
 export const deleteProduct = createAsyncThunk(
   'deleteProduct',
-  async (payload, { rejectWithValue }) => {
+  async (id, { rejectWithValue }) => {
     try {
-      console.log(payload, 'payloaad');
-      const response = await axios.delete(
-        `/product/${payload}`,
-        {},
+      console.log(id, 'id');
+      const response = await instance.delete(
+        `/product/${id}`,
+        
         { withCredentials: true }
       );
       return response;
@@ -43,6 +43,9 @@ export const updateProduct = createAsyncThunk(
     try {
       const response = await instance.patch(`/product/${id}`, payload, {
         withCredentials: true,
+        headers: {
+          "Content-type": "multipart/form-data",
+        },
       });
       return response;
     } catch (e) {
@@ -57,6 +60,9 @@ export const createProduct = createAsyncThunk(
     try {
       const response = await instance.post(`/product`, payload, {
         withCredentials: true,
+        headers: {
+          "Content-type": "multipart/form-data",
+        },
       });
       return response;
     } catch (e) {

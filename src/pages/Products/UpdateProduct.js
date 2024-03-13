@@ -15,7 +15,7 @@ const [selectedGallery,setSelectedGallery]=useState([])
 
     const {register,handleSubmit,}=useForm({
         defaultValues:{
-          name: item?.productName || "",
+          productName: item?.productName || "",
           price:item?.price ||"",
           about:item?.about ||"",
           description:item?.description ||"",
@@ -24,24 +24,24 @@ const [selectedGallery,setSelectedGallery]=useState([])
 
         const onSubmit = data =>{
           const formData = new FormData()
-          formData.append("name",data?.name)
+          formData.append("name",data?.productName)
           formData.append("price",data?.price)
           formData.append("about",data?.about)
           formData.append("description",data?.description)
-          Array.from(selectedPhoto).forEach(img => {
-          formData.append("photo",img)
+          Array.from(data?.productImg).forEach(img => {
+          formData.append("productImg",img)
           })
-          Array.from(selectedGallery).forEach((img) => {
+          Array.from(data?.gallery).forEach((img) => {
             formData.append("gallery", img);
           });
         
-         
+          console.log("gallery::",data?.gallery)
+          console.log("productImg::",data?.productImg)
         
           console.log("formdata", formData.getAll('gallery'));
-          console.log("photo", formData.getAll('photo'));
+          console.log("productImg", formData.getAll('productImg'));
           
-          console.log("gallery::",selectedGallery)
-          console.log("photo::",selectedPhoto)
+         
           dispatch(updateProduct({id:item._id, payload:formData }));
 
           // const updatedData = {
@@ -62,7 +62,7 @@ const [selectedGallery,setSelectedGallery]=useState([])
            const handlePhotoChange = (e) => {
                 const selectedPhoto = e.target.files[0];
                 setSelectedPhoto(e.target.files)
-            console.log(selectedPhoto)
+           
 
                 if (selectedPhoto) {
                   
@@ -126,7 +126,7 @@ const [selectedGallery,setSelectedGallery]=useState([])
           <div>
             <label className="font-medium text-center">Product Name</label>
             <input 
-            {...register('name', { required: 'Name is required' })}
+            {...register('productName', { required: 'Name is required' })}
               type="text"
               required
               className="w-full mt-2 me-35 px-5 py-2 text-gray-500 border-slate-300 bg-transparent outline-none border focus:border-teal-400 shadow-sm rounded-lg"
@@ -154,9 +154,9 @@ const [selectedGallery,setSelectedGallery]=useState([])
             <div className="border rounded-md border-slate-300 px-1">Click here to upload</div></label>
            
             <input
-             {...register('photo')}
+             {...register('productImg',{onChange:(e)=>{handlePhotoChange(e)}})}
               
-             onChange={handlePhotoChange}
+            //  onChange={handlePhotoChange}
              className="hidden w-54 sm:w-[455px] border-slate-300 text-sm text-gray-500 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" id="file_input" type="file"/>
             </div>
             </div>
@@ -189,8 +189,8 @@ const [selectedGallery,setSelectedGallery]=useState([])
     <div className="border rounded-md border-slate-300 px-1">Click here to upload</div>
   </label>
             <input
-             {...register('gallery')}
-             onChange={handleGalleryChange}
+             {...register('gallery',{onChange:(e)=>{handleGalleryChange(e)}})}
+            //  onChange={handleGalleryChange}
              className="hidden w-54  border-slate-300 text-sm text-gray-500 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" id="gallery_input" 
             
              type="file"
