@@ -1,25 +1,25 @@
 // AdminPanel.js
 
 import React, { useEffect, useState } from 'react';
-import Delete from '../../../components/Delete';
+import Delete from '../../components/Delete';
 import { useSelector, useDispatch } from 'react-redux';
 import { Navigate, useNavigate } from 'react-router';
 import { FaEdit, FaTrash, FaEye } from 'react-icons/fa'; // Import icons from React Icons library
-import { deleteUser, getAllUsers } from '../../../features/actions/user';
+import { deleteBlog, getAllBlogs } from '../../features/actions/blog';
 
 
 
-const ViewUser = () => {
+const ViewBlog = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   useEffect(() => {
     const fetchData = async()=>{
       try{
-        dispatch(getAllUsers());
+        dispatch(getAllBlogs());
       }
       catch(error){
-       console.error("Error fetching users:",error)
+       console.error("Error fetching blogs:",error)
       }
     }
     fetchData();
@@ -29,8 +29,8 @@ const ViewUser = () => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [id, setId] = useState();
   const handleDelete = () => {
-    dispatch(deleteUser(id));
-    dispatch(getAllUsers());
+    dispatch(deleteBlog(id));
+   
     setShowDeleteModal(false);
     setId('');
   };
@@ -39,17 +39,17 @@ const ViewUser = () => {
     setShowDeleteModal(true);
     setId(ID);
   }; 
-  const handleAddUser = () => {
-    navigate('/createUser');
+  const handleAddBlog = () => {
+    navigate('/createBlog');
   };
-  const { userData, isLoading } = useSelector((state) => state.user);
+  const { blogData, isLoading } = useSelector((state) => state.blog);
   return (
     <>
       <div className="max-w-screen-xl mx-auto px-4 md:px-8">
         <div className="items-start justify-between md:flex">
           <div className="max-w-lg">
             <h3 className="text-gray-800 text-xl font-bold sm:text-2xl">
-              Manage Users
+              Manage Blogs
             </h3>
             <p className="text-gray-600 mt-2">
               Lorem Ipsum is simply dummy text of the printing and typesetting
@@ -58,10 +58,10 @@ const ViewUser = () => {
           </div>
           <div className="mt-3 md:mt-0">
             <a
-              onClick={handleAddUser}
+              onClick={handleAddBlog}
               className="inline-block px-4 py-2 text-white duration-150 font-medium bg-indigo-600 rounded-lg hover:bg-indigo-500 active:bg-indigo-700 md:text-sm"
             >
-              Add User
+              Add Blog
             </a>
           </div>
         </div>
@@ -69,10 +69,11 @@ const ViewUser = () => {
           <table className="w-full table-auto text-sm text-left">
             <thead className="bg-gray-50 text-gray-600 font-medium border-b">
               <tr>
-                <th className="py-3 px-6">Username</th>
-                <th className="py-3 px-6">Email</th>
-                <th className="py-3 px-6">Role</th>
-                <th className="py-3 px-6">Phone Number</th>
+                <th className="py-3 px-6">ID</th>
+                <th className="py-3 px-6">Created By</th>
+                <th className="py-3 px-6">Blog Topic</th>
+                <th className="py-3 px-6">Comments</th>
+                
                 <th className="py-3 px-6 text-center">Actions</th>
               </tr>
             </thead>
@@ -80,25 +81,27 @@ const ViewUser = () => {
               {isLoading ? (
                 <p>Loading hra h bhai</p>
               ) : (
-                userData?.map((item, idx) => (
+                blogData?.map((item, idx) => (
                   <tr key={idx}>
                     <td className="px-6 py-4 whitespace-nowrap">{item?._id}</td>
+                    <td className="px-6 py-4 whitespace-nowrap">{item?.createdBy}</td>
                     <td className="px-6 py-4 whitespace-nowrap ">
-                      {item?.userName}
+                      {item?.topic}
                     </td>
                    
                     <td className="px-6 py-4 whitespace-nowrap">
-                      {item?.email}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      {item?.role}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      {item?.phoneNumber}
+                      {item?.comments}
                     </td>
                    
                     <td className="text-right px-6 whitespace-nowrap">
-                     
+                      <a
+                        onClick={() => {
+                          navigate(`/updateBlog/${item?._id}`, { state: item  });
+                        }}
+                        className="py-2 px-3 font-medium text-indigo-600 hover:text-indigo-500 duration-150 hover:bg-gray-50 rounded-lg"
+                      >
+                        Edit
+                      </a>
                       <button
                         onClick={() => {
                           handleModal(item?._id);
@@ -123,4 +126,4 @@ const ViewUser = () => {
   );
 };
 
-export default ViewUser;
+export default ViewBlog;

@@ -2,21 +2,28 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from "react-hook-form";
 
+import { useNavigate } from "react-router-dom";
+import { createSubject } from "../../features/actions/subject";
+
+
 
 
 
 const CreateSubject = () => {
 
-    const {register,handleSubmit,reset,}=useForm({
+  const navigate=useNavigate()
+  const dispatch = useDispatch();
+
+    const {register,handleSubmit,formState: { errors },}=useForm({
         defaultValues:{
-        name:"",
+        subject:"",
         }
         })
 
         const onSubmit = data =>{
             console.log('data',data)
-            reset({
-             });
+            dispatch(createSubject(data))
+            navigate("/subject")
           }
        
 
@@ -35,11 +42,15 @@ const CreateSubject = () => {
           
             <label className="font-medium">Subject</label>
             <input 
-            {...register('name', { required: 'Name is required' })}
+            {...register('subject', { required: 'Subject is required' })}
               type="text"
-              required
               className="w-full mt-2 me-35 px-5 py-2 text-gray-500 border-slate-300 bg-transparent outline-none border focus:border-teal-400 shadow-sm rounded-lg"
             />
+             {errors.subject && (
+                    <span className="text-red-500">
+                      Subject is required
+                    </span>
+                  )}
         
         
           <div style={{ marginTop: '4rem' }}>

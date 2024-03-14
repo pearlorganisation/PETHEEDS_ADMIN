@@ -7,6 +7,9 @@ import authReducer from './slices/authenticationSlice';
 import product from './slices/product';
 import subject from './slices/subject';
 import appointment from './slices/appointment'
+import user from './slices/user';
+import blog from './slices/blog';
+
 
 // ---------------------------------------------------------
 
@@ -31,6 +34,8 @@ const reducer = combineReducers({
   product,
   subject,
   appointment,
+  user,
+  blog,
 
   // omitedPart: OmitReducer // not persisting this reducer
 });

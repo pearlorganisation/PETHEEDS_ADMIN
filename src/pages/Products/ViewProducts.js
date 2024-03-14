@@ -30,6 +30,7 @@ const ViewProduct = () => {
   const [id, setId] = useState();
   const handleDelete = () => {
     dispatch(deleteProduct(id));
+
     setShowDeleteModal(false);
     setId('');
   };
@@ -86,7 +87,7 @@ const ViewProduct = () => {
                       {item?.productName}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <img className='rounded-lg h-20' src={`${item?.productImg?.path}`} />
+                      <img className='rounded-lg h-20 w-25' src={`${item?.productImg?.path}`} />
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       {item?.price}

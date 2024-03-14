@@ -2,12 +2,14 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useForm } from "react-hook-form";
 
+
 import InsertPhotoOutlinedIcon from '@mui/icons-material/InsertPhotoOutlined';
 import { createProduct } from "../../features/actions/product";
+import { useNavigate } from "react-router-dom";
 
 
 const CreateProduct = () => {
-
+const navigate=useNavigate()
   const dispatch = useDispatch();
 
 const [selectedPhoto,setSelectedPhoto]=useState("")
@@ -15,7 +17,7 @@ const [selectedGallery,setSelectedGallery]=useState([])
 
     const {register,handleSubmit,formState: { errors },}=useForm({
         defaultValues:{
-          name:  "",
+          productName:"",
           price:"",
           about:"",
           description:"",
@@ -36,13 +38,13 @@ const [selectedGallery,setSelectedGallery]=useState([])
             formData.append("gallery", img);
           });
         
-          console.log("formdata", formData.getAll('gallery'));
-          console.log("productImg", formData.getAll('productImg'));
+          // console.log("formdata", formData.getAll('gallery'));
+          // console.log("productImg", formData.getAll('productImg'));
           
-          console.log("gallery::",data?.gallery)
-          console.log("productImg::",data?.productImg)
+          // console.log("gallery::",data?.gallery)
+          // console.log("productImg::",data?.productImg)
           dispatch(createProduct(formData));
-
+          navigate("/product")
         
           }
 
@@ -83,19 +85,30 @@ const [selectedGallery,setSelectedGallery]=useState([])
             
                   // Update the state with the array of file objects
                   setSelectedGallery((prevGallery) => [...prevGallery, ...imagesArray]);
-            
-                  // Convert the file objects to base64 for UI display
-                  const base64Array = [];
-                  imagesArray.forEach((fileObject) => {
-                    const reader = new FileReader();
-                    reader.readAsDataURL(fileObject);
-                    reader.onloadend = () => {
-                      base64Array.push(reader.result);
-                      setGallery((prevGallery) => [...prevGallery, ...base64Array]);
-                    };
-                  });
-                }
-              };
+            // Convert the file objects to base64 for UI display
+    const base64Array = [];
+
+    // Create a counter to keep track of when all images are processed
+    let counter = 0;
+
+    imagesArray.forEach((fileObject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(fileObject);
+      reader.onloadend = () => {
+        base64Array.push(reader.result);
+
+        // Increment the counter
+        counter++;
+
+        // Check if all images are processed
+        if (counter === imagesArray.length) {
+          // Update the state with the base64Array
+          setGallery(base64Array);
+        }
+      };
+    });
+  }
+};
               const removeImage = (index) => {
                 setGallery((prevGallery) => {
                   const updatedGallery = [...prevGallery];

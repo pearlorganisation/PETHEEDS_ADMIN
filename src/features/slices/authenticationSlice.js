@@ -44,29 +44,29 @@ const authSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      // signUp lifecycle methods
-      .addCase(SignUp.pending, (state, action) => {
-        state.isLoading = true;
-        state.errorMessage = "";
-        state.userSignedSuccess = false;
-        state.isMailSent = false;
-      })
-      .addCase(SignUp.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.userSignedSuccess = true;
-        state.isMailSent = false;
-        toast.success(`Sign Up Successfull.`, {
-          position: "top-center",
-        });
-      })
-      .addCase(SignUp.rejected, (state, action) => {
-        state.isLoading = false;
-        state.userSignedSuccess = false;
-        state.isMailSent = false;
-        state.errorMessage = action.payload;
-        toast.error("Internal server error", { position: "top-center" });
-      })
-
+    
+    // signUp lifecycle methods
+    .addCase(SignUp.pending, (state, action) => {
+      state.isLoading = true;
+      state.errorMessage = "";
+      state.userSignedSuccess = false;
+      state.isMailSent = false;
+    })
+    .addCase(SignUp.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.userSignedSuccess = true;
+      state.isMailSent = false;
+      toast.success(`Sign Up Successfull.`, {
+        position: "top-center",
+      });
+    })
+    .addCase(SignUp.rejected, (state, action) => {
+      state.isLoading = false;
+      state.userSignedSuccess = false;
+      state.isMailSent = false;
+      state.errorMessage = action.payload;
+      toast.error("Internal server error", { position: "top-center" });
+    })
       // SignOtp Generate
       .addCase(generateSignupOTP.pending, (state, action) => {
         state.isLoading = true;

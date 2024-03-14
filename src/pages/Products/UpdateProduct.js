@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useForm } from "react-hook-form";
-import { useLocation } from 'react-router-dom';
+import { useLocation,useNavigate } from 'react-router-dom';
 import InsertPhotoOutlinedIcon from '@mui/icons-material/InsertPhotoOutlined';
 import { updateProduct } from "../../features/actions/product";
 
@@ -10,6 +10,7 @@ const UpdateProduct = () => {
 
   const dispatch = useDispatch();
   const { state: item } = useLocation();
+  const navigate = useNavigate(); 
 const [selectedPhoto,setSelectedPhoto]=useState("")
 const [selectedGallery,setSelectedGallery]=useState([])
 
@@ -24,7 +25,7 @@ const [selectedGallery,setSelectedGallery]=useState([])
 
         const onSubmit = data =>{
           const formData = new FormData()
-          formData.append("name",data?.productName)
+          formData.append("productName",data?.productName)
           formData.append("price",data?.price)
           formData.append("about",data?.about)
           formData.append("description",data?.description)
@@ -35,14 +36,15 @@ const [selectedGallery,setSelectedGallery]=useState([])
             formData.append("gallery", img);
           });
         
-          console.log("gallery::",data?.gallery)
-          console.log("productImg::",data?.productImg)
-        
-          console.log("formdata", formData.getAll('gallery'));
-          console.log("productImg", formData.getAll('productImg'));
+          // console.log("gallery::",data?.gallery)
+          // console.log("productImg::",data?.productImg)
+          console.log("productName::", data?.productName)
+          // console.log("formdata", formData.getAll('gallery'));
+          // console.log("productImg", formData.getAll('productImg'));
           
          
           dispatch(updateProduct({id:item._id, payload:formData }));
+          navigate('/product')
 
           // const updatedData = {
           //   ...data,
@@ -53,7 +55,7 @@ const [selectedGallery,setSelectedGallery]=useState([])
           
           }
 
-          const [photo, setPhoto] = useState(item?.productImg?.path ||"");
+          const [photo, setPhoto] = useState([item?.productImg?.path] ||"");
           const defaultPhoto =
             "https://via.placeholder.com/130?text=No+Image+Selected";
         
@@ -93,17 +95,29 @@ const [selectedGallery,setSelectedGallery]=useState([])
                   setSelectedGallery((prevGallery) => [...prevGallery, ...imagesArray]);
             
                   // Convert the file objects to base64 for UI display
-                  const base64Array = [];
-                  imagesArray.forEach((fileObject) => {
-                    const reader = new FileReader();
-                    reader.readAsDataURL(fileObject);
-                    reader.onloadend = () => {
-                      base64Array.push(reader.result);
-                      setGallery((prevGallery) => [...prevGallery, ...base64Array]);
-                    };
-                  });
-                }
-              };
+    const base64Array = [];
+
+    // Create a counter to keep track of when all images are processed
+    let counter = 0;
+
+    imagesArray.forEach((fileObject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(fileObject);
+      reader.onloadend = () => {
+        base64Array.push(reader.result);
+
+        // Increment the counter
+        counter++;
+
+        // Check if all images are processed
+        if (counter === imagesArray.length) {
+          // Update the state with the base64Array
+          setGallery(base64Array);
+        }
+      };
+    });
+  }
+};
               const removeImage = (index) => {
                 setGallery((prevGallery) => {
                   const updatedGallery = [...prevGallery];

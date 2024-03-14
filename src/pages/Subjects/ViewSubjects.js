@@ -14,7 +14,7 @@ const ViewSubjects = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        dispatch(getAllSubjects);
+        dispatch(getAllSubjects());
       } catch (error) {
         console.error('Error fetching subjects:', error);
       }
@@ -38,7 +38,7 @@ const ViewSubjects = () => {
     navigate('/createSubject');
   };
   const { subjectData, isLoading } = useSelector((state) => state.subject);
-  console.log(subjectData)
+  console.log(subjectData);
   return (
     <>
       <div className="max-w-screen-xl mx-auto px-4 md:px-8">
@@ -57,17 +57,17 @@ const ViewSubjects = () => {
               onClick={handleAddSubject}
               className="inline-block px-4 py-2 text-white duration-150 font-medium bg-indigo-600 rounded-lg hover:bg-indigo-500 active:bg-indigo-700 md:text-sm"
             >
-              Add member
+              Add Subject
             </a>
           </div>
         </div>
         <div className="mt-12 shadow-sm border rounded-lg overflow-x-auto">
           <table className="w-full table-auto text-sm text-left">
-            <thead className="bg-gray-50 text-gray-600 font-medium border-b">
+            <thead className="bg-gray-50 text-gray-600 font-medium border-b justify-between">
               <tr>
                 <th className="py-3 px-6">ID</th>
                 <th className="py-3 px-6">Subject Name</th>
-                <th className="py-3 px-6">Actions</th>
+                <th className="py-3 px-6 ">Actions</th>
               </tr>
             </thead>
             <tbody className="text-gray-600 divide-y">
@@ -81,12 +81,13 @@ const ViewSubjects = () => {
                       {item?.subject}
                     </td>
 
-                    <td className="text-right px-6 whitespace-nowrap">
+                    <td className="px-3 whitespace-nowrap">
                       <a
                         onClick={() => {
-                          navigate('/updateSubject', { state: item });
+                          navigate(`/updateSubject/${item._id}`, { state: item });
                         }}
-                        className="py-2 px-3 font-medium text-indigo-600 hover:text-indigo-500 duration-150 hover:bg-gray-50 rounded-lg"
+                        className="py-2 px-3 font-medium text-indigo-600 hover:text-indigo-500 duration-150 hover:bg-gray-50 rounded-lg
+                        "
                       >
                         Edit
                       </a>
@@ -94,7 +95,7 @@ const ViewSubjects = () => {
                         onClick={() => {
                           handleModal(item?._id);
                         }}
-                        className="py-2 leading-none px-3 font-medium text-red-600 hover:text-red-500 duration-150 hover:bg-gray-50 rounded-lg"
+                        className="py-2 leading-none pr-5font-medium text-red-600 hover:text-red-500 duration-150 hover:bg-gray-50 rounded-lg"
                       >
                         Delete
                       </button>

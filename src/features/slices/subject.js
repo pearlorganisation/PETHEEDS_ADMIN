@@ -4,6 +4,7 @@ import {
   deleteSubject,
   getAllSubjects,
   updateSubject,
+  createSubject,
 } from '../actions/subject';
 
 const initialState = {
@@ -28,7 +29,7 @@ const subjectSlice = createSlice({
       })
       .addCase(getAllSubjects.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.isUpdated = false;
+        state.isUpdated = true;
         state.errorMessage = '';
         console.log("API Response Payload:", action.payload);
         state.subjectData = action.payload.data;
@@ -68,6 +69,20 @@ const subjectSlice = createSlice({
         state.isLoading = false;
         state.isUpdated = false;
         state.errorMessage = action.payload;
+      })
+      .addCase(createSubject.pending, (state, action) => {
+        state.isLoading = true;
+        state.isUpdated = false;
+      })
+      .addCase(createSubject.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isUpdated = true;
+      })
+    
+      .addCase(createSubject.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isUpdated = false;
+        state.errorMessage = action.payload ? action.payload : 'An error occurred while creating the Subject.';
       });
   },
 });

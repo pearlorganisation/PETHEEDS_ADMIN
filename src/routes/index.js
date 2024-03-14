@@ -46,6 +46,15 @@ const ViewProducts = lazy(() =>
 const UpdateProduct = lazy(() =>
   import('../pages/Products/UpdateProduct')
 );
+const CreateBlog = lazy(() =>
+  import('../pages/Blogs/CreateBlog')
+);
+const ViewBlogs = lazy(() =>
+  import('../pages/Blogs/ViewBlogs')
+);
+const UpdateBlog = lazy(() =>
+  import('../pages/Blogs/UpdateBlog')
+);
 const CreateAppointment = lazy(() =>
   import('../pages/Appointments/CreateAppointment')
 );
@@ -122,7 +131,7 @@ const coreRoutes = [
     component: CreateUser,
   },
   {
-    path: '/users/viewUsers',
+    path: '/users',
     title: 'View Users',
     component: ViewUsers,
   },
@@ -163,6 +172,22 @@ const coreRoutes = [
     path: '/updateProduct/:id',
     title: 'Update Product',
     component: UpdateProduct,
+  },
+  // Blogs Routes
+  {
+    path: '/createBlog',
+    title: 'Create Blog',
+    component: CreateBlog,
+  },
+  {
+    path: '/blog',
+    title: 'View Blogs',
+    component: ViewBlogs,
+  },
+  {
+    path: '/updateBlog/:id',
+    title: 'Update Blog',
+    component: UpdateBlog,
   },
   // Appointments Routes
   {

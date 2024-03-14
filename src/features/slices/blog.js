@@ -1,94 +1,94 @@
 import { createSlice } from '@reduxjs/toolkit';
 import toast from 'react-toastify';
 import {
-  deleteProduct,
-  getAllProducts,
-  updateProduct,
-  createProduct,
-} from '../actions/product';
+  deleteBlog,
+  getAllBlogs,
+  updateBlog,
+  createBlog,
+} from '../actions/blog';
 
 const initialState = {
   isLoading: false,
   isUpdated: false,
   isSuccess: false,
   errorMessage: '',
-  productData: [],
+  blogData: [],
 };
 
-const productSlice = createSlice({
-  name: 'product',
+const blogSlice = createSlice({
+  name: 'blog',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder
       // signUp lifecycle methods
-      .addCase(getAllProducts.pending, (state, action) => {
+      .addCase(getAllBlogs.pending, (state, action) => {
         state.isLoading = true;
         state.errorMessage = '';
         state.isUpdated = false;
       })
-      .addCase(getAllProducts.fulfilled, (state, action) => {
+      .addCase(getAllBlogs.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isUpdated = true;
         state.errorMessage = '';
         console.log("API Response Payload:", action.payload);
-        state.productData = action.payload.data;
-        console.log("Reducer - Updated productData:", state.productData);
+        state.blogData = action.payload.data;
+        console.log("Reducer - Updated blogData:", state.blogData);
       })
-      .addCase(getAllProducts.rejected, (state, action) => {
+      .addCase(getAllBlogs.rejected, (state, action) => {
         state.isLoading = false;
         state.isUpdated = false;
         state.errorMessage = action.payload;
       })
-      .addCase(deleteProduct.pending, (state, action) => {
+      .addCase(deleteBlog.pending, (state, action) => {
         state.isLoading = true;
         state.isUpdated = false;
       })
-      .addCase(deleteProduct.fulfilled, (state, action) => {
+      .addCase(deleteBlog.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isUpdated = true;
-        state.productData = state.productData.filter(
-          (product) => product._id !== action?.payload?.payload
+        state.blogData = state.blogData.filter(
+          (blog) => blog._id !== action?.payload?.payload
         );
     
       })
-      .addCase(deleteProduct.rejected, (state, action) => {
+      .addCase(deleteBlog.rejected, (state, action) => {
         state.isLoading = false;
         state.isUpdated = false;
         state.errorMessage = action.payload;
         
       })
-      .addCase(updateProduct.pending, (state, action) => {
+      .addCase(updateBlog.pending, (state, action) => {
         state.isLoading = true;
         state.isUpdated = false;
       })
-      .addCase(updateProduct.fulfilled, (state, action) => {
+      .addCase(updateBlog.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isUpdated = true;
       })
-      // .addCase(updateProduct.pending, (state, action) => {})
-      .addCase(updateProduct.rejected, (state, action) => {
+      // .addCase(updateBlog.pending, (state, action) => {})
+      .addCase(updateBlog.rejected, (state, action) => {
         state.isLoading = false;
         state.isUpdated = false;
         state.errorMessage = action.payload;
       })
 
-      .addCase(createProduct.pending, (state, action) => {
+      .addCase(createBlog.pending, (state, action) => {
         state.isLoading = true;
         state.isUpdated = false;
       })
-      .addCase(createProduct.fulfilled, (state, action) => {
+      .addCase(createBlog.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isUpdated = true;
       })
-      // .addCase(updateProduct.pending, (state, action) => {})
-      .addCase(createProduct.rejected, (state, action) => {
+      // .addCase(updateBlog.pending, (state, action) => {})
+      .addCase(createBlog.rejected, (state, action) => {
         state.isLoading = false;
         state.isUpdated = false;
-        state.errorMessage = action.payload ? action.payload : 'An error occurred while creating the product.';
+        state.errorMessage = action.payload ? action.payload : 'An error occurred while creating the blog.';
       });
   },
 });
 
-export default productSlice.reducer;
-export const {} = productSlice.actions;
+export default blogSlice.reducer;
+export const {} = blogSlice.actions;

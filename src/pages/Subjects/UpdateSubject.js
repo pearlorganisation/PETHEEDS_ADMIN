@@ -1,22 +1,28 @@
 import React, { useState } from "react";
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch,} from 'react-redux';
 import { useForm } from "react-hook-form";
+import { useLocation,useNavigate } from 'react-router-dom';
+import { updateSubject } from "../../features/actions/subject";
 
 
 
 
 const UpdateSubject = () => {
 
-    const {register,handleSubmit,reset,}=useForm({
+  const dispatch = useDispatch();
+  const { state: item } = useLocation();
+  const navigate = useNavigate(); 
+
+    const {register,handleSubmit,}=useForm({
         defaultValues:{
-        name:"",
+        subject:item?.subject||"",
         }
         })
 
         const onSubmit = data =>{
             console.log('data',data)
-            reset({
-             });
+          dispatch(updateSubject({id:item._id, payload:data }))
+          navigate('/subject')
           }
        
 
@@ -35,15 +41,15 @@ const UpdateSubject = () => {
           
             <label className="font-medium">Subject</label>
             <input 
-            {...register('name', { required: 'Name is required' })}
+            {...register('subject', { required: 'Subject is required' })}
               type="text"
-              required
               className="w-full mt-2 me-35 px-5 py-2 text-gray-500 border-slate-300 bg-transparent outline-none border focus:border-teal-400 shadow-sm rounded-lg"
             />
         
         
           <div style={{ marginTop: '4rem' }}>
-              <button className="w-full px-4 py-2 text-white bg-pink-700  font-medium hover:bg-slate-950 active:bg-indigo-600 rounded-lg duration-150">
+              <button
+               className="w-full px-4 py-2 text-white bg-pink-700  font-medium hover:bg-slate-950 active:bg-indigo-600 rounded-lg duration-150">
               Update
               </button>
             </div>
