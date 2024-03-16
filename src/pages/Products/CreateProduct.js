@@ -1,19 +1,24 @@
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import React, { useState,useEffect } from "react";
+import { useDispatch,useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
-
 
 import InsertPhotoOutlinedIcon from '@mui/icons-material/InsertPhotoOutlined';
 import { createProduct } from "../../features/actions/product";
 import { useNavigate } from "react-router-dom";
+import product from "../../features/slices/product";
+import { ClipLoader } from "react-spinners";
+
 
 
 const CreateProduct = () => {
 const navigate=useNavigate()
   const dispatch = useDispatch();
 
+  const {productData,isLoading} = useSelector((state)=>state.product)
+
 const [selectedPhoto,setSelectedPhoto]=useState("")
 const [selectedGallery,setSelectedGallery]=useState([])
+
 
     const {register,handleSubmit,formState: { errors },}=useForm({
         defaultValues:{
@@ -44,7 +49,7 @@ const [selectedGallery,setSelectedGallery]=useState([])
           // console.log("gallery::",data?.gallery)
           // console.log("productImg::",data?.productImg)
           dispatch(createProduct(formData));
-          navigate("/product")
+          
         
           }
 
@@ -117,6 +122,12 @@ const [selectedGallery,setSelectedGallery]=useState([])
                 });
               };
 
+              useEffect(() => {
+                if(productData?.status){
+                  navigate("/product")
+                }
+              }, [productData]);
+
   return (
     <div>
         <div className="bg-gray-800">
@@ -126,6 +137,7 @@ const [selectedGallery,setSelectedGallery]=useState([])
         </h3>
       </div>
       <div className="bg-white rounded-lg shadow p-4 py-6  sm:rounded-lg sm:max-w-5xl mt-8 mx-auto">
+     
         <form className="space-y-6 mx-8 sm:mx-2" onSubmit={handleSubmit(onSubmit)}  >
           <div className="sm:flex justify-between">
           <div>
@@ -242,11 +254,15 @@ const [selectedGallery,setSelectedGallery]=useState([])
           </div>
           </div>
           <div style={{ marginTop: '4rem' }}>
+          
               <button className="w-full px-4 py-2 text-white bg-pink-700  font-medium hover:bg-slate-950 active:bg-indigo-600 rounded-lg duration-150">
-                Create
+              {isLoading ? (
+                <ClipLoader color="#c4c2c2" />
+              ) : (<>Create</>)}
               </button>
+               
             </div>
-        </form>
+        </form>  
       </div>
     </div>
     </div>

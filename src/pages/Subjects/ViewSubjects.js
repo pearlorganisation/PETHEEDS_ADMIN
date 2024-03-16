@@ -4,23 +4,25 @@ import React, { useEffect, useState } from 'react';
 import Delete from '../../components/Delete';
 import { useSelector, useDispatch } from 'react-redux';
 import { Navigate, useNavigate } from 'react-router';
-import { FaEdit, FaTrash, FaEye } from 'react-icons/fa'; // Import icons from React Icons library
+
 import { deleteSubject, getAllSubjects } from '../../features/actions/subject';
+import { Stack,Skeleton } from '@mui/material';
+
 
 const ViewSubjects = () => {
+  const { subjectData, isDeleted, isLoading } = useSelector((state) => state.subject);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        dispatch(getAllSubjects());
-      } catch (error) {
-        console.error('Error fetching subjects:', error);
-      }
-    };
-    fetchData();
-  }, [dispatch]);
+    dispatch(getAllSubjects());
+   }, []);
+
+   useEffect(() => {
+ if(isDeleted){
+   dispatch(getAllSubjects());
+ }
+   }, [isDeleted]);
 
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [id, setId] = useState();
@@ -37,8 +39,8 @@ const ViewSubjects = () => {
   const handleAddSubject = () => {
     navigate('/createSubject');
   };
-  const { subjectData, isLoading } = useSelector((state) => state.subject);
-  console.log(subjectData);
+
+
   return (
     <>
       <div className="max-w-screen-xl mx-auto px-4 md:px-8">
@@ -67,14 +69,24 @@ const ViewSubjects = () => {
               <tr>
                 <th className="py-3 px-6">ID</th>
                 <th className="py-3 px-6">Subject Name</th>
-                <th className="py-3 px-6 ">Actions</th>
+                
               </tr>
             </thead>
             <tbody className="text-gray-600 divide-y">
-              {isLoading ? (
-                <p>Loading hra h bhai</p>
-              ) : (
-                subjectData?.map((item, idx) => (
+            {isLoading ? (
+            <tr>
+            <td colSpan="4" className="text-center px-6 py-8">
+              <Stack spacing={4}>
+                <Skeleton variant="rounded" height={30} />
+                <Skeleton variant="rounded" height={25}/>
+                <Skeleton variant="rounded" height={20}/>
+                <Skeleton variant="rounded" height={20}/>
+                <Skeleton variant="rounded" height={20}/>
+              </Stack>
+            </td>
+          </tr>
+          ) : (
+            Array.isArray(subjectData) && subjectData.length > 0 && subjectData?.map((item, idx) => (
                   <tr key={idx}>
                     <td className="px-6 py-4 whitespace-nowrap">{item?._id}</td>
                     <td className="px-6 py-4 whitespace-nowrap">
@@ -86,7 +98,7 @@ const ViewSubjects = () => {
                         onClick={() => {
                           navigate(`/updateSubject/${item._id}`, { state: item });
                         }}
-                        className="py-2 px-3 font-medium text-indigo-600 hover:text-indigo-500 duration-150 hover:bg-gray-50 rounded-lg
+                        className="py-2 px-3 font-semibold text-indigo-500 hover:text-indigo-600 duration-150 hover:bg-gray-50 rounded-lg
                         "
                       >
                         Edit
@@ -95,7 +107,7 @@ const ViewSubjects = () => {
                         onClick={() => {
                           handleModal(item?._id);
                         }}
-                        className="py-2 leading-none pr-5font-medium text-red-600 hover:text-red-500 duration-150 hover:bg-gray-50 rounded-lg"
+                        className="py-2 px-3 leading-none font-semibold text-red-500 hover:text-red-600 duration-150 hover:bg-gray-50 rounded-lg"
                       >
                         Delete
                       </button>

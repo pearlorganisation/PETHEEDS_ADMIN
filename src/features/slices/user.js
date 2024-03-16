@@ -10,6 +10,7 @@ const initialState = {
   isLoading: false,
   isUpdated: false,
   isSuccess: false,
+  isDeleted: false,
   errorMessage: '',
   userData: [],
 };
@@ -24,11 +25,11 @@ const userSlice = createSlice({
       .addCase(getAllUsers.pending, (state, action) => {
         state.isLoading = true;
         state.errorMessage = '';
-        state.isUpdated = false;
+       
       })
       .addCase(getAllUsers.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.isUpdated = true;
+        state.isDeleted = false;
         state.errorMessage = '';
         console.log("API Response Payload:", action.payload);
         state.userData = action.payload.data;
@@ -36,16 +37,16 @@ const userSlice = createSlice({
       })
       .addCase(getAllUsers.rejected, (state, action) => {
         state.isLoading = false;
-        state.isUpdated = false;
+       
         state.errorMessage = action.payload;
       })
       .addCase(deleteUser.pending, (state, action) => {
         state.isLoading = true;
-        state.isUpdated = false;
+        state.isDeleted = false;
       })
       .addCase(deleteUser.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.isUpdated = true;
+        state.isDeleted = true;
         state.userData = state.userData.filter(
           (user) => user._id !== action?.payload?.payload
         );
@@ -53,7 +54,7 @@ const userSlice = createSlice({
       })
       .addCase(deleteUser.rejected, (state, action) => {
         state.isLoading = false;
-        state.isUpdated = false;
+        state.isDeleted = false;
         state.errorMessage = action.payload;
         
       });

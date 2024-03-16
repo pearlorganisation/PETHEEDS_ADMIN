@@ -45,9 +45,7 @@ export const updateBlog = createAsyncThunk(
     try {
       const response = await instance.patch(`/blog/${id}`, payload, {
         withCredentials: true,
-        headers: {
-          "Content-type": "multipart/form-data",
-        },
+       
       });
       return response;
     } catch (e) {
@@ -63,9 +61,7 @@ export const createBlog = createAsyncThunk(
     try {
       const response = await instance.post(`/blog`, payload, {
         withCredentials: true,
-        headers: {
-          "Content-type": "multipart/form-data",
-        },
+        
       });
       return response;
     } catch (e) {

@@ -11,6 +11,7 @@ const initialState = {
   isLoading: false,
   isUpdated: false,
   isSuccess: false,
+  isDeleted: false,
   errorMessage: '',
   blogData: [],
 };
@@ -25,38 +26,36 @@ const blogSlice = createSlice({
       .addCase(getAllBlogs.pending, (state, action) => {
         state.isLoading = true;
         state.errorMessage = '';
-        state.isUpdated = false;
+        
       })
       .addCase(getAllBlogs.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.isUpdated = true;
+        state.isDeleted = false;
         state.errorMessage = '';
-        console.log("API Response Payload:", action.payload);
-        state.blogData = action.payload.data;
-        console.log("Reducer - Updated blogData:", state.blogData);
+        console.log('API Response Payload:', action.payload);
+        state.blogData = action.payload?.data;
+        console.log('Reducer - Updated blogData:', state.blogData);
       })
       .addCase(getAllBlogs.rejected, (state, action) => {
         state.isLoading = false;
-        state.isUpdated = false;
+       
         state.errorMessage = action.payload;
       })
       .addCase(deleteBlog.pending, (state, action) => {
         state.isLoading = true;
-        state.isUpdated = false;
+        state.isDeleted = false;
       })
       .addCase(deleteBlog.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.isUpdated = true;
+        state.isDeleted = true;
         state.blogData = state.blogData.filter(
           (blog) => blog._id !== action?.payload?.payload
         );
-    
       })
       .addCase(deleteBlog.rejected, (state, action) => {
         state.isLoading = false;
-        state.isUpdated = false;
+        state.isDeleted = false;
         state.errorMessage = action.payload;
-        
       })
       .addCase(updateBlog.pending, (state, action) => {
         state.isLoading = true;
@@ -80,12 +79,15 @@ const blogSlice = createSlice({
       .addCase(createBlog.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isUpdated = true;
+        state.blogData = action.payload?.data
       })
       // .addCase(updateBlog.pending, (state, action) => {})
       .addCase(createBlog.rejected, (state, action) => {
         state.isLoading = false;
         state.isUpdated = false;
-        state.errorMessage = action.payload ? action.payload : 'An error occurred while creating the blog.';
+        state.errorMessage = action.payload
+          ? action.payload
+          : 'An error occurred while creating the blog.';
       });
   },
 });

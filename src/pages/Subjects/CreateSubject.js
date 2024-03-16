@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from "react-hook-form";
-
+import { ClipLoader } from "react-spinners";
 import { useNavigate } from "react-router-dom";
 import { createSubject } from "../../features/actions/subject";
 
@@ -13,6 +13,7 @@ const CreateSubject = () => {
 
   const navigate=useNavigate()
   const dispatch = useDispatch();
+  const {subjectData,isLoading} = useSelector((state)=>state.subject)
 
     const {register,handleSubmit,formState: { errors },}=useForm({
         defaultValues:{
@@ -26,7 +27,11 @@ const CreateSubject = () => {
             navigate("/subject")
           }
        
-
+          useEffect(() => {
+            if(subjectData?.status){
+              navigate("/subject")
+            }
+          }, [subjectData]);
 
   return (
     <div>
@@ -55,7 +60,9 @@ const CreateSubject = () => {
         
           <div style={{ marginTop: '4rem' }}>
               <button className="w-full px-4 py-2 text-white bg-pink-700  font-medium hover:bg-slate-950 active:bg-indigo-600 rounded-lg duration-150">
-                Create
+              {isLoading ? (
+                <ClipLoader color="#c4c2c2" />
+              ) : (<>Create</>)}
               </button>
             </div>
         </form>

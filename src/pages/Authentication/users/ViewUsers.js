@@ -4,33 +4,34 @@ import React, { useEffect, useState } from 'react';
 import Delete from '../../../components/Delete';
 import { useSelector, useDispatch } from 'react-redux';
 import { Navigate, useNavigate } from 'react-router';
-import { FaEdit, FaTrash, FaEye } from 'react-icons/fa'; // Import icons from React Icons library
+
 import { deleteUser, getAllUsers } from '../../../features/actions/user';
+import { Stack,Skeleton } from '@mui/material';
+
 
 
 
 const ViewUser = () => {
+  const { userData, isDeleted, isLoading } = useSelector((state) => state.user);
+  
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const fetchData = async()=>{
-      try{
-        dispatch(getAllUsers());
-      }
-      catch(error){
-       console.error("Error fetching users:",error)
-      }
-    }
-    fetchData();
-  }, [dispatch]);
+    dispatch(getAllUsers());
+   }, []);
+
+   useEffect(() => {
+ if(isDeleted){
+   dispatch(getAllUsers());
+ }
+   }, [isDeleted]);
  
 
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [id, setId] = useState();
   const handleDelete = () => {
     dispatch(deleteUser(id));
-    dispatch(getAllUsers());
     setShowDeleteModal(false);
     setId('');
   };
@@ -42,7 +43,7 @@ const ViewUser = () => {
   const handleAddUser = () => {
     navigate('/createUser');
   };
-  const { userData, isLoading } = useSelector((state) => state.user);
+ 
   return (
     <>
       <div className="max-w-screen-xl mx-auto px-4 md:px-8">
@@ -73,37 +74,44 @@ const ViewUser = () => {
                 <th className="py-3 px-6">Email</th>
                 <th className="py-3 px-6">Role</th>
                 <th className="py-3 px-6">Phone Number</th>
-                <th className="py-3 px-6 text-center">Actions</th>
               </tr>
             </thead>
             <tbody className="text-gray-600 divide-y">
-              {isLoading ? (
-                <p>Loading hra h bhai</p>
-              ) : (
-                userData?.map((item, idx) => (
+            {isLoading ? (
+            <tr>
+            <td colSpan="4" className="text-center px-6 py-8">
+              <Stack spacing={4}>
+                <Skeleton variant="rounded" height={30} />
+                <Skeleton variant="rounded" height={25}/>
+                <Skeleton variant="rounded" height={20}/>
+                <Skeleton variant="rounded" height={20}/>
+                <Skeleton variant="rounded" height={20}/>
+              </Stack>
+            </td>
+          </tr>
+          ) : (
+            Array.isArray(userData) && userData.length > 0 &&  userData?.map((item, idx) => (
                   <tr key={idx}>
-                    <td className="px-6 py-4 whitespace-nowrap">{item?._id}</td>
+                    <td className="px-6 py-4 whitespace-nowrap">{item?.username}</td>
                     <td className="px-6 py-4 whitespace-nowrap ">
-                      {item?.userName}
+                    {item?.email}
                     </td>
                    
                     <td className="px-6 py-4 whitespace-nowrap">
-                      {item?.email}
+                    {item?.role}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      {item?.role}
+                    {item?.phoneNumber}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      {item?.phoneNumber}
-                    </td>
+                    
                    
-                    <td className="text-right px-6 whitespace-nowrap">
+                    <td className=" pl-11 whitespace-nowrap">
                      
                       <button
                         onClick={() => {
                           handleModal(item?._id);
                         }}
-                        className="py-2 leading-none px-3 font-medium text-red-600 hover:text-red-500 duration-150 hover:bg-gray-50 rounded-lg"
+                        className="py-2 leading-none px-3 font-semibold text-red-500 hover:text-red-600 duration-150 hover:bg-gray-50 rounded-lg"
                       >
                         Delete
                       </button>

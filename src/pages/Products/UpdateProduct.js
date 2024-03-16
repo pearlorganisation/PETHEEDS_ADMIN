@@ -1,15 +1,19 @@
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import React, { useState ,useEffect} from "react";
+import { useDispatch,useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
 import { useLocation,useNavigate } from 'react-router-dom';
 import InsertPhotoOutlinedIcon from '@mui/icons-material/InsertPhotoOutlined';
 import { updateProduct } from "../../features/actions/product";
+import { ClipLoader } from "react-spinners";
 
 
 const UpdateProduct = () => {
 
+  
   const dispatch = useDispatch();
   const { state: item } = useLocation();
+  const {isLoading,productData} = useSelector((state)=>state.product)
+
   const navigate = useNavigate(); 
 const [selectedPhoto,setSelectedPhoto]=useState("")
 const [selectedGallery,setSelectedGallery]=useState([])
@@ -44,7 +48,7 @@ const [selectedGallery,setSelectedGallery]=useState([])
           
          
           dispatch(updateProduct({id:item._id, payload:formData }));
-          navigate('/product')
+          
 
           // const updatedData = {
           //   ...data,
@@ -54,6 +58,14 @@ const [selectedGallery,setSelectedGallery]=useState([])
           //   console.log('update data',updatedData)
           
           }
+
+
+          useEffect(()=>{
+            if(productData?.status){
+              navigate('/product')
+            }
+          },[productData])
+         
 
           const [photo, setPhoto] = useState([item?.productImg?.path] ||"");
           const defaultPhoto =
@@ -126,6 +138,8 @@ const [selectedGallery,setSelectedGallery]=useState([])
                 });
               };
 
+
+
   return (
     <div>
         <div className="bg-gray-800">
@@ -133,9 +147,9 @@ const [selectedGallery,setSelectedGallery]=useState([])
         <h3 className="text-gray-600 text-2xl font-semibold sm:text-3xl">
           Update product details
         </h3>
-      </div>
+      </div> 
       <div className="bg-white rounded-lg shadow p-4 py-6  sm:rounded-lg sm:max-w-5xl mt-8 mx-auto">
-        <form className="space-y-6 mx-8 sm:mx-2 " onSubmit={handleSubmit(onSubmit)}>
+     <form className="space-y-6 mx-8 sm:mx-2 " onSubmit={handleSubmit(onSubmit)}>
           <div className="sm:flex justify-between">
           <div>
             <label className="font-medium text-center">Product Name</label>
@@ -225,7 +239,9 @@ const [selectedGallery,setSelectedGallery]=useState([])
           </div>
           <div style={{ marginTop: '4rem' }}>
               <button  className="w-full px-4 py-2 text-white bg-pink-700  font-medium hover:bg-slate-950 active:bg-pink-700 rounded-lg duration-150">
-                Update
+              {isLoading ? (
+                <ClipLoader color="#c4c2c2" />
+              ) : (<>Update</>)}
               </button>
             </div>
         </form>

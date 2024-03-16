@@ -4,26 +4,24 @@ import React, { useEffect, useState } from 'react';
 import Delete from '../../components/Delete';
 import { useSelector, useDispatch } from 'react-redux';
 import { Navigate, useNavigate } from 'react-router';
-import { FaEdit, FaTrash, FaEye } from 'react-icons/fa'; // Import icons from React Icons library
 import { deleteAppointment, getAllAppointments } from '../../features/actions/appointment';
-
+import { Stack,Skeleton } from '@mui/material';
 
 
 const ViewAppointments = () => {
+  const { appointmentData, isLoading, isDeleted } = useSelector((state) => state.appointment);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const fetchData = async()=>{
-      try{
-        dispatch(getAllAppointments());
-      }
-      catch(error){
-       console.error("Error fetching appointments:",error)
-      }
-    }
-    fetchData();
-  }, [dispatch]);
+    dispatch(getAllAppointments());
+   }, []);
+ 
+   useEffect(() => {
+ if(isDeleted){
+   dispatch(getAllAppointments());
+ }
+   }, [isDeleted]);
  
 
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -42,7 +40,8 @@ const ViewAppointments = () => {
     navigate('/createAppointment');
   };
 
-  const { appointmentData, isLoading } = useSelector((state) => state.appointment);
+  
+ 
   return (
     <>
       <div className="max-w-screen-xl mx-auto px-4 md:px-8">
@@ -61,7 +60,7 @@ const ViewAppointments = () => {
               onClick={handleAddAppointment}
               className="inline-block px-4 py-2 text-white duration-150 font-medium bg-indigo-600 rounded-lg hover:bg-indigo-500 active:bg-indigo-700 md:text-sm"
             >
-              Add member
+              Add appointment
             </a>
           </div>
         </div>
@@ -69,25 +68,39 @@ const ViewAppointments = () => {
           <table className="w-full table-auto text-sm text-left">
             <thead className="bg-gray-50 text-gray-600 font-medium border-b">
               <tr>
-                <th className="py-3 px-6">ID</th>
-                <th className="py-3 px-6">Appointment Name</th>
-                <th className="py-3 px-6">Logo</th>
-                <th className="py-3 px-6">Features</th>
-                <th className="py-3 px-6">Actions</th>
+                <th className="py-3 px-6">Name</th>
+                <th className="py-3 px-6">Email</th>
+                <th className="py-3 px-6">Subject</th>
+                <th className="py-3 px-6">Date</th>
+               
               </tr>
             </thead>
             <tbody className="text-gray-600 divide-y">
-              {isLoading ? (
-                <p>Loading hra h bhai</p>
-              ) : (
-                appointmentData?.map((item, idx) => (
+            {isLoading ? (
+            <tr>
+            <td colSpan="4" className="text-center px-6 py-8">
+              <Stack spacing={4}>
+                <Skeleton variant="rounded" height={30} />
+                <Skeleton variant="rounded" height={25}/>
+                <Skeleton variant="rounded" height={20}/>
+                <Skeleton variant="rounded" height={20}/>
+                <Skeleton variant="rounded" height={20}/>
+              </Stack>
+            </td>
+          </tr>
+          ) : (
+            
+               Array.isArray(appointmentData) && appointmentData?.map((item, idx) => (
                   <tr key={idx}>
-                    <td className="px-6 py-4 whitespace-nowrap">{item?._id}</td>
+                    <td className="px-6 py-4 whitespace-nowrap">{item?.name}</td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      {item?.appointmentName}
+                      {item?.email}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <img src={`${item?.logo}`} />
+                    {item?.subject.subject}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                    {item?.date}
                     </td>
                     
                     <td className="text-right px-6 whitespace-nowrap">
@@ -95,7 +108,7 @@ const ViewAppointments = () => {
                         onClick={() => {
                           navigate('/editAppointment', { state: item });
                         }}
-                        className="py-2 px-3 font-medium text-indigo-600 hover:text-indigo-500 duration-150 hover:bg-gray-50 rounded-lg"
+                        className="py-2 px-3 font-semibold text-indigo-500 hover:text-indigo-600 duration-150 hover:bg-gray-50 rounded-lg"
                       >
                         Edit
                       </a>
@@ -103,7 +116,7 @@ const ViewAppointments = () => {
                         onClick={() => {
                           handleModal(item?._id);
                         }}
-                        className="py-2 leading-none px-3 font-medium text-red-600 hover:text-red-500 duration-150 hover:bg-gray-50 rounded-lg"
+                        className="py-2 leading-none px-3 font-semibold text-red-500 hover:text-red-600 duration-150 hover:bg-gray-50 rounded-lg"
                       >
                         Delete
                       </button>

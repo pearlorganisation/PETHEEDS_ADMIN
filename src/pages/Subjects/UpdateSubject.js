@@ -1,14 +1,15 @@
-import React, { useState } from "react";
-import { useDispatch,} from 'react-redux';
+import React, { useState ,useEffect} from "react";
+import { useDispatch,useSelector} from 'react-redux';
 import { useForm } from "react-hook-form";
 import { useLocation,useNavigate } from 'react-router-dom';
 import { updateSubject } from "../../features/actions/subject";
-
+import { ClipLoader } from "react-spinners";
 
 
 
 const UpdateSubject = () => {
 
+  const {subjectData,isLoading} = useSelector((state)=>state.subject)
   const dispatch = useDispatch();
   const { state: item } = useLocation();
   const navigate = useNavigate(); 
@@ -25,6 +26,11 @@ const UpdateSubject = () => {
           navigate('/subject')
           }
        
+          useEffect(() => {
+            if(subjectData?.status){
+              navigate("/subject")
+            }
+          }, [subjectData]);
 
 
   return (
@@ -50,7 +56,9 @@ const UpdateSubject = () => {
           <div style={{ marginTop: '4rem' }}>
               <button
                className="w-full px-4 py-2 text-white bg-pink-700  font-medium hover:bg-slate-950 active:bg-indigo-600 rounded-lg duration-150">
-              Update
+               {isLoading ? (
+                <ClipLoader color="#c4c2c2" />
+              ) : (<>Update</>)}
               </button>
             </div>
         </form>

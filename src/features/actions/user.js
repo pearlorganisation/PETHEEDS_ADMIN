@@ -26,7 +26,7 @@ export const deleteUser = createAsyncThunk(
     try {
       console.log(id, 'id');
       const response = await instance.delete(
-        `/user/${id}`,
+        `auth/${id}`,
         
         { withCredentials: true }
       );

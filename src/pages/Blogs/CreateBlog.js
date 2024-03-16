@@ -1,14 +1,37 @@
 import React, { useEffect} from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch,useSelector } from "react-redux";
 import { useForm,useFieldArray } from "react-hook-form";
 import { createBlog } from "../../features/actions/blog";
 import { useNavigate } from "react-router-dom";
+import { ClipLoader } from "react-spinners";
+
 
 
 const CreateBlog = () => {
-
+  const {blogData,isLoading} = useSelector((state)=>state.blog)
   const navigate=useNavigate()
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    // Add event listener to each textarea on component mount
+    document.querySelectorAll("textarea").forEach(textarea => {
+      textarea.addEventListener("input", resizeTextarea);
+    });
+    // Remove event listener on component unmount
+    return () => {
+      document.querySelectorAll("textarea").forEach(textarea => {
+        textarea.removeEventListener("input", resizeTextarea);
+      });
+    };
+  }, []);
+  useEffect(() => {
+    if(blogData?.status){
+      navigate("/blog")
+    }
+    
+  }, [blogData]);
+
+
 
   const {register,handleSubmit,formState: { errors },control,}=useForm({
     defaultValues:{
@@ -34,18 +57,9 @@ const CreateBlog = () => {
     textarea.style.height = textarea.scrollHeight + "px";
   };
 
-  useEffect(() => {
-    // Add event listener to each textarea on component mount
-    document.querySelectorAll("textarea").forEach(textarea => {
-      textarea.addEventListener("input", resizeTextarea);
-    });
-    // Remove event listener on component unmount
-    return () => {
-      document.querySelectorAll("textarea").forEach(textarea => {
-        textarea.removeEventListener("input", resizeTextarea);
-      });
-    };
-  }, []);
+  
+
+
 
   return (
     <div>
@@ -109,7 +123,7 @@ const CreateBlog = () => {
       </ul>
       {errors.subTopics && (
             <span className="text-red-500">
-              Name of Product is required
+              Name of Subtopic is required
             </span>
           )}
               </div>
@@ -125,7 +139,9 @@ const CreateBlog = () => {
          
           <div style={{ marginTop: '4rem' }}>
               <button className="w-full px-4 py-2 text-white font-medium bg-pink-700 hover:bg-slate-950 active:bg-indigo-600 rounded-lg duration-150">
-                Create
+              {isLoading ? (
+                <ClipLoader color="#c4c2c2" />
+              ) : (<>Create</>)}
               </button>
             </div>
         </form>

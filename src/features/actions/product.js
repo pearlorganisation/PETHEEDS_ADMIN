@@ -38,23 +38,23 @@ export const deleteProduct = createAsyncThunk(
 );
 
 
-//update Product api
-export const updateProduct = createAsyncThunk(
-  'updateProduct',
-  async ({ id, payload}, { rejectWithValue }) => {
-    try {
-      const response = await instance.patch(`/product/${id}`, payload, {
-        withCredentials: true,
-        headers: {
-          "Content-type": "multipart/form-data",
-        },
-      });
-      return response;
-    } catch (e) {
-      return rejectWithValue;
-    }
-  }
-);
+    //update Product api
+    export const updateProduct = createAsyncThunk(
+      'updateProduct',
+      async ({ id, payload}, { rejectWithValue }) => {
+        try {
+          const response = await instance.patch(`/product/${id}`, payload, {
+            withCredentials: true,
+            headers: {
+              "Content-type": "multipart/form-data",
+            },
+          });
+          return response;
+        } catch (e) {
+          return rejectWithValue;
+        }
+      }
+    );
 
 //create Product api
 export const createProduct = createAsyncThunk(

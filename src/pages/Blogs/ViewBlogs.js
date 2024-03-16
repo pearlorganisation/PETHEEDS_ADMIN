@@ -3,34 +3,32 @@
 import React, { useEffect, useState } from 'react';
 import Delete from '../../components/Delete';
 import { useSelector, useDispatch } from 'react-redux';
-import { Navigate, useNavigate } from 'react-router';
-import { FaEdit, FaTrash, FaEye } from 'react-icons/fa'; // Import icons from React Icons library
+import {  useNavigate } from 'react-router';
+import { Stack,Skeleton } from '@mui/material';
 import { deleteBlog, getAllBlogs } from '../../features/actions/blog';
 
-
-
 const ViewBlog = () => {
+  const { blogData, isLoading, isDeleted } = useSelector((state) => state.blog);
+ 
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const fetchData = async()=>{
-      try{
-        dispatch(getAllBlogs());
-      }
-      catch(error){
-       console.error("Error fetching blogs:",error)
-      }
-    }
-    fetchData();
-  }, [dispatch]);
+    dispatch(getAllBlogs());
+   }, []);
+ 
+   useEffect(() => {
+ if(isDeleted){
+   dispatch(getAllBlogs());
+ }
+   }, [isDeleted]);
  
 
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [id, setId] = useState();
   const handleDelete = () => {
     dispatch(deleteBlog(id));
-   
+
     setShowDeleteModal(false);
     setId('');
   };
@@ -38,11 +36,14 @@ const ViewBlog = () => {
   const handleModal = (ID) => {
     setShowDeleteModal(true);
     setId(ID);
-  }; 
+  };
   const handleAddBlog = () => {
     navigate('/createBlog');
   };
-  const { blogData, isLoading } = useSelector((state) => state.blog);
+ 
+
+  console.log();
+
   return (
     <>
       <div className="max-w-screen-xl mx-auto px-4 md:px-8">
@@ -73,32 +74,45 @@ const ViewBlog = () => {
                 <th className="py-3 px-6">Created By</th>
                 <th className="py-3 px-6">Blog Topic</th>
                 <th className="py-3 px-6">Comments</th>
-                
-                <th className="py-3 px-6 text-center">Actions</th>
+
+               
               </tr>
             </thead>
             <tbody className="text-gray-600 divide-y">
-              {isLoading ? (
-                <p>Loading hra h bhai</p>
-              ) : (
+            {isLoading ? (
+            <tr>
+            <td colSpan="4" className="text-center px-6 py-8">
+              <Stack spacing={4}>
+                <Skeleton variant="rounded" height={30} />
+                <Skeleton variant="rounded" height={25}/>
+                <Skeleton variant="rounded" height={20}/>
+                <Skeleton variant="rounded" height={20}/>
+                <Skeleton variant="rounded" height={20}/>
+              </Stack>
+            </td>
+          </tr>
+          ) : (
+                blogData &&  Array.isArray(blogData) &&
                 blogData?.map((item, idx) => (
                   <tr key={idx}>
                     <td className="px-6 py-4 whitespace-nowrap">{item?._id}</td>
-                    <td className="px-6 py-4 whitespace-nowrap">{item?.createdBy}</td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      {/* {item?.createdBy} */}
+                    </td>
                     <td className="px-6 py-4 whitespace-nowrap ">
                       {item?.topic}
                     </td>
-                   
+
                     <td className="px-6 py-4 whitespace-nowrap">
-                      {item?.comments}
+                      {/* {item?.comments} */}
                     </td>
-                   
+
                     <td className="text-right px-6 whitespace-nowrap">
                       <a
                         onClick={() => {
-                          navigate(`/updateBlog/${item?._id}`, { state: item  });
+                          navigate(`/updateBlog/${item?._id}`, { state: item });
                         }}
-                        className="py-2 px-3 font-medium text-indigo-600 hover:text-indigo-500 duration-150 hover:bg-gray-50 rounded-lg"
+                        className="py-2 px-3 font-semibold text-indigo-500 hover:text-indigo-600 duration-150 hover:bg-gray-50 rounded-lg"
                       >
                         Edit
                       </a>
@@ -106,14 +120,13 @@ const ViewBlog = () => {
                         onClick={() => {
                           handleModal(item?._id);
                         }}
-                        className="py-2 leading-none px-3 font-medium text-red-600 hover:text-red-500 duration-150 hover:bg-gray-50 rounded-lg"
+                        className="py-2 leading-none px-3 font-semibold text-red-500 hover:text-red-600 duration-150 hover:bg-gray-50 rounded-lg"
                       >
                         Delete
                       </button>
                     </td>
                   </tr>
                 ))
-              
               )}
             </tbody>
           </table>
