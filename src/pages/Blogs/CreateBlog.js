@@ -83,7 +83,7 @@ const CreateBlog = () => {
             />
              {errors.topic && (
                     <span className="text-red-500">
-                      Name of Topic is required
+                     Topic is required
                     </span>
                   )}
         
@@ -107,13 +107,19 @@ const CreateBlog = () => {
         {fields.map((item, index) => (
           <li key={item.id}>
             <input className="w-full mt-2 px-5 sm:px-4 py-2 border-slate-300 text-gray-500 bg-transparent outline-none border focus:border-teal-400 shadow-sm rounded-lg" type="text"
-             {...register(`subTopics.${index}.subTopic`)} placeholder="Sub topic"/>
+             {...register(`subTopics.${index}.subTopic`,{ required: 'Sub Topic is required' })} placeholder="Sub topic"/>
+                  {errors.subTopics && (
+            <span className="text-red-500">
+              Subtopic is required
+            </span>
+          )}
               <textarea
                         className=" resize-none overflow-hidden w-full mt-2 px-5 py-2 text-gray-500 border-slate-300 bg-transparent outline-none border focus:border-teal-400 shadow-sm rounded-lg"
-                        {...register(`subTopics.${index}.description`)}
+                        {...register(`subTopics.${index}.description`,{ required: 'Description is required' })}
                         placeholder="Description"
                         rows="4"
                       />
+                 
             { index>0 && (
             <button className=" border rounded-md bg-rose-500 text-white text-xs px-2 hover:bg-slate-950" type="button" onClick={() => remove(index)}>Delete</button>)
 }
@@ -123,7 +129,7 @@ const CreateBlog = () => {
       </ul>
       {errors.subTopics && (
             <span className="text-red-500">
-              Name of Subtopic is required
+              Description is required
             </span>
           )}
               </div>

@@ -1,11 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
-import toast from 'react-toastify';
+
 import {
   deleteAppointment,
   getAllAppointments,
   updateAppointment,
   createAppointment,
 } from '../actions/appointment';
+import toast from 'react-hot-toast';
 
 const initialState = {
   isLoading: false,
@@ -49,11 +50,18 @@ const appointmentSlice = createSlice({
         state.appointmentData = state.appointmentData.filter(
           (appointment) => appointment._id !== action?.payload?.payload
         );
+        toast.success("Product Deleted successfully", {
+          position: "top-right",
+         }); 
       })
       .addCase(deleteAppointment.rejected, (state, action) => {
         state.isLoading = false;
         state.isDeleted = false;
         state.errorMessage = action.payload;
+        toast.error(state?.errorMessage, {
+          position: "top-right",
+        });
+        
         
       })
       .addCase(updateAppointment.pending, (state, action) => {
@@ -62,12 +70,19 @@ const appointmentSlice = createSlice({
       .addCase(updateAppointment.fulfilled, (state, action) => {
         state.isLoading = false;
         state.appointmentData = action.payload.data;
+        toast.success("Product Updated successfully", {
+          position: "top-right",
+         }); 
       })
 
       .addCase(updateAppointment.rejected, (state, action) => {
         state.isLoading = false;
 
         state.errorMessage = action.payload;
+        toast.error(state?.errorMessage, {
+          position: "top-right",
+        });
+        
       })
       .addCase(createAppointment.pending, (state, action) => {
         state.isLoading = true;

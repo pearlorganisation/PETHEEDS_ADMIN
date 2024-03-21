@@ -1,11 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
-import toast from 'react-toastify';
+
 import {
   deleteSubject,
   getAllSubjects,
   updateSubject,
   createSubject,
 } from '../actions/subject';
+import toast from 'react-hot-toast';
 
 const initialState = {
   isLoading: false,
@@ -38,6 +39,10 @@ const subjectSlice = createSlice({
       .addCase(getAllSubjects.rejected, (state, action) => {
         state.isLoading = false;
         state.errorMessage = action.payload;
+        toast.error(state?.errorMessage, {
+          position: "top-right",
+        });
+        
       })
       .addCase(deleteSubject.pending, (state, action) => {
         state.isLoading = true;
@@ -49,11 +54,19 @@ const subjectSlice = createSlice({
         state.subjectData = state.subjectData.filter(
           (subject) => subject._id !== action?.payload?.payload
         );
+        toast.success("Product Deleted successfully", {
+          position: "top-right",
+         }); 
       })
       .addCase(deleteSubject.rejected, (state, action) => {
         state.isLoading = false;
         state.isDeleted = false;
         state.errorMessage = action.payload;
+        toast.error(state?.errorMessage, {
+          position: "top-right",
+        });
+        
+
         
       })
       .addCase(updateSubject.pending, (state, action) => {
@@ -62,12 +75,19 @@ const subjectSlice = createSlice({
       .addCase(updateSubject.fulfilled, (state, action) => {
         state.isLoading = false;
         state.subjectData = action.payload.data;
+        toast.success("Product Updated successfully", {
+          position: "top-right",
+         }); 
       })
 
       .addCase(updateSubject.rejected, (state, action) => {
         state.isLoading = false;
-
         state.errorMessage = action.payload;
+        toast.error(state?.errorMessage, {
+          position: "top-right",
+        });
+        
+
       })
       .addCase(createSubject.pending, (state, action) => {
         state.isLoading = true;
@@ -76,6 +96,9 @@ const subjectSlice = createSlice({
         state.isLoading = false;
 
         state.subjectData = action.payload.data;
+        toast.success("Product created successfully", {
+          position: "top-right",
+         }); 
       })
 
       .addCase(createSubject.rejected, (state, action) => {
@@ -84,6 +107,10 @@ const subjectSlice = createSlice({
         state.errorMessage = action.payload
           ? action.payload
           : 'An error occurred while creating the Subject.';
+          toast.error(state?.errorMessage, {
+            position: "top-right",
+          });
+          
       });
   },
 });

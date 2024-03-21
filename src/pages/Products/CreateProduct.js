@@ -108,7 +108,8 @@ const [selectedGallery,setSelectedGallery]=useState([])
         // Check if all images are processed
         if (counter === imagesArray.length) {
           // Update the state with the base64Array
-          setGallery(base64Array);
+          setGallery(base64Array
+            );
         }
       };
     });
@@ -139,13 +140,13 @@ const [selectedGallery,setSelectedGallery]=useState([])
       <div className="bg-white rounded-lg shadow p-4 py-6  sm:rounded-lg sm:max-w-5xl mt-8 mx-auto">
      
         <form className="space-y-6 mx-8 sm:mx-2" onSubmit={handleSubmit(onSubmit)}  >
-          <div className="sm:flex justify-between">
-          <div>
+          <div className="sm:flex space-y-6 sm:space-y-0 justify-between gap-10">
+          <div className="w-full">
             <label className="font-medium">Product Name</label>
             <input 
             {...register('productName', { required: 'Name is required' })}
               type="text"
-              className="w-full mt-2 me-35 px-5 py-2 text-gray-500 border-slate-300 bg-transparent outline-none border focus:border-teal-400 shadow-sm rounded-lg"
+              className="w-full mt-2  px-5 py-2 text-gray-500 border-slate-300 bg-transparent outline-none border focus:border-teal-400 shadow-sm rounded-lg"
             />
              {errors.productName && (
                     <span className="text-red-500">
@@ -153,12 +154,12 @@ const [selectedGallery,setSelectedGallery]=useState([])
                     </span>
                   )}
           </div>
-          <div className="mt-4 sm:mt-0">
+          <div className="w-full">
             <label className="font-medium">Price</label>
             <input
             {...register('price', { required: 'Price is required' })}
               type="text"
-              className="w-full mt-2 me-[228px] px-5 py-2 text-gray-500 border-slate-300 bg-transparent outline-none border focus:border-teal-400 shadow-sm rounded-lg"
+              className="w-full mt-2  px-5 py-2 text-gray-500 border-slate-300 bg-transparent outline-none border focus:border-teal-400 shadow-sm rounded-lg"
             />
              {errors.price && (
                     <span className="text-red-500">
@@ -168,15 +169,15 @@ const [selectedGallery,setSelectedGallery]=useState([])
           </div>
             </div>
           
-          <div className="sm:flex justify-between">
-          <div>
+          <div className="sm:flex space-y-6 sm:space-y-0 justify-between gap-10">
+          <div className="w-full">
           
-            <label htmlFor="file" className="font-medium space-y-6"> Product Image 
+            <div className="font-medium space-y-6"> Product Image 
              
-            <img class="w-20 h:20 sm:w-35 sm:h-35 rounded" src={photo || defaultPhoto} alt="No Image"/>
-            <label htmlFor="file_input" className="flex mr-2
+            <img class="mt-2 w-20 h:20 sm:w-35 sm:h-35 rounded" src={photo || defaultPhoto} alt="No Image"/>
+            <label htmlFor="file_input" className="flex
             " ><InsertPhotoOutlinedIcon/>
-            <div className="border rounded-md border-slate-300 px-1">Click here to upload</div></label>
+            <div className="w-full px-2 border rounded-md border-slate-300 ">Click here to upload</div></label>
            
             <input
              {...register('productImg', { required: 'Photo is required',onChange:(e)=>{handlePhotoChange(e)} })}
@@ -187,22 +188,23 @@ const [selectedGallery,setSelectedGallery]=useState([])
                       Image of Product is required
                     </span>
                   )}
-            </label>
+            </div>
            
             </div>
-          <div>
+          <div className="w-full">
           
             <div className="font-medium space-y-6 "> Gallery 
-             <div className="flex flex-wrap sm:w-[475px] sm:h-[140px] overflow-auto">
+             <div className="flex mt-2 flex-wrap sm:h-[140px] overflow-auto">
             
              {gallery.map((image, index) => (
           <div key={index} className="relative mr-5">
-            <img
+           <div className="w-full mt-2"> <img
               className="w-20 h-20 sm:w-18 sm:h-16 mr-5 rounded cursor-pointer"
               src={image}
               alt={`Gallery Image ${index + 1}`}
               onClick={() => removeImage(index)}
             />
+            </div>
             <div
               className="absolute top-0 right-0 px-1 cursor-pointer bg-rose-400 rounded-md hover:bg-red-600"
               onClick={() => removeImage(index)}
@@ -213,9 +215,9 @@ const [selectedGallery,setSelectedGallery]=useState([])
         ))}
             </div>
     
-            <label htmlFor="gallery_input" className="flex mr-2" >
+            <label htmlFor="gallery_input" className="flex" >
     <InsertPhotoOutlinedIcon/>
-    <div className="border rounded-md border-slate-300 px-1">Click here to upload</div>
+    <div className="w-full px-2 border rounded-md border-slate-300 ">Click here to upload</div>
   </label>
             <input
              {...register('gallery', { required: 'Photo is required',onChange:(e)=>{handleGalleryChange(e)} })}
@@ -233,19 +235,19 @@ const [selectedGallery,setSelectedGallery]=useState([])
             </div>
             </div>
             </div>
-            <div className="sm:flex justify-between">
-          <div>
-          <label className="block font-medium">About</label>
-  <textarea {...register('about', { required: 'About is required' })}  rows="4" class="block resize-none w-full mt-2 me-[250px] px-5 py-2 text-gray-500 border-slate-300 bg-transparent outline-none border focus:border-teal-400 shadow-sm rounded-lg" placeholder="Leave a comment..."></textarea>
+            <div className="sm:flex space-y-6 sm:space-y-0 justify-between gap-10">
+          <div className="w-full">
+          <label className="font-medium">About</label>
+  <textarea {...register('about', { required: 'About is required' })}  rows="4" class="resize-none w-full mt-2 px-5 py-2 text-gray-500 border-slate-300 bg-transparent outline-none border focus:border-teal-400 shadow-sm rounded-lg" placeholder="Leave a comment..."></textarea>
   {errors.about && (
                     <span className="text-red-500">
                       About of Product is required
                     </span>
                   )}
           </div>
-          <div>
-          <label className="block font-medium">Description</label>
-          <textarea {...register('description', { required: 'Description is required' })} rows="4" class="block resize-none w-full mt-2 me-[270px] px-5 py-2 text-gray-500 border-slate-300 bg-transparent outline-none border focus:border-teal-400 shadow-sm rounded-lg" placeholder="Leave a comment..."></textarea>
+          <div className="w-full">
+          <label className="font-medium">Description</label>
+          <textarea {...register('description', { required: 'Description is required' })} rows="4" class="resize-none w-full mt-2 px-5 py-2 text-gray-500 border-slate-300 bg-transparent outline-none border focus:border-teal-400 shadow-sm rounded-lg" placeholder="Leave a comment..."></textarea>
           {errors.description && (
                     <span className="text-red-500">
                       Description of Product is required
@@ -255,7 +257,8 @@ const [selectedGallery,setSelectedGallery]=useState([])
           </div>
           <div style={{ marginTop: '4rem' }}>
           
-              <button className="w-full px-4 py-2 text-white bg-pink-700  font-medium hover:bg-slate-950 active:bg-indigo-600 rounded-lg duration-150">
+              <button className="w-full px-4 py-2 text-white bg-pink-700  font-medium hover:bg-slate-950 active:bg-indigo-600 rounded-lg duration-150"
+              >
               {isLoading ? (
                 <ClipLoader color="#c4c2c2" />
               ) : (<>Create</>)}

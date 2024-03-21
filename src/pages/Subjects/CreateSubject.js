@@ -24,7 +24,7 @@ const CreateSubject = () => {
         const onSubmit = data =>{
             console.log('data',data)
             dispatch(createSubject(data))
-            navigate("/subject")
+            
           }
        
           useEffect(() => {

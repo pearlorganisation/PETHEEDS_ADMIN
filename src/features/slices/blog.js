@@ -1,11 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
-import toast from 'react-toastify';
+
 import {
   deleteBlog,
   getAllBlogs,
   updateBlog,
   createBlog,
 } from '../actions/blog';
+import toast from 'react-hot-toast';
 
 const initialState = {
   isLoading: false,
@@ -51,11 +52,18 @@ const blogSlice = createSlice({
         state.blogData = state.blogData.filter(
           (blog) => blog._id !== action?.payload?.payload
         );
+        toast.success("Blog Deleted successfully", {
+          position: "top-right",
+         }); 
       })
       .addCase(deleteBlog.rejected, (state, action) => {
         state.isLoading = false;
         state.isDeleted = false;
         state.errorMessage = action.payload;
+        toast.error(state?.errorMessage, {
+          position: "top-right",
+        });
+        
       })
       .addCase(updateBlog.pending, (state, action) => {
         state.isLoading = true;
@@ -64,12 +72,19 @@ const blogSlice = createSlice({
       .addCase(updateBlog.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isUpdated = true;
+        toast.success("Blog Updated successfully", {
+          position: "top-right",
+         }); 
       })
-      // .addCase(updateBlog.pending, (state, action) => {})
+  
       .addCase(updateBlog.rejected, (state, action) => {
         state.isLoading = false;
         state.isUpdated = false;
         state.errorMessage = action.payload;
+        toast.error(state?.errorMessage, {
+          position: "top-right",
+        });
+        
       })
 
       .addCase(createBlog.pending, (state, action) => {
@@ -80,14 +95,21 @@ const blogSlice = createSlice({
         state.isLoading = false;
         state.isUpdated = true;
         state.blogData = action.payload?.data
+        toast.success("Blog created successfully", {
+          position: "top-right",
+         }); 
       })
-      // .addCase(updateBlog.pending, (state, action) => {})
+   
       .addCase(createBlog.rejected, (state, action) => {
         state.isLoading = false;
         state.isUpdated = false;
         state.errorMessage = action.payload
           ? action.payload
           : 'An error occurred while creating the blog.';
+          toast.error(state?.errorMessage, {
+            position: "top-right",
+          });
+          
       });
   },
 });

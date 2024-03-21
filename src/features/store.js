@@ -9,6 +9,7 @@ import subject from './slices/subject';
 import appointment from './slices/appointment'
 import user from './slices/user';
 import blog from './slices/blog';
+import enquiryRequest from './slices/enquiryRequest';
 
 
 // ---------------------------------------------------------
@@ -36,6 +37,7 @@ const reducer = combineReducers({
   appointment,
   user,
   blog,
+  enquiryRequest,
 
   // omitedPart: OmitReducer // not persisting this reducer
 });

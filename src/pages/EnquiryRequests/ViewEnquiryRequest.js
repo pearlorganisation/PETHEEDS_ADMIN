@@ -4,22 +4,22 @@ import React, { useEffect, useState } from 'react';
 import Delete from '../../components/Delete';
 import { useSelector, useDispatch } from 'react-redux';
 import { Navigate, useNavigate } from 'react-router';
-import { deleteAppointment, getAllAppointments } from '../../features/actions/appointment';
+import { deleteEnquiryRequest, getAllEnquiryRequests } from '../../features/actions/enquiryRequest';
 import { Stack,Skeleton } from '@mui/material';
 
 
-const ViewAppointments = () => {
-  const { appointmentData, isLoading, isDeleted } = useSelector((state) => state.appointment);
+const ViewEnquiryRequests = () => {
+  const { enquiryRequestData, isLoading, isDeleted } = useSelector((state) => state.enquiryRequest);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getAllAppointments());
+    dispatch(getAllEnquiryRequests());
    }, []);
  
    useEffect(() => {
  if(isDeleted){
-   dispatch(getAllAppointments());
+   dispatch(getAllEnquiryRequests());
  }
    }, [isDeleted]);
  
@@ -27,7 +27,7 @@ const ViewAppointments = () => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [id, setId] = useState();
   const handleDelete = () => {
-    dispatch(deleteAppointment(id));
+    dispatch(deleteEnquiryRequest(id));
     setShowDeleteModal(false);
     setId('');
   };
@@ -36,9 +36,6 @@ const ViewAppointments = () => {
     setShowDeleteModal(true);
     setId(ID);
   }; 
-  const handleAddAppointment = () => {
-    navigate('/createAppointment');
-  };
 
   
  
@@ -48,21 +45,14 @@ const ViewAppointments = () => {
         <div className="items-start justify-between md:flex">
           <div className="max-w-lg">
             <h3 className="text-gray-800 text-xl font-bold sm:text-2xl">
-              Manage Appointments
+              Manage EnquiryRequests
             </h3>
             <p className="text-gray-600 mt-2">
               Lorem Ipsum is simply dummy text of the printing and typesetting
               industry.
             </p>
           </div>
-          <div className="mt-3 md:mt-0">
-            <a
-              onClick={handleAddAppointment}
-              className="inline-block px-4 py-2 text-white duration-150 font-medium bg-indigo-600 rounded-lg hover:bg-indigo-500 active:bg-indigo-700 md:text-sm"
-            >
-              Add appointment
-            </a>
-          </div>
+       
         </div>
         <div className="mt-12 shadow-sm border rounded-lg overflow-x-auto">
           <table className="w-full table-auto text-sm text-left">
@@ -71,7 +61,7 @@ const ViewAppointments = () => {
                 <th className="py-3 px-6">Name</th>
                 <th className="py-3 px-6">Email</th>
                 <th className="py-3 px-6">Subject</th>
-                <th className="py-3 px-6">Date</th>
+                <th className="py-3 px-6">Message</th>
                
               </tr>
             </thead>
@@ -90,21 +80,21 @@ const ViewAppointments = () => {
           </tr>
           ) : (
             
-               Array.isArray(appointmentData) && appointmentData?.map((item, idx) => (
+               Array.isArray(enquiryRequestData) && enquiryRequestData?.map((item, idx) => (
                   <tr key={idx}>
                     <td className="px-6 py-4 whitespace-nowrap">{item?.name}</td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       {item?.email}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                    {item?.subject.subject}
+                    {item?.enquirySubject.subject}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                    {item?.date}
+                    {item?.message}
                     </td>
                     
                     <td className="text-right px-6 whitespace-nowrap">
-                     
+                   
                       <button
                         onClick={() => {
                           handleModal(item?._id);
@@ -129,4 +119,4 @@ const ViewAppointments = () => {
   );
 };
 
-export default ViewAppointments;
+export default ViewEnquiryRequests;
