@@ -23,7 +23,7 @@ const UpdateSubject = () => {
         const onSubmit = data =>{
             console.log('data',data)
           dispatch(updateSubject({id:item._id, payload:data }))
-          navigate('/subject')
+          
           }
        
           useEffect(() => {

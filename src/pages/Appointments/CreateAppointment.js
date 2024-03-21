@@ -26,7 +26,7 @@
           defaultValues:{
           name:"",
           email:"",
-          date:new Date(),
+          date:"",
           subject:"",
 
           }
@@ -65,14 +65,14 @@
         <div className="bg-white rounded-lg shadow p-4 py-6  sm:rounded-lg sm:max-w-5xl mt-8 mx-auto">
     
           <form className="space-y-6 mx-8 sm:mx-2" onSubmit={handleSubmit(onSubmit)}>
-            <div className="sm:flex justify-between">
-            <div>
+            <div className="sm:flex space-y-6 sm:space-y-0 justify-between gap-10">
+            <div className="w-full">
               <label className="font-medium">Name</label>
               <input 
               {...register('name', { required: 'Name is required' })}
                 type="text"
                 
-                className="w-full mt-2 me-35 px-5 py-2 text-gray-500 border-slate-300 bg-transparent outline-none border focus:border-teal-400 shadow-sm rounded-lg"
+                className="w-full mt-2  px-5 py-2 text-gray-500 border-slate-300 bg-transparent outline-none border focus:border-teal-400 shadow-sm rounded-lg"
               />
               {errors.name && (
                     <span className="text-red-500">
@@ -80,13 +80,13 @@
                     </span>
                   )}
             </div>
-            <div className="mt-4 sm:mt-0">
+            <div className="w-full">
               <label className="font-medium">Email</label>
               <input
               {...register('email', { required: 'Email is required' })}
                 type="text"
                 
-                className="w-full mt-2 me-[228px] px-5 py-2 text-gray-500 border-slate-300 bg-transparent outline-none border focus:border-teal-400 shadow-sm rounded-lg"
+                className="w-full mt-2  px-5 py-2 text-gray-500 border-slate-300 bg-transparent outline-none border focus:border-teal-400 shadow-sm rounded-lg"
               />
               {errors.email && (
                     <span className="text-red-500">
@@ -95,18 +95,19 @@
                   )}
             </div>
               </div>
-            <div className="sm:flex justify-between">
-            <div>
+              
+            <div className="sm:flex space-y-6 sm:space-y-0 justify-between gap-10">
+            <div className="w-full">
               <label className="font-medium">Subject</label>
               <Controller 
                                       control={control}
                                       name="subject"
-                                      render={({ field }) => (
+                                      render={({ field, fieldState:{error} }) => (
                                           <Select
                                               value={field.value}
                                               options={subjectData.map(subject => ({ value: subject?._id, label: subject.subject }))}
                                               onChange={(selectedOption) => field.onChange(selectedOption)}
-                                              className="mt-2 w-[393px]"
+                                              className="mt-2 "
                                               placeholder="Choose subject "
                                              
                                               styles={{
@@ -123,12 +124,20 @@
                                               }}
  
                                           />
-                                      )}
+                                     )}
+                                      rules={{ required: true }}
+                                      
                                   />
+                                  {errors?.subject && (
+                                            <span className="text-red-500">
+                                                Subject is required
+                                            </span>
+                                        )}
+                                 
                     
             </div>
-            <div className="mt-4 sm:mt-0">
-              <label className="font-medium block">Date</label>
+            <div className="w-full">
+              <label className="font-medium">Date</label>
               <Controller
             control={control}
             name="date"
@@ -138,25 +147,34 @@
                 selected={field.value}
                 onChange={(date) => {
                   field.onChange(date);
+                  
                 }}
                 dateFormat="dd/MM/yyyy"
-                className="w-full mt-2 me-[268px] px-5 py-2 text-gray-500 border-slate-300 bg-transparent outline-none border focus:border-teal-400 shadow-sm rounded-lg"
+                placeholderText="Choose Date"
+                autoComplete="off"
+                calendarClassName="text-red-500"
+                className="w-full mt-2 me-[200px] sm:me-[268px] px-5 py-2 text-gray-500 border-slate-300 bg-transparent outline-none border focus:border-teal-400 shadow-sm rounded-lg"
+                
               />
+              
             )}
+            rules={{required:true}}
+            
           />
-         
+              {errors?.date && (
+          <span className="text-red-500">
+          Date is required
+           </span>
+           )}
 
             </div>
+        
               </div>
             
-          
-      
-            
-          
-            
+ 
             <div>
             <label className="block font-medium">Message</label>
-    <textarea {...register('message', { required: 'Message is required' })} rows="4" class="block resize-none w-full mt-2 me-[250px] px-5 py-2 text-gray-500 border-slate-300 bg-transparent outline-none border focus:border-teal-400 shadow-sm rounded-lg" placeholder="Leave a comment..."></textarea>
+    <textarea {...register('message', { required: 'Message is required' })} rows="5" class="block resize-none w-full mt-2 me-[250px] px-5 py-2 text-gray-500 border-slate-300 bg-transparent outline-none border focus:border-teal-400 shadow-sm rounded-lg" placeholder="Leave a comment..."></textarea>
     {errors.message && (
                     <span className="text-red-500">
                       Message is required
