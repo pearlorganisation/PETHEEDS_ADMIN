@@ -4,32 +4,36 @@ import React, { useEffect, useState } from 'react';
 import Delete from '../../components/Delete';
 import { useSelector, useDispatch } from 'react-redux';
 import { Navigate, useNavigate } from 'react-router';
-import { FaEdit, FaTrash, FaEye } from 'react-icons/fa'; // Import icons from React Icons library
 import { deleteProduct, getAllProducts } from '../../features/actions/product';
+import { Stack,Skeleton } from '@mui/material';
+
+
 
 
 
 const ViewProduct = () => {
+  const { productData, isDeleted, isLoading } = useSelector((state) => state.product);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const fetchData = async()=>{
-      try{
-        dispatch(getAllProducts());
-      }
-      catch(error){
-       console.error("Error fetching products:",error)
-      }
-    }
-    fetchData();
-  }, [dispatch]);
+   dispatch(getAllProducts());
+  }, []);
+
+  useEffect(() => {
+if(isDeleted){
+  dispatch(getAllProducts());
+}
+  }, [isDeleted]);
+
+
  
 
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [id, setId] = useState();
   const handleDelete = () => {
     dispatch(deleteProduct(id));
+
     setShowDeleteModal(false);
     setId('');
   };
@@ -41,7 +45,6 @@ const ViewProduct = () => {
   const handleAddProduct = () => {
     navigate('/createProduct');
   };
-  const { productData, isLoading } = useSelector((state) => state.product);
   return (
     <>
       <div className="max-w-screen-xl mx-auto px-4 md:px-8">
@@ -72,32 +75,42 @@ const ViewProduct = () => {
                 <th className="py-3 px-6">Product Name</th>
                 <th className="py-3 px-6">Product Image</th>
                 <th className="py-3 px-6">Price</th>
-                <th className="py-3 px-6 text-center">Actions</th>
+                
               </tr>
             </thead>
             <tbody className="text-gray-600 divide-y">
-              {isLoading ? (
-                <p>Loading hra h bhai</p>
-              ) : (
-                productData?.map((item, idx) => (
+            {isLoading ? (
+            <tr>
+            <td colSpan="4" className="text-center px-6 py-8">
+              <Stack spacing={4}>
+                <Skeleton variant="rounded" height={30} />
+                <Skeleton variant="rounded" height={25}/>
+                <Skeleton variant="rounded" height={20}/>
+                <Skeleton variant="rounded" height={20}/>
+                <Skeleton variant="rounded" height={20}/>
+              </Stack>
+            </td>
+          </tr>
+          ) : (
+               Array.isArray(productData) && productData.length > 0 && productData?.map((item, idx) => (
                   <tr key={idx}>
                     <td className="px-6 py-4 whitespace-nowrap">{item?._id}</td>
                     <td className="px-6 py-4 whitespace-nowrap ">
                       {item?.productName}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <img className='rounded-lg h-20' src={`${item?.productImg?.path}`} />
+                      <img className='rounded-lg h-20 w-25' src={`${item?.productImg?.path}`} />
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       {item?.price}
                     </td>
                    
-                    <td className="text-right px-6 whitespace-nowrap">
+                    <td className=" whitespace-nowrap">
                       <a
                         onClick={() => {
                           navigate(`/updateProduct/${item?._id}`, { state: item  });
                         }}
-                        className="py-2 px-3 font-medium text-indigo-600 hover:text-indigo-500 duration-150 hover:bg-gray-50 rounded-lg"
+                        className="py-2 px-3 font-semibold text-indigo-500 hover:text-indigo-600 duration-150 hover:bg-gray-50 rounded-lg"
                       >
                         Edit
                       </a>
@@ -105,7 +118,7 @@ const ViewProduct = () => {
                         onClick={() => {
                           handleModal(item?._id);
                         }}
-                        className="py-2 leading-none px-3 font-medium text-red-600 hover:text-red-500 duration-150 hover:bg-gray-50 rounded-lg"
+                        className="py-2 leading-none px-3 font-semibold text-red-500 hover:text-red-600 duration-150 hover:bg-gray-50 rounded-lg"
                       >
                         Delete
                       </button>

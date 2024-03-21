@@ -4,12 +4,14 @@ import {
   deleteAppointment,
   getAllAppointments,
   updateAppointment,
+  createAppointment,
 } from '../actions/appointment';
 
 const initialState = {
   isLoading: false,
   isUpdated: false,
   isSuccess: false,
+  isDeleted: false,
   errorMessage: '',
   appointmentData: [],
 };
@@ -24,50 +26,64 @@ const appointmentSlice = createSlice({
       .addCase(getAllAppointments.pending, (state, action) => {
         state.isLoading = true;
         state.errorMessage = '';
-        state.isUpdated = false;
       })
       .addCase(getAllAppointments.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.isUpdated = false;
+        state.isDeleted = false;
         state.errorMessage = '';
-        console.log("API Response Payload:", action.payload);
+        console.log('API Response Payload:', action.payload);
         state.appointmentData = action.payload.data;
-        console.log("Reducer - Updated appointmentData:", state.appointmentData);
+        console.log('Reducer - Updated appointmentData:', state.appointmentData);
       })
       .addCase(getAllAppointments.rejected, (state, action) => {
         state.isLoading = false;
-        state.isUpdated = false;
         state.errorMessage = action.payload;
       })
       .addCase(deleteAppointment.pending, (state, action) => {
         state.isLoading = true;
-        state.isUpdated = false;
+        state.isDeleted = false;
       })
       .addCase(deleteAppointment.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.isUpdated = false;
-      })
-      .addCase(deleteAppointment.rejected, (state, action) => {
-        state.isLoading = false;
-        state.isUpdated = false;
-        state.errorMessage = action.payload;
+        state.isDeleted = true;
         state.appointmentData = state.appointmentData.filter(
           (appointment) => appointment._id !== action?.payload?.payload
         );
       })
+      .addCase(deleteAppointment.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isDeleted = false;
+        state.errorMessage = action.payload;
+        
+      })
       .addCase(updateAppointment.pending, (state, action) => {
         state.isLoading = true;
-        state.isUpdated = false;
       })
       .addCase(updateAppointment.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.isUpdated = true;
+        state.appointmentData = action.payload.data;
       })
-      // .addCase(updateAppointment.pending, (state, action) => {})
+
       .addCase(updateAppointment.rejected, (state, action) => {
         state.isLoading = false;
-        state.isUpdated = false;
+
         state.errorMessage = action.payload;
+      })
+      .addCase(createAppointment.pending, (state, action) => {
+        state.isLoading = true;
+      })
+      .addCase(createAppointment.fulfilled, (state, action) => {
+        state.isLoading = false;
+      
+        state.appointmentData = action.payload.data;
+      })
+
+      .addCase(createAppointment.rejected, (state, action) => {
+        state.isLoading = false;
+
+        state.errorMessage = action.payload
+          ? action.payload
+          : 'An error occurred while creating the Appointment.';
       });
   },
 });

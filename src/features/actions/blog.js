@@ -1,13 +1,14 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { instance } from '../../services/axiosInterceptor';
-import axios from 'axios';
 
-//get all subject api
-export const getAllSubjects = createAsyncThunk(
-  'getSubject',
+
+
+//get all blog api
+export const getAllBlogs = createAsyncThunk(
+  'getBlog',
   async (payload, { rejectWithValue }) => {
     try {
-      const { data } = await instance.get('/subject', payload, {
+      const { data } = await instance.get('/blog', payload, {
         withCredentials: true,
       });
       console.log(data, 'datatattatatatat');
@@ -18,15 +19,15 @@ export const getAllSubjects = createAsyncThunk(
   }
 );
 
-//delete subject api
-export const deleteSubject = createAsyncThunk(
-  'deleteSubject',
-  async (payload, { rejectWithValue }) => {
+//delete blog api
+export const deleteBlog = createAsyncThunk(
+  'deleteBlog',
+  async (id, { rejectWithValue }) => {
     try {
-      console.log(payload, 'payloaad');
+      console.log(id, 'id');
       const response = await instance.delete(
-        `/subject/${payload}`,
-        {},
+        `/blog/${id}`,
+        
         { withCredentials: true }
       );
       return response;
@@ -36,12 +37,15 @@ export const deleteSubject = createAsyncThunk(
   }
 );
 
-export const updateSubject = createAsyncThunk(
-  'updateSubject',
-  async ({ payload, id }, { rejectWithValue }) => {
+
+//update Blog api
+export const updateBlog = createAsyncThunk(
+  'updateBlog',
+  async ({ id, payload}, { rejectWithValue }) => {
     try {
-      const response = await instance.patch(`/subject/${id}`, payload, {
+      const response = await instance.patch(`/blog/${id}`, payload, {
         withCredentials: true,
+       
       });
       return response;
     } catch (e) {
@@ -50,13 +54,14 @@ export const updateSubject = createAsyncThunk(
   }
 );
 
-export const createSubject = createAsyncThunk(
-  'createSubject',
+//create Blog api
+export const createBlog = createAsyncThunk(
+  'createBlog',
   async (payload, { rejectWithValue }) => {
     try {
-      const response = await instance.post(`/subject`, payload, {
+      const response = await instance.post(`/blog`, payload, {
         withCredentials: true,
-       
+        
       });
       return response;
     } catch (e) {

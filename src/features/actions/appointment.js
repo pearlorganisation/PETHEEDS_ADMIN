@@ -24,7 +24,7 @@ export const deleteAppointment = createAsyncThunk(
   async (payload, { rejectWithValue }) => {
     try {
       console.log(payload, 'payloaad');
-      const response = await axios.delete(
+      const response = await instance.delete(
         `/appointment/${payload}`,
         {},
         { withCredentials: true }
@@ -40,12 +40,27 @@ export const updateAppointment = createAsyncThunk(
   'updateAppointment',
   async ({ payload, id }, { rejectWithValue }) => {
     try {
-      const response = await axios.patch(`/appointment/${id}`, payload, {
+      const response = await instance.patch(`/appointment/${id}`, payload, {
         withCredentials: true,
       });
       return response;
     } catch (e) {
       return rejectWithValue;
+    }
+  }
+);
+
+export const createAppointment = createAsyncThunk(
+  'createAppointment',
+  async (payload, { rejectWithValue }) => {
+    try {
+      const response = await instance.post(`/appointment`, payload, {
+        withCredentials: true,
+       
+      });
+      return response;
+    } catch (e) {
+      return rejectWithValue(e);
     }
   }
 );

@@ -1,21 +1,28 @@
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import React, { useState,useEffect } from "react";
+import { useDispatch,useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
 
 import InsertPhotoOutlinedIcon from '@mui/icons-material/InsertPhotoOutlined';
 import { createProduct } from "../../features/actions/product";
+import { useNavigate } from "react-router-dom";
+import product from "../../features/slices/product";
+import { ClipLoader } from "react-spinners";
+
 
 
 const CreateProduct = () => {
-
+const navigate=useNavigate()
   const dispatch = useDispatch();
+
+  const {productData,isLoading} = useSelector((state)=>state.product)
 
 const [selectedPhoto,setSelectedPhoto]=useState("")
 const [selectedGallery,setSelectedGallery]=useState([])
 
+
     const {register,handleSubmit,formState: { errors },}=useForm({
         defaultValues:{
-          name:  "",
+          productName:"",
           price:"",
           about:"",
           description:"",
@@ -36,13 +43,13 @@ const [selectedGallery,setSelectedGallery]=useState([])
             formData.append("gallery", img);
           });
         
-          console.log("formdata", formData.getAll('gallery'));
-          console.log("productImg", formData.getAll('productImg'));
+          // console.log("formdata", formData.getAll('gallery'));
+          // console.log("productImg", formData.getAll('productImg'));
           
-          console.log("gallery::",data?.gallery)
-          console.log("productImg::",data?.productImg)
+          // console.log("gallery::",data?.gallery)
+          // console.log("productImg::",data?.productImg)
           dispatch(createProduct(formData));
-
+          
         
           }
 
@@ -83,19 +90,30 @@ const [selectedGallery,setSelectedGallery]=useState([])
             
                   // Update the state with the array of file objects
                   setSelectedGallery((prevGallery) => [...prevGallery, ...imagesArray]);
-            
-                  // Convert the file objects to base64 for UI display
-                  const base64Array = [];
-                  imagesArray.forEach((fileObject) => {
-                    const reader = new FileReader();
-                    reader.readAsDataURL(fileObject);
-                    reader.onloadend = () => {
-                      base64Array.push(reader.result);
-                      setGallery((prevGallery) => [...prevGallery, ...base64Array]);
-                    };
-                  });
-                }
-              };
+            // Convert the file objects to base64 for UI display
+    const base64Array = [];
+
+    // Create a counter to keep track of when all images are processed
+    let counter = 0;
+
+    imagesArray.forEach((fileObject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(fileObject);
+      reader.onloadend = () => {
+        base64Array.push(reader.result);
+
+        // Increment the counter
+        counter++;
+
+        // Check if all images are processed
+        if (counter === imagesArray.length) {
+          // Update the state with the base64Array
+          setGallery(base64Array);
+        }
+      };
+    });
+  }
+};
               const removeImage = (index) => {
                 setGallery((prevGallery) => {
                   const updatedGallery = [...prevGallery];
@@ -103,6 +121,12 @@ const [selectedGallery,setSelectedGallery]=useState([])
                   return updatedGallery;
                 });
               };
+
+              useEffect(() => {
+                if(productData?.status){
+                  navigate("/product")
+                }
+              }, [productData]);
 
   return (
     <div>
@@ -113,6 +137,7 @@ const [selectedGallery,setSelectedGallery]=useState([])
         </h3>
       </div>
       <div className="bg-white rounded-lg shadow p-4 py-6  sm:rounded-lg sm:max-w-5xl mt-8 mx-auto">
+     
         <form className="space-y-6 mx-8 sm:mx-2" onSubmit={handleSubmit(onSubmit)}  >
           <div className="sm:flex justify-between">
           <div>
@@ -229,11 +254,15 @@ const [selectedGallery,setSelectedGallery]=useState([])
           </div>
           </div>
           <div style={{ marginTop: '4rem' }}>
+          
               <button className="w-full px-4 py-2 text-white bg-pink-700  font-medium hover:bg-slate-950 active:bg-indigo-600 rounded-lg duration-150">
-                Create
+              {isLoading ? (
+                <ClipLoader color="#c4c2c2" />
+              ) : (<>Create</>)}
               </button>
+               
             </div>
-        </form>
+        </form>  
       </div>
     </div>
     </div>
