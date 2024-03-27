@@ -44,6 +44,7 @@ const CreateBlog = () => {
     formData.append('banner', banner[0]);
     formData.append('description', data.description);
     formData.append('topic', data.topic);
+    formData.append('topicDescription', data.topicDescription);
     console.log(data);
     dispatch(createBlog({ formData, rest }));
   };
@@ -84,6 +85,70 @@ const CreateBlog = () => {
             )}
 
             <div>
+              <label className="font-medium">Topic Description</label>
+              <textarea
+                {...register('topicDescription', {
+                  required: true,
+                })}
+                className="w-full resize-none mt-2 me-50 px-5 py-2 text-gray-500 border-slate-300 bg-transparent outline-none border focus:border-teal-400 shadow-sm rounded-lg"
+                id=""
+                cols="30"
+                rows="6"
+              ></textarea>
+
+              {errors.topicDescription && (
+                <span className="text-red-500">This Field is required</span>
+              )}
+            </div>
+
+            <div className="flex-1 items-center mx-auto mb-3 space-y-4 sm:flex sm:space-y-0">
+              <div className="relative w-full space-y-1">
+                <label htmlFor="input" className="font-medium ">
+                  Banner
+                </label>
+                <div className="items-center justify-center  mx-auto">
+                  <label
+                    className="flex justify-center w-full h-32 px-4 transition bg-white border-2 border-gray-300 border-dashed rounded-md appearance-none cursor-pointer hover:border-gray-400 focus:outline-none"
+                    id="drop"
+                  >
+                    <span className="flex items-center space-x-2">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="w-6 h-6 text-gray-600"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        strokeWidth={2}
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
+                        />
+                      </svg>
+                      <span className="font-medium text-gray-600">
+                        Drop files to Attach, or
+                        <span className="text-blue-600 underline ml-[4px]">
+                          browse
+                        </span>
+                      </span>
+                    </span>
+                    <input
+                      type="file"
+                      {...register('banner', { required: 'topic is required' })}
+                      className="hidden"
+                      accept="image/png,image/jpeg"
+                      id="input"
+                    />
+                  </label>
+                </div>
+                {errors.banner && (
+                  <span className="text-red-500">Banner is required</span>
+                )}
+              </div>
+            </div>
+
+            {/* <div>
               <label className="font-medium">Banner</label>
               <input
                 {...register('banner', { required: 'topic is required' })}
@@ -93,7 +158,7 @@ const CreateBlog = () => {
               {errors.banner && (
                 <span className="text-red-500">Banner is required</span>
               )}
-            </div>
+            </div> */}
 
             <div>
               <label className="font-medium">Description</label>
