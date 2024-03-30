@@ -22,14 +22,14 @@ export const generateSignupOTP = createAsyncThunk(
 );
 
 //Signup Api
-export const SignUp = createAsyncThunk(
-  "user/sinup",
+export const signUp = createAsyncThunk(
+  "user/signup",
   async (payload, { rejectWithValue }) => {
     try {
       const response = await instance.post("auth/signUp", payload, {
         withCredentials: true,
         headers: {
-          "Content-Type": "multipart/form-data",
+          "Content-Type": "application/json",
         },
       });
       console.log("Fetch signUp data:::", response);

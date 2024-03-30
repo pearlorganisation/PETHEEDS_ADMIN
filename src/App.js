@@ -8,18 +8,42 @@ import Loader from './common/Loader';
 import routes from './routes';
 import Dashboard from './pages/Dashboard/Dashboard';
 import PageNotFound from './pages/PageNotFound';
+import { useSelector } from 'react-redux';
+
+
 // ----------------------------------------------------------------------
 
 const DefaultLayout = lazy(() => import('./layout/DefaultLayout'));
 
 function App() {
-  const isUserLoggedIn = true;
-
+  
+ const {isUserLoggedIn , isLoading} = useSelector((state)=>state.auth)
   const [loading, setLoading] = useState(true);
+
+
 
   useEffect(() => {
     setTimeout(() => setLoading(false), 1000);
   }, []);
+
+   // Function to handle login
+  //  const handleLogin = async (userData) => {
+  //   try {
+  //     // Make API call to login
+  //     const response = await loginUser(userData); // Example: loginUser is a function from your API file
+
+  //     // Assuming the login API returns a success response
+  //     if (response.success) {
+  //       // Update isUserLoggedIn state to true
+  //       setIsUserLoggedIn(true);
+  //     } else {
+  //       // Handle login failure, show error message etc.
+  //     }
+  //   } catch (error) {
+  //     // Handle API call error
+  //     console.error('Login API error:', error);
+  //   }
+  // };
 
   return loading ? (
     <Loader />
