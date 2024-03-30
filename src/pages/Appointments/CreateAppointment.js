@@ -102,7 +102,7 @@
               <Controller 
                                       control={control}
                                       name="subject"
-                                      render={({ field, fieldState:{error} }) => (
+                                      render={({ field }) => (
                                           <Select
                                               value={field.value}
                                               options={subjectData.map(subject => ({ value: subject?._id, label: subject.subject }))}

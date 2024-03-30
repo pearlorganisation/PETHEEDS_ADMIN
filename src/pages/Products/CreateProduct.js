@@ -5,7 +5,6 @@ import { useForm } from "react-hook-form";
 import InsertPhotoOutlinedIcon from '@mui/icons-material/InsertPhotoOutlined';
 import { createProduct } from "../../features/actions/product";
 import { useNavigate } from "react-router-dom";
-import product from "../../features/slices/product";
 import { ClipLoader } from "react-spinners";
 
 

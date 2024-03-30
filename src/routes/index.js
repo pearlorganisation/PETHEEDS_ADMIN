@@ -12,13 +12,11 @@ const Settings = lazy(() => import('../pages/Settings'));
 // ------------------------------------------------------------------------------
 
 // New Routes
-const CreateUser = lazy(() =>
-  import('../pages/Authentication/users/CreateUser')
-);
+
 const ViewUsers = lazy(() => import('../pages/Authentication/users/ViewUsers'));
-const UpdateUser = lazy(() =>
-  import('../pages/Authentication/users/UpdateUser')
-);
+const SignIn = lazy(() => import('../pages/Authentication/SignIn'));
+const SignUp = lazy(() => import('../pages/Authentication/SignUp'));
+
 
 const CreateRole = lazy(() =>
   import('../pages/Authentication/roles/CreateRole')
@@ -126,21 +124,23 @@ const coreRoutes = [
 
   // New Routes
   // Users Routes
-  {
-    path: '/users/createUser',
-    title: 'Create User',
-    component: CreateUser,
-  },
+ 
   {
     path: '/users',
     title: 'View Users',
     component: ViewUsers,
   },
   {
-    path: '/users/updateUser/:userId',
-    title: 'Update User',
-    component: UpdateUser,
+    path: '/auth/signin',
+    title: 'Login',
+    component: SignIn,
   },
+  {
+    path: '/auth/signup',
+    title: 'Signup',
+    component:SignUp,
+  },
+  
 
   // Roles Routes
   {

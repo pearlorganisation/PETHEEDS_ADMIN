@@ -1,8 +1,27 @@
 import { Link } from "react-router-dom";
 import LogoDark from "../../images/logo/logo-dark.svg";
 import Logo from "../../images/logo/logo.svg";
+import { useDispatch, } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { ClipLoader } from "react-spinners";
+import { logIn } from "../../features/actions/authenticationActions";
+
+
+
 // ----------------------------------------------------------------------------------
 const SignIn = () => {
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+ 
+  const {register,handleSubmit,formState: { errors },} =useForm()
+
+  const onSubmit = data=>{
+    console.log("data",data)
+    dispatch(logIn(data))}
+ 
+
   return (
     <>
       <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
@@ -151,13 +170,14 @@ const SignIn = () => {
                 Sign In to Tasks Management App
               </h2>
 
-              <form>
+              <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="mb-4">
                   <label className="mb-2.5 block font-medium text-black dark:text-white">
                     Email
                   </label>
                   <div className="relative">
                     <input
+                    {...register("email",{required: "email is required"})}
                       type="email"
                       placeholder="Enter your email"
                       className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
@@ -181,16 +201,22 @@ const SignIn = () => {
                       </svg>
                     </span>
                   </div>
+                  {errors.email && (
+                    <span className="text-red-500">
+                      Email is required
+                    </span>
+                  )}
                 </div>
 
                 <div className="mb-6">
                   <label className="mb-2.5 block font-medium text-black dark:text-white">
-                    Re-type Password
+                    Password
                   </label>
                   <div className="relative">
                     <input
+                    {...register('password',{required:'password is required'})}
                       type="password"
-                      placeholder="6+ Characters, 1 Capital letter"
+                      placeholder="Enter your password"
                       className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                     />
 
@@ -216,6 +242,11 @@ const SignIn = () => {
                       </svg>
                     </span>
                   </div>
+                  {errors.password && (
+                    <span className="text-red-500">
+                      Password is required
+                    </span>
+                  )}
                 </div>
 
                 <div className="mb-5">
