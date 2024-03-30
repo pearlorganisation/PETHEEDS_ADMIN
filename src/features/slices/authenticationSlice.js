@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
 import {
-  SignUp,
+  signUp,
   generateLoginOTP,
   generateSignupOTP,
   logIn,
@@ -23,6 +23,7 @@ const initialState = {
   isOtpMailSent: false,
   isPasswordReset: false,
   isMailSent: false,
+  userData :[],
 };
 
 // -------------------------------------- Slices------------------------------------------------
@@ -46,21 +47,22 @@ const authSlice = createSlice({
     builder
     
     // signUp lifecycle methods
-    .addCase(SignUp.pending, (state, action) => {
+    .addCase(signUp.pending, (state, action) => {
       state.isLoading = true;
       state.errorMessage = "";
       state.userSignedSuccess = false;
       state.isMailSent = false;
     })
-    .addCase(SignUp.fulfilled, (state, action) => {
+    .addCase(signUp.fulfilled, (state, action) => {
       state.isLoading = false;
       state.userSignedSuccess = true;
       state.isMailSent = false;
+      state.userData =action.payload.data
       toast.success(`Sign Up Successfull.`, {
         position: "top-center",
       });
     })
-    .addCase(SignUp.rejected, (state, action) => {
+    .addCase(signUp.rejected, (state, action) => {
       state.isLoading = false;
       state.userSignedSuccess = false;
       state.isMailSent = false;

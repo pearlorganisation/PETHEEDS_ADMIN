@@ -12,13 +12,10 @@ const Settings = lazy(() => import('../pages/Settings'));
 // ------------------------------------------------------------------------------
 
 // New Routes
-const CreateUser = lazy(() =>
-  import('../pages/Authentication/users/CreateUser')
-);
+
 const ViewUsers = lazy(() => import('../pages/Authentication/users/ViewUsers'));
-const UpdateUser = lazy(() =>
-  import('../pages/Authentication/users/UpdateUser')
-);
+const SignIn = lazy(() => import('../pages/Authentication/SignIn'));
+const SignUp = lazy(() => import('../pages/Authentication/SignUp'));
 
 const CreateRole = lazy(() =>
   import('../pages/Authentication/roles/CreateRole')
@@ -37,24 +34,12 @@ const ViewPermissions = lazy(() =>
 const UpdatePermission = lazy(() =>
   import('../pages/Authentication/permissions/UpdatePermission')
 );
-const CreateProduct = lazy(() =>
-  import('../pages/Products/CreateProduct')
-);
-const ViewProducts = lazy(() =>
-  import('../pages/Products/ViewProducts')
-);
-const UpdateProduct = lazy(() =>
-  import('../pages/Products/UpdateProduct')
-);
-const CreateBlog = lazy(() =>
-  import('../pages/Blogs/CreateBlog')
-);
-const ViewBlogs = lazy(() =>
-  import('../pages/Blogs/ViewBlogs')
-);
-const UpdateBlog = lazy(() =>
-  import('../pages/Blogs/UpdateBlog')
-);
+const CreateProduct = lazy(() => import('../pages/Products/CreateProduct'));
+const ViewProducts = lazy(() => import('../pages/Products/ViewProducts'));
+const UpdateProduct = lazy(() => import('../pages/Products/UpdateProduct'));
+const CreateBlog = lazy(() => import('../pages/Blogs/CreateBlog'));
+const ViewBlogs = lazy(() => import('../pages/Blogs/ViewBlogs'));
+const UpdateBlog = lazy(() => import('../pages/Blogs/UpdateBlog'));
 const CreateAppointment = lazy(() =>
   import('../pages/Appointments/CreateAppointment')
 );
@@ -62,15 +47,9 @@ const ViewAppointments = lazy(() =>
   import('../pages/Appointments/ViewAppointments')
 );
 
-const CreateSubject = lazy(() =>
-  import('../pages/Subjects/CreateSubject')
-);
-const ViewSubjects = lazy(() =>
-  import('../pages/Subjects/ViewSubjects')
-);
-const UpdateSubject = lazy(() =>
-  import('../pages/Subjects/UpdateSubject')
-);
+const CreateSubject = lazy(() => import('../pages/Subjects/CreateSubject'));
+const ViewSubjects = lazy(() => import('../pages/Subjects/ViewSubjects'));
+const UpdateSubject = lazy(() => import('../pages/Subjects/UpdateSubject'));
 const ViewEnquiryRequests = lazy(() =>
   import('../pages/EnquiryRequests/ViewEnquiryRequest')
 );
@@ -79,33 +58,32 @@ const ManageBlogs = lazy(() => import('../pages/Blogs/ManageBlogs'));
 
 // ------------------------------------------------------------------------------
 const coreRoutes = [
-
   {
     path: '/profile',
     title: 'Profile',
     component: Profile,
   },
-  
+
   {
     path: '/settings',
     title: 'Settings',
     component: Settings,
   },
-  
-  {
-    path: '/users/createUser',
-    title: 'Create User',
-    component: CreateUser,
-  },
+
   {
     path: '/users',
     title: 'View Users',
     component: ViewUsers,
   },
   {
-    path: '/users/updateUser/:userId',
-    title: 'Update User',
-    component: UpdateUser,
+    path: '/auth/signin',
+    title: 'Login',
+    component: SignIn,
+  },
+  {
+    path: '/auth/signup',
+    title: 'Signup',
+    component: SignUp,
   },
 
   // Roles Routes
@@ -212,8 +190,6 @@ const coreRoutes = [
     title: 'Manage Blogs',
     component: ManageBlogs,
   },
-
-
 ];
 
 const routes = [...coreRoutes];
