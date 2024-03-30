@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { NavLink, useLocation } from 'react-router-dom';
+import { Link, NavLink, useLocation } from 'react-router-dom';
 import SidebarLinkGroup from './SidebarLinkGroup';
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 import InventoryOutlinedIcon from '@mui/icons-material/InventoryOutlined';
