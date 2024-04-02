@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { NavLink, useLocation } from 'react-router-dom';
+import { Link, NavLink, useLocation } from 'react-router-dom';
 import SidebarLinkGroup from './SidebarLinkGroup';
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 import InventoryOutlinedIcon from '@mui/icons-material/InventoryOutlined';
@@ -197,25 +197,13 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
 
               <li>
                 <NavLink
-                  to="/users"
-                  className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
-                    pathname.includes('/users/viewUsers') &&
-                    'bg-graydark dark:bg-meta-4'
-                  }`}
-                >
-                  <PersonOutlineIcon/>
-                  Manage Users
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
                   to="/product"
                   className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
                     pathname.includes('/roles/viewRoles') &&
                     'bg-graydark dark:bg-meta-4'
                   }`}
                 >
-                  <InventoryOutlinedIcon/>
+                  <InventoryOutlinedIcon />
                   Manage Products
                 </NavLink>
               </li>
@@ -227,7 +215,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                     'bg-graydark dark:bg-meta-4'
                   }`}
                 >
-                < CalendarMonthOutlinedIcon/>
+                  <CalendarMonthOutlinedIcon />
                   Manage Appointments
                 </NavLink>
               </li>
@@ -239,7 +227,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                     'bg-graydark dark:bg-meta-4'
                   }`}
                 >
-                  <SubjectOutlinedIcon/>
+                  <SubjectOutlinedIcon />
                   Manage Subjects
                 </NavLink>
               </li>
@@ -251,21 +239,8 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                     'bg-graydark dark:bg-meta-4'
                   }`}
                 >
-                  <MessageOutlinedIcon/>
+                  <MessageOutlinedIcon />
                   Manage Blogs
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to="/enquiryRequest"
-                  className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
-                    pathname.includes('/payments/viewPayments') &&
-                    'bg-graydark dark:bg-meta-4'
-                  }`}
-                >
-                  <BorderColorOutlinedIcon/>
-           
-                  Manage Enquiry Requests
                 </NavLink>
               </li>
             </ul>
