@@ -3,26 +3,26 @@
 import React, { useEffect, useState } from 'react';
 import Delete from '../../components/Delete';
 import { useSelector, useDispatch } from 'react-redux';
-import { Navigate, useNavigate } from 'react-router';
-import { deleteProduct, getAllProducts } from '../../features/actions/product';
+import { useNavigate } from 'react-router';
+import { deleteBanner, getAllBanners } from '../../features/actions/banner';
 import { Stack,Skeleton } from '@mui/material';
 
 
 
 
 
-const ViewProduct = () => {
-  const { productData, isDeleted, isLoading } = useSelector((state) => state.product);
+const ViewBanner = () => {
+  const { bannerData, isDeleted, isLoading } = useSelector((state) => state.banner);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   useEffect(() => {
-   dispatch(getAllProducts());
+   dispatch(getAllBanners());
   }, []);
 
   useEffect(() => {
 if(isDeleted){
-  dispatch(getAllProducts());
+  dispatch(getAllBanners());
 }
   }, [isDeleted]);
 
@@ -32,7 +32,7 @@ if(isDeleted){
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [id, setId] = useState();
   const handleDelete = () => {
-    dispatch(deleteProduct(id));
+    dispatch(deleteBanner(id));
 
     setShowDeleteModal(false);
     setId('');
@@ -42,8 +42,8 @@ if(isDeleted){
     setShowDeleteModal(true);
     setId(ID);
   }; 
-  const handleAddProduct = () => {
-    navigate('/createProduct');
+  const handleAddBanner = () => {
+    navigate('/createBanner');
   };
   return (
     <>
@@ -51,18 +51,18 @@ if(isDeleted){
         <div className="items-start justify-between md:flex">
           <div className="max-w-lg">
             <h3 className="text-gray-800 text-xl font-bold sm:text-2xl">
-              Manage Products
+              Manage Banners
             </h3>
             <p className="text-gray-600 mt-2">
-            This page is for handle products by Create, Update and Delete
+            This page is for handle Banners by Create, Update and Delete
             </p>
           </div>
           <div className="mt-3 md:mt-0">
             <a
-              onClick={handleAddProduct}
+              onClick={handleAddBanner}
               className="inline-block px-4 py-2 text-white duration-150 font-medium bg-indigo-600 rounded-lg hover:bg-indigo-500 active:bg-indigo-700 md:text-sm"
             >
-              Add Product
+              Add Banner
             </a>
           </div>
         </div>
@@ -71,9 +71,10 @@ if(isDeleted){
             <thead className="bg-gray-50 text-gray-600 font-medium border-b">
               <tr>
                 <th className="py-3 px-6">ID</th>
-                <th className="py-3 px-6">Product Name</th>
-                <th className="py-3 px-6">Product Image</th>
-                <th className="py-3 px-6">Price</th>
+                <th className="py-3 px-6">Banner Title</th>
+                <th className="py-3 px-6">Banner Image</th>
+                <th className="py-3 px-6">Actions</th>
+              
                 
               </tr>
             </thead>
@@ -91,23 +92,21 @@ if(isDeleted){
             </td>
           </tr>
           ) : (
-               Array.isArray(productData) && productData.length > 0 && productData?.map((item, idx) => (
+               Array.isArray(bannerData) && bannerData.length > 0 && bannerData?.map((item, idx) => (
                   <tr key={idx}>
                     <td className="px-6 py-4 whitespace-nowrap">{item?._id}</td>
                     <td className="px-6 py-4 whitespace-nowrap ">
-                      {item?.productName}
+                      {item?.title}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <img className='rounded-lg h-20 w-25' src={`${item?.productImg?.path}`} />
+                      <img className='rounded-lg h-20 w-25' src={`${item?.banner}`} />
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      {item?.price}
-                    </td>
+                    
                    
                     <td className=" whitespace-nowrap">
                       <a
                         onClick={() => {
-                          navigate(`/updateProduct/${item?._id}`, { state: item  });
+                          navigate(`/updateBanner/${item?._id}`, { state: item  });
                         }}
                         className="py-2 px-3 font-semibold text-indigo-500 hover:text-indigo-600 duration-150 hover:bg-gray-50 rounded-lg"
                       >
@@ -137,4 +136,4 @@ if(isDeleted){
   );
 };
 
-export default ViewProduct;
+export default ViewBanner;

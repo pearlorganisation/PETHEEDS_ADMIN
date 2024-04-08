@@ -50,8 +50,7 @@ const ViewSubjects = () => {
               Manage Subjects
             </h3>
             <p className="text-gray-600 mt-2">
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry.
+            This page is for handle subjects by Create, Update and Delete
             </p>
           </div>
           <div className="mt-3 md:mt-0">

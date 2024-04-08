@@ -15,24 +15,18 @@ const navigate=useNavigate()
 
   const {productData,isLoading} = useSelector((state)=>state.product)
 
-const [selectedPhoto,setSelectedPhoto]=useState("")
+
 const [selectedGallery,setSelectedGallery]=useState([])
 
 
-    const {register,handleSubmit,formState: { errors },}=useForm({
-        defaultValues:{
-          productName:"",
-          price:"",
-          about:"",
-          description:"",
-        }
-        })
+    const {register,handleSubmit,formState: { errors },}=useForm()
 
         const onSubmit = data =>{
           console.log(data)
           const formData = new FormData()
           formData.append("productName",data?.productName)
           formData.append("price",data?.price)
+          formData.append("discount",data?.discount)
           formData.append("about",data?.about)
           formData.append("description",data?.description)
           Array.from(data?.productImg).forEach((img) => {
@@ -54,13 +48,13 @@ const [selectedGallery,setSelectedGallery]=useState([])
 
           const [photo, setPhoto] = useState("");
           const defaultPhoto =
-            "https://via.placeholder.com/130?text=No+Image+Selected";
+            "https://media.istockphoto.com/id/1147544807/vector/thumbnail-image-vector-graphic.jpg?s=612x612&w=0&k=20&c=rnCKVbdxqkjlcs3xH87-9gocETqpspHFXu5dIGB4wuM=";
         
             const [gallery, setGallery] = useState([]);
           
            const handlePhotoChange = (e) => {
                 const selectedPhoto = e.target.files[0];
-                setSelectedPhoto(e.target.files)
+                
                 if (selectedPhoto) {
                   
                   const reader = new FileReader();
@@ -154,6 +148,8 @@ const [selectedGallery,setSelectedGallery]=useState([])
                   )}
           </div>
           <div className="w-full">
+            <div className="flex gap-4">
+              <div className="w-full">
             <label className="font-medium">Price</label>
             <input
             {...register('price', { required: 'Price is required' })}
@@ -165,6 +161,18 @@ const [selectedGallery,setSelectedGallery]=useState([])
                       Price of Product is required
                     </span>
                   )}
+                  </div>
+                  <div>
+                  <label className="font-medium">Discount</label>
+                  <div className="flex gap-2">
+            <input
+            {...register('discount' )}
+              type="text"
+              className="w-full mt-2  px-5 py-2 text-gray-500 border-slate-300 bg-transparent outline-none border focus:border-teal-400 shadow-sm rounded-lg"
+            /><span className="font-bold mt-4">%</span></div>
+             
+                  </div>
+                  </div>
           </div>
             </div>
           

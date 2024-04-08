@@ -7,7 +7,7 @@ export const getAllEnquiryRequests = createAsyncThunk(
   'getEnquiryRequest',
   async (payload, { rejectWithValue }) => {
     try {
-      const { data } = await instance.get('/enquiryRequest', payload, {
+      const { data } = await instance.get('/callbackRequest', payload, {
         withCredentials: true,
       });
       console.log(data, 'datatattatatatat');
@@ -21,12 +21,12 @@ export const getAllEnquiryRequests = createAsyncThunk(
 //delete enquiryRequest api
 export const deleteEnquiryRequest = createAsyncThunk(
   'deleteEnquiryRequest',
-  async (payload, { rejectWithValue }) => {
+  async (id, { rejectWithValue }) => {
     try {
-      console.log(payload, 'payloaad');
+  
       const response = await instance.delete(
-        `/enquiryRequest/${payload}`,
-        {},
+        `/callbackRequest/${id}`,
+      
         { withCredentials: true }
       );
       return response;

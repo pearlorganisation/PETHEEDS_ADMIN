@@ -10,6 +10,8 @@ import appointment from './slices/appointment'
 import user from './slices/user';
 import blog from './slices/blog';
 import enquiryRequest from './slices/enquiryRequest';
+import banner from './slices/banner';
+
 
 
 // ---------------------------------------------------------
@@ -38,6 +40,7 @@ const reducer = combineReducers({
   user,
   blog,
   enquiryRequest,
+  banner
 
   // omitedPart: OmitReducer // not persisting this reducer
 });

@@ -1,14 +1,10 @@
 import { lazy } from 'react';
+import createBanner from '../pages/Banners/createBanner';
+import ViewBanners from '../pages/Banners/ViewBanners';
 
-// const Calendar = lazy(() => import('../pages/Calendar'));
-// const Chart = lazy(() => import('../pages/Chart'));
-// const FormElements = lazy(() => import('../pages/Form/FormElements'));
-// const FormLayout = lazy(() => import('../pages/Form/FormLayout'));
-const Profile = lazy(() => import('../pages/Profile'));
-const Settings = lazy(() => import('../pages/Settings'));
-// const Tables = lazy(() => import('../pages/Tables'));
-// const Alerts = lazy(() => import('../pages/UiElements/Alerts'));
-// const Buttons = lazy(() => import('../pages/UiElements/Buttons'));
+
+
+
 // ------------------------------------------------------------------------------
 
 // New Routes
@@ -18,23 +14,7 @@ const SignIn = lazy(() => import('../pages/Authentication/SignIn'));
 const SignUp = lazy(() => import('../pages/Authentication/SignUp'));
 
 
-const CreateRole = lazy(() =>
-  import('../pages/Authentication/roles/CreateRole')
-);
-const ViewRoles = lazy(() => import('../pages/Authentication/roles/ViewRoles'));
-const UpdateRole = lazy(() =>
-  import('../pages/Authentication/roles/UpdateRole')
-);
 
-const CreatePermission = lazy(() =>
-  import('../pages/Authentication/permissions/CreatePermission')
-);
-const ViewPermissions = lazy(() =>
-  import('../pages/Authentication/permissions/ViewPermissions')
-);
-const UpdatePermission = lazy(() =>
-  import('../pages/Authentication/permissions/UpdatePermission')
-);
 const CreateProduct = lazy(() =>
   import('../pages/Products/CreateProduct')
 );
@@ -73,57 +53,11 @@ const ViewEnquiryRequests = lazy(() =>
   import('../pages/EnquiryRequests/ViewEnquiryRequest')
 );
 
+
 // ------------------------------------------------------------------------------
 const coreRoutes = [
-  // {
-  //   path: '/calendar',
-  //   title: 'Calender',
-  //   component: Calendar,
-  // },
-  {
-    path: '/profile',
-    title: 'Profile',
-    component: Profile,
-  },
-  // {
-  //   path: "/forms/form-elements",
-  //   title: "Forms Elements",
-  //   component: FormElements,
-  // },
-  // {
-  //   path: "/forms/form-layout",
-  //   title: "Form Layouts",
-  //   component: FormLayout,
-  // },
-  // {
-  //   path: "/tables",
-  //   title: "Tables",
-  //   component: Tables,
-  // },
-  {
-    path: '/settings',
-    title: 'Settings',
-    component: Settings,
-  },
-  // {
-  //   path: "/chart",
-  //   title: "Chart",
-  //   component: Chart,
-  // },
-  // {
-  //   path: "/ui/alerts",
-  //   title: "Alerts",
-  //   component: Alerts,
-  // },
-  // {
-  //   path: "/ui/buttons",
-  //   title: "Buttons",
-  //   component: Buttons,
-  // },
-  // ------------------------------------------------------------------------------
-
-  // New Routes
-  // Users Routes
+ 
+ 
  
   {
     path: '/users',
@@ -142,23 +76,7 @@ const coreRoutes = [
   },
   
 
-  // Roles Routes
-  {
-    path: '/roles/createRole',
-    title: 'Create Role',
-    component: CreateRole,
-  },
-  {
-    path: '/roles/viewRoles',
-    title: 'View Roles',
-    component: ViewRoles,
-  },
-  {
-    path: '/roles/updateRole/:roleId',
-    title: 'Update Product',
-    component: UpdateRole,
-  },
-  // Products Routes
+ 
   {
     path: '/createProduct',
     title: 'Create Product',
@@ -225,22 +143,18 @@ const coreRoutes = [
     component: UpdateSubject,
   },
 
-  // Permissions Routes
+  // Banner Routes
   {
-    path: '/permissions/createPermission',
-    title: 'Create Permission',
-    component: CreatePermission,
+    path: '/createBanner',
+    title: 'Create Banner',
+    component: createBanner,
   },
   {
-    path: '/permissions/viewPermissions',
-    title: 'View Permissions',
-    component: ViewPermissions,
+    path: '/banner',
+    title: 'View Banners',
+    component: ViewBanners,
   },
-  {
-    path: '/permissions/updatePermission/:permissionId',
-    title: 'Update Permission',
-    component: UpdatePermission,
-  },
+  
 ];
 
 const routes = [...coreRoutes];

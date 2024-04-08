@@ -53,15 +53,15 @@ const DropdownUser = () => {
         to="#"
       >
         <span className="hidden text-right lg:block">
-          <span className="block text-sm font-medium text-black dark:text-white">
+          {/* <span className="block text-sm font-medium text-black dark:text-white">
             Thomas Anree
-          </span>
-          <span className="block text-xs">UX Designer</span>
+          </span> */}
+          <span className="block text-xs">Admin</span>
         </span>
 
-        <span className="h-12 w-12 rounded-full">
+        {/* <span className="h-12 w-12 rounded-full">
           <img src={UserOne} alt="User" />
-        </span>
+        </span> */}
 
         <svg
           className={`hidden fill-current sm:block ${

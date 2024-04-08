@@ -7,6 +7,7 @@ import CalendarMonthOutlinedIcon from '@mui/icons-material/CalendarMonthOutlined
 import SubjectOutlinedIcon from '@mui/icons-material/SubjectOutlined';
 import MessageOutlinedIcon from '@mui/icons-material/MessageOutlined';
 import BorderColorOutlinedIcon from '@mui/icons-material/BorderColorOutlined';
+import ViewCarouselIcon from '@mui/icons-material/ViewCarousel';
 // -------------------------------------------------------------------------------
 
 const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
@@ -63,7 +64,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
   return (
     <aside
       ref={sidebar}
-      className={`absolute left-0 top-0 z-9999 flex h-screen w-72.5 flex-col overflow-y-hidden bg-black duration-300 ease-linear dark:bg-boxdark lg:static lg:translate-x-0 ${
+      className={`absolute left-0 top-0 z-0 flex h-screen w-72.5 flex-col overflow-y-hidden bg-black duration-300 ease-linear dark:bg-boxdark lg:static lg:translate-x-0 ${
         sidebarOpen ? 'translate-x-0' : '-translate-x-full'
       }`}
     >
@@ -153,7 +154,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                           />
                         </svg>
                         Dashboard
-                        <svg
+                        {/* <svg
                           className={`absolute right-4 top-1/2 -translate-y-1/2 fill-current ${
                             open && 'rotate-180'
                           }`}
@@ -169,9 +170,9 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                             d="M4.41107 6.9107C4.73651 6.58527 5.26414 6.58527 5.58958 6.9107L10.0003 11.3214L14.4111 6.91071C14.7365 6.58527 15.2641 6.58527 15.5896 6.91071C15.915 7.23614 15.915 7.76378 15.5896 8.08922L10.5896 13.0892C10.2641 13.4147 9.73651 13.4147 9.41107 13.0892L4.41107 8.08922C4.08563 7.76378 4.08563 7.23614 4.41107 6.9107Z"
                             fill=""
                           />
-                        </svg>
+                        </svg> */}
                       </NavLink>
-                      <div
+                      {/* <div
                         className={`translate transform overflow-hidden ${
                           !open && 'hidden'
                         }`}
@@ -189,10 +190,10 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                             </NavLink>
                           </li>
                         </ul>
-                      </div>
+                      </div> */}
                     </React.Fragment>
                   );
-                }}
+                }}  
               </SidebarLinkGroup>
 
               <li>
@@ -266,6 +267,19 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                   <BorderColorOutlinedIcon/>
            
                   Manage Enquiry Requests
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to="/banner"
+                  className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
+                    pathname.includes('/payments/viewPayments') &&
+                    'bg-graydark dark:bg-meta-4'
+                  }`}
+                >
+                  <ViewCarouselIcon/>
+           
+                  Manage Banners
                 </NavLink>
               </li>
             </ul>
