@@ -1,8 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { instance } from '../../services/axiosInterceptor';
 
-
-
 //get all blog api
 export const getAllBlogs = createAsyncThunk(
   'getBlog',
@@ -27,7 +25,7 @@ export const deleteBlog = createAsyncThunk(
       console.log(id, 'id');
       const response = await instance.delete(
         `/blog/${id}`,
-        
+
         { withCredentials: true }
       );
       return response;
@@ -37,15 +35,13 @@ export const deleteBlog = createAsyncThunk(
   }
 );
 
-
 //update Blog api
 export const updateBlog = createAsyncThunk(
   'updateBlog',
-  async ({ id, payload}, { rejectWithValue }) => {
+  async ({ id, payload }, { rejectWithValue }) => {
     try {
       const response = await instance.patch(`/blog/${id}`, payload, {
         withCredentials: true,
-       
       });
       return response;
     } catch (e) {
@@ -57,11 +53,13 @@ export const updateBlog = createAsyncThunk(
 //create Blog api
 export const createBlog = createAsyncThunk(
   'createBlog',
-  async (payload, { rejectWithValue }) => {
+  async ({ formData }, { rejectWithValue }) => {
     try {
-      const response = await instance.post(`/blog`, payload, {
+      const response = await instance.post(`/blog`, formData, {
         withCredentials: true,
-        
+        headers: {
+          'Content-type': 'multipart/form-data',
+        },
       });
       return response;
     } catch (e) {

@@ -40,15 +40,9 @@ const ViewAppointments = lazy(() =>
   import('../pages/Appointments/ViewAppointments')
 );
 
-const CreateSubject = lazy(() =>
-  import('../pages/Subjects/CreateSubject')
-);
-const ViewSubjects = lazy(() =>
-  import('../pages/Subjects/ViewSubjects')
-);
-const UpdateSubject = lazy(() =>
-  import('../pages/Subjects/UpdateSubject')
-);
+const CreateSubject = lazy(() => import('../pages/Subjects/CreateSubject'));
+const ViewSubjects = lazy(() => import('../pages/Subjects/ViewSubjects'));
+const UpdateSubject = lazy(() => import('../pages/Subjects/UpdateSubject'));
 const ViewEnquiryRequests = lazy(() =>
   import('../pages/EnquiryRequests/ViewEnquiryRequest')
 );
@@ -72,9 +66,8 @@ const coreRoutes = [
   {
     path: '/auth/signup',
     title: 'Signup',
-    component:SignUp,
+    component: SignUp,
   },
-  
 
  
   {

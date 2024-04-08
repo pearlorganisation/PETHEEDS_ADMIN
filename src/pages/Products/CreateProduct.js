@@ -166,11 +166,19 @@ const [selectedGallery,setSelectedGallery]=useState([])
                   <label className="font-medium">Discount</label>
                   <div className="flex gap-2">
             <input
-            {...register('discount' )}
+            {...register('discount',{
+              pattern: {
+                value: /^(?:[1-9]|[1-9]\d|99)$/, // Regular expression for numbers from 1 to 99
+                message: 'Discount must be a number from 1 to 99',
+              }, })}
               type="text"
               className="w-full mt-2  px-5 py-2 text-gray-500 border-slate-300 bg-transparent outline-none border focus:border-teal-400 shadow-sm rounded-lg"
             /><span className="font-bold mt-4">%</span></div>
-             
+             {errors.discount && (
+                    <span className="text-red-500">
+                      {errors.discount.message}
+                    </span>
+                  )}
                   </div>
                   </div>
           </div>
