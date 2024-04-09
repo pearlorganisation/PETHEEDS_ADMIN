@@ -18,6 +18,7 @@ const DefaultLayout = lazy(() => import('./layout/DefaultLayout'));
 function App() {
   
  const {isUserLoggedIn , isLoading} = useSelector((state)=>state.auth)
+// const isUserLoggedIn=true;
   const [loading, setLoading] = useState(true);
 
 
@@ -55,7 +56,6 @@ function App() {
         containerClassName="overflow-auto"
       />
       <Routes>
-        <Route path="/" element={<DefaultLayout />}>
           {/* Non Protected Routes  */}
           <Route
             path="/auth/signin"
@@ -66,6 +66,7 @@ function App() {
             element={isUserLoggedIn ? <Navigate to="/" /> : <SignUp />}
           />
           <Route path="*" element={<PageNotFound />} />
+        <Route path="/" element={<DefaultLayout />}>
 
           {/*  Protected Routes  */}
           <Route

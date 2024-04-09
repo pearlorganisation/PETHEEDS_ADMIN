@@ -6,6 +6,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import {  useNavigate } from 'react-router';
 import { Stack,Skeleton } from '@mui/material';
 import { deleteBlog, getAllBlogs } from '../../features/actions/blog';
+import ViewBlogModal from './ViewBlogModal';
 
 const ViewBlog = () => {
   const { blogData, isLoading, isDeleted } = useSelector((state) => state.blog);
@@ -24,8 +25,11 @@ const ViewBlog = () => {
    }, [isDeleted]);
  
 
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [id, setId] = useState();
+   const [showDeleteModal, setShowDeleteModal] = useState(false);
+   const [showViewModal, setShowViewModal] = useState(false);
+   const [viewData, setViewData] = useState();
+
+   const [id, setId] = useState();
   const handleDelete = () => {
     dispatch(deleteBlog(id));
 
@@ -40,6 +44,11 @@ const ViewBlog = () => {
   const handleAddBlog = () => {
     navigate('/createBlog');
   };
+
+  const handleViewModal=(item)=>{
+ setShowViewModal(true)
+ setViewData(item)
+  }
  
 
   console.log();
@@ -53,8 +62,7 @@ const ViewBlog = () => {
               Manage Blogs
             </h3>
             <p className="text-gray-600 mt-2">
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry.
+            This page is for handle blogs by Create, View, Update and Delete
             </p>
           </div>
           <div className="mt-3 md:mt-0">
@@ -109,6 +117,14 @@ const ViewBlog = () => {
 
                     <td className="text-right px-6 whitespace-nowrap">
                       <a
+                         onClick={() => {
+                          handleViewModal(item);
+                        }}
+                        className="py-2 px-3 font-semibold text-green-600 hover:text-green-700 duration-150 hover:bg-gray-50 rounded-lg"
+                      >
+                        View
+                      </a>
+                      <a
                         onClick={() => {
                           navigate(`/updateBlog/${item?._id}`, { state: item });
                         }}
@@ -134,6 +150,9 @@ const ViewBlog = () => {
       </div>
       {showDeleteModal && (
         <Delete setModal={setShowDeleteModal} handleDelete={handleDelete} />
+      )}
+      {showViewModal && (
+        <ViewBlogModal setModal={setShowViewModal} viewData={viewData} />
       )}
     </>
   );

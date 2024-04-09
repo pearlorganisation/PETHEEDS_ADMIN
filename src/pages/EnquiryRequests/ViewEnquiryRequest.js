@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import Delete from '../../components/Delete';
 import { useSelector, useDispatch } from 'react-redux';
-import { Navigate, useNavigate } from 'react-router';
+import { useNavigate } from 'react-router';
 import { deleteEnquiryRequest, getAllEnquiryRequests } from '../../features/actions/enquiryRequest';
 import { Stack,Skeleton } from '@mui/material';
 
@@ -48,8 +48,7 @@ const ViewEnquiryRequests = () => {
               Manage EnquiryRequests
             </h3>
             <p className="text-gray-600 mt-2">
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry.
+            People who have put enquiry requests. 
             </p>
           </div>
        
@@ -87,7 +86,7 @@ const ViewEnquiryRequests = () => {
                       {item?.email}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                    {item?.enquirySubject.subject}
+                    {item?.subject?.subject}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                     {item?.message}
