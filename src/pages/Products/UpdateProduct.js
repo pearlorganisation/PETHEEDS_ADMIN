@@ -18,10 +18,11 @@ const UpdateProduct = () => {
 const [selectedPhoto,setSelectedPhoto]=useState("")
 const [selectedGallery,setSelectedGallery]=useState([])
 
-    const {register,handleSubmit,}=useForm({
+    const {register,handleSubmit,formState:{errors},}=useForm({
         defaultValues:{
           productName: item?.productName || "",
           price:item?.price ||"",
+          discount:item?.discount ||"",
           about:item?.about ||"",
           description:item?.description ||"",
         }
@@ -31,6 +32,7 @@ const [selectedGallery,setSelectedGallery]=useState([])
           const formData = new FormData()
           formData.append("productName",data?.productName)
           formData.append("price",data?.price)
+          formData.append("discount",data?.discount)
           formData.append("about",data?.about)
           formData.append("description",data?.description)
           Array.from(data?.productImg).forEach(img => {
@@ -150,8 +152,8 @@ const [selectedGallery,setSelectedGallery]=useState([])
       </div> 
       <div className="bg-white rounded-lg shadow p-4 py-6  sm:rounded-lg sm:max-w-5xl mt-8 mx-auto">
      <form className="space-y-6 mx-8 sm:mx-2 " onSubmit={handleSubmit(onSubmit)}>
-          <div className="sm:flex justify-between">
-          <div>
+          <div className="sm:flex space-y-6 sm:space-y-0 justify-between gap-10">
+          <div className="w-full">
             <label className="font-medium text-center">Product Name</label>
             <input 
             {...register('productName', { required: 'Name is required' })}
@@ -160,26 +162,52 @@ const [selectedGallery,setSelectedGallery]=useState([])
               className="w-full mt-2 me-35 px-5 py-2 text-gray-500 border-slate-300 bg-transparent outline-none border focus:border-teal-400 shadow-sm rounded-lg"
             />
           </div>
-          <div className="mt-4 sm:mt-0">
+          <div className="w-full">
+            <div className="flex gap-4">
+              <div className="w-full">
             <label className="font-medium">Price</label>
             <input
             {...register('price', { required: 'Price is required' })}
               type="text"
-              
-              className="w-full mt-2 me-[228px] px-5 py-2 text-gray-500 border-slate-300 bg-transparent outline-none border focus:border-teal-400 shadow-sm rounded-lg"
+              className="w-full mt-2  px-5 py-2 text-gray-500 border-slate-300 bg-transparent outline-none border focus:border-teal-400 shadow-sm rounded-lg"
             />
+             {errors.price && (
+                    <span className="text-red-500">
+                      Price of Product is required
+                    </span>
+                  )}
+                  </div>
+                  <div>
+                  <label className="font-medium">Discount</label>
+                  <div className="flex gap-2">
+            <input
+            {...register('discount',{
+              pattern: {
+                value: /^(?:[1-9]|[1-9]\d|99)$/, // Regular expression for numbers from 1 to 99
+                message: 'Discount must be a number from 1 to 99',
+              }, })}
+              type="text"
+              className="w-full mt-2  px-5 py-2 text-gray-500 border-slate-300 bg-transparent outline-none border focus:border-teal-400 shadow-sm rounded-lg"
+            /><span className="font-bold mt-4">%</span></div>
+             {errors.discount && (
+                    <span className="text-red-500">
+                      {errors.discount.message}
+                    </span>
+                  )}
+                  </div>
+                  </div>
           </div>
             </div>
           
-          <div className="sm:flex justify-between">
-          <div>
+          <div className="sm:flex space-y-6 sm:space-y-0 justify-between gap-10">
+          <div className="w-full">
           
             <div  className="font-medium space-y-6"> Product Image 
              
-            <img class="w-20 h:20 sm:w-35 sm:h-35 rounded" src={photo || defaultPhoto} alt="No Image"/>
-            <label htmlFor="file_input" className="flex mr-2
+            <img class="mt-2 w-20 h:20 sm:w-35 sm:h-35 rounded" src={photo || defaultPhoto} alt="No Image"/>
+            <label htmlFor="file_input" className="flex 
             " ><InsertPhotoOutlinedIcon/>
-            <div className="border rounded-md border-slate-300 px-1">Click here to upload</div></label>
+            <div className="w-full px-2 border rounded-md border-slate-300 ">Click here to upload</div></label>
            
             <input
              {...register('productImg',{onChange:(e)=>{handlePhotoChange(e)}})}
@@ -188,10 +216,10 @@ const [selectedGallery,setSelectedGallery]=useState([])
              className="hidden w-54 sm:w-[455px] border-slate-300 text-sm text-gray-500 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" id="file_input" type="file"/>
             </div>
             </div>
-          <div>
+          <div className="w-full">
           
             <div  className="font-medium space-y-6"> Gallery 
-             <div className="flex flex-wrap sm:w-[475px] sm:h-[140px] overflow-auto">
+             <div className="flex mt-2 flex-wrap sm:h-[140px] overflow-auto">
             
              {gallery.map((image, index) => (
           <div key={index} className="relative mr-5">
@@ -212,9 +240,9 @@ const [selectedGallery,setSelectedGallery]=useState([])
         ))}
             </div>
     
-            <label htmlFor="gallery_input" className="flex mr-2" >
+            <label htmlFor="gallery_input" className="flex " >
     <InsertPhotoOutlinedIcon/>
-    <div className="border rounded-md border-slate-300 px-1">Click here to upload</div>
+    <div className="w-full px-2 border rounded-md border-slate-300 ">Click here to upload</div>
   </label>
             <input
              {...register('gallery',{onChange:(e)=>{handleGalleryChange(e)}})}
@@ -227,12 +255,12 @@ const [selectedGallery,setSelectedGallery]=useState([])
             </div>
             </div>
             </div>
-            <div className="sm:flex justify-between">
-          <div>
+            <div className="sm:flex space-y-6 sm:space-y-0 justify-between gap-10">
+          <div className="w-full">
           <label className="block font-medium">About</label>
   <textarea {...register('about', { required: 'About is required' })} rows="4" class="block resize-none w-full mt-2 me-[250px] px-5 py-2 text-gray-500 border-slate-300 bg-transparent outline-none border focus:border-teal-400 shadow-sm rounded-lg" placeholder="Leave a comment..."></textarea>
           </div>
-          <div>
+          <div className="w-full">
           <label className="block font-medium">Description</label>
           <textarea {...register('description', { required: 'Description is required' })} rows="4" class="block resize-none w-full mt-2 me-[270px] px-5 py-2 text-gray-500 border-slate-300 bg-transparent outline-none border focus:border-teal-400 shadow-sm rounded-lg" placeholder="Leave a comment..."></textarea>
           </div>
