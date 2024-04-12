@@ -3,9 +3,11 @@
 import React, { useEffect, useState } from 'react';
 import Delete from '../../components/Delete';
 import { useSelector, useDispatch } from 'react-redux';
-import { Navigate, useNavigate } from 'react-router';
+import { useNavigate } from 'react-router';
 import { deleteProduct, getAllProducts } from '../../features/actions/product';
 import { Stack,Skeleton } from '@mui/material';
+import ViewProductModal from './ViewProductModal';
+
 
 
 
@@ -28,7 +30,8 @@ if(isDeleted){
 
 
  
-
+const [showViewModal,setShowViewModal] = useState(false)
+const [viewData,setViewData]= useState()
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [id, setId] = useState();
   const handleDelete = () => {
@@ -45,9 +48,13 @@ if(isDeleted){
   const handleAddProduct = () => {
     navigate('/createProduct');
   };
+  const handleViewModal=(itemData)=>{
+    setShowViewModal(true)
+    setViewData(itemData)
+  }
   return (
     <>
-      <div className="max-w-screen-xl mx-auto px-4 md:px-8">
+      <div className="max-w-screen-xl ">
         <div className="items-start justify-between md:flex">
           <div className="max-w-lg">
             <h3 className="text-gray-800 text-xl font-bold sm:text-2xl">
@@ -72,15 +79,18 @@ if(isDeleted){
               <tr>
                 <th className="py-3 px-6">ID</th>
                 <th className="py-3 px-6">Product Name</th>
-                <th className="py-3 px-6">Product Image</th>
-                <th className="py-3 px-6">Price</th>
+                <th className="py-3 px-6 ">Product Image </th>
+                <th className="py-3 px-6 ">Category</th>
+            
+                <th className="py-3 px-6">Discount</th>
+                <th className="py-3 px-6">Actions</th>
                 
               </tr>
             </thead>
             <tbody className="text-gray-600 divide-y">
             {isLoading ? (
             <tr>
-            <td colSpan="4" className="text-center px-6 py-8">
+            <td colSpan="7" className="text-center px-6 py-8">
               <Stack spacing={4}>
                 <Skeleton variant="rounded" height={30} />
                 <Skeleton variant="rounded" height={25}/>
@@ -91,28 +101,40 @@ if(isDeleted){
             </td>
           </tr>
           ) : (
-               Array.isArray(productData) && productData.length > 0 && productData?.map((item, idx) => (
+               Array?.isArray(productData) && productData?.length > 0 && productData?.map((item, idx) => (
                   <tr key={idx}>
-                    <td className="px-6 py-4 whitespace-nowrap">{item?._id}</td>
+                    <td className="px-6 py-4 whitespace-nowrap">{idx+1}</td>
                     <td className="px-6 py-4 whitespace-nowrap ">
                       {item?.productName}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
+                    <td className="px-6 py-4 whitespace-nowrap min-w-25 min-h-20">
                       <img className='rounded-lg h-20 w-25' src={`${item?.productImg?.path}`} />
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      {item?.price}
+                      {item?.category?.title}
+                    </td>
+                  
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      {item?.discount} %
                     </td>
                    
                     <td className=" whitespace-nowrap">
-                      <a
+                      <button
+                        onClick={() => {
+                         handleViewModal(item)
+                        }}
+                        className="py-2 px-3 font-semibold text-green-500 hover:text-green-600 duration-150 hover:bg-gray-50 rounded-lg"
+                      >
+                        View
+                      </button>
+                      <button
                         onClick={() => {
                           navigate(`/updateProduct/${item?._id}`, { state: item  });
                         }}
                         className="py-2 px-3 font-semibold text-indigo-500 hover:text-indigo-600 duration-150 hover:bg-gray-50 rounded-lg"
                       >
                         Edit
-                      </a>
+                      </button>
                       <button
                         onClick={() => {
                           handleModal(item?._id);
@@ -132,6 +154,9 @@ if(isDeleted){
       </div>
       {showDeleteModal && (
         <Delete setModal={setShowDeleteModal} handleDelete={handleDelete} />
+      )}
+      {showViewModal && (
+        <ViewProductModal setModal={setShowViewModal} viewData={viewData} />
       )}
     </>
   );

@@ -1,11 +1,12 @@
 import React, { useState,useEffect } from "react";
 import { useDispatch,useSelector } from "react-redux";
-import { useForm } from "react-hook-form";
-
+import { useForm ,Controller,useFieldArray} from "react-hook-form";
+import Select from "react-select";
 import InsertPhotoOutlinedIcon from '@mui/icons-material/InsertPhotoOutlined';
 import { createProduct } from "../../features/actions/product";
 import { useNavigate } from "react-router-dom";
 import { ClipLoader } from "react-spinners";
+import { getAllCategorys } from "../../features/actions/category";
 
 
 
@@ -13,19 +14,36 @@ const CreateProduct = () => {
 const navigate=useNavigate()
   const dispatch = useDispatch();
 
+  const {categoryData}= useSelector((state)=>state.category)
+
   const {productData,isLoading} = useSelector((state)=>state.product)
 
 
 const [selectedGallery,setSelectedGallery]=useState([])
 
 
-    const {register,handleSubmit,formState: { errors },}=useForm()
+const {register,handleSubmit,formState: { errors },control}=useForm({
+  defaultValues:{
+    
+    price:[ {weight:"", price:""},]
+    
+  }
+})
 
+const { fields: priceFields, append: appendPrice, remove: removePrice } = useFieldArray({
+  control,
+  name: "price"
+});
         const onSubmit = data =>{
+          const {category} = data
+         const categoryValue= category.value
           console.log(data)
           const formData = new FormData()
+          formData.append("brand",data?.brand)
           formData.append("productName",data?.productName)
-          formData.append("price",data?.price)
+          formData.append("category",categoryValue)
+          formData.append("newInStore",data?.newInStore)
+          formData.append("price",JSON.stringify(data?.price))
           formData.append("discount",data?.discount)
           formData.append("about",data?.about)
           formData.append("description",data?.description)
@@ -37,9 +55,9 @@ const [selectedGallery,setSelectedGallery]=useState([])
           });
         
           // console.log("formdata", formData.getAll('gallery'));
-          // console.log("productImg", formData.getAll('productImg'));
+          console.log("category", formData.getAll('category'));
           
-          // console.log("gallery::",data?.gallery)
+          console.log("category::",categoryValue)
           // console.log("productImg::",data?.productImg)
           dispatch(createProduct(formData));
           
@@ -122,6 +140,10 @@ const [selectedGallery,setSelectedGallery]=useState([])
                 }
               }, [productData]);
 
+              useEffect(() => {
+                dispatch(getAllCategorys())
+              }, [dispatch]);
+
   return (
     <div>
         <div className="bg-gray-800">
@@ -135,6 +157,19 @@ const [selectedGallery,setSelectedGallery]=useState([])
         <form className="space-y-6 mx-8 sm:mx-2" onSubmit={handleSubmit(onSubmit)}  >
           <div className="sm:flex space-y-6 sm:space-y-0 justify-between gap-10">
           <div className="w-full">
+            <label className="font-medium">Product Brand</label>
+            <input 
+            {...register('brand', { required: true })}
+              type="text"
+              className="w-full mt-2  px-5 py-2 text-gray-500 border-slate-300 bg-transparent outline-none border focus:border-teal-400 shadow-sm rounded-lg"
+            />
+             {errors.brand && (
+                    <span className="text-red-500">
+                      Brand of Product is required
+                    </span>
+                  )}
+          </div>
+          <div className="w-full">
             <label className="font-medium">Product Name</label>
             <input 
             {...register('productName', { required: 'Name is required' })}
@@ -147,22 +182,48 @@ const [selectedGallery,setSelectedGallery]=useState([])
                     </span>
                   )}
           </div>
+       
+         
+            </div>
+          <div className="sm:flex space-y-6 sm:space-y-0 justify-between gap-10">
           <div className="w-full">
-            <div className="flex gap-4">
-              <div className="w-full">
-            <label className="font-medium">Price</label>
-            <input
-            {...register('price', { required: 'Price is required' })}
-              type="text"
-              className="w-full mt-2  px-5 py-2 text-gray-500 border-slate-300 bg-transparent outline-none border focus:border-teal-400 shadow-sm rounded-lg"
-            />
-             {errors.price && (
+            <label className="font-medium">Category</label>
+            <Controller 
+                                      control={control}
+                                      name="category"
+                                      render={({ field }) => (
+                                          <Select
+                                              value={field.value}
+                                              options={Array.isArray(categoryData)&& categoryData.length> 0 && categoryData.map(item=> ({ value: item?._id, label: item?.title }))}
+                                              onChange={(selectedOption) => field.onChange(selectedOption)}
+                                              className="mt-2 "
+                                              placeholder="Choose Category "
+                                             
+                                              styles={{
+                                                  control: (provided) => ({
+                                                      ...provided,
+                                                      border: '1px solid #CBD5E1', // Set custom border style
+                                                      borderRadius: '0.400rem', // Set custom border radius
+                                                      height: '40px', // Add height here
+                                                  }),
+                                                  placeholder: (provided) => ({
+                                                      ...provided,
+                                                      color: '#9CA3AF', // Set custom placeholder color
+                                                  }),
+                                              }}
+ 
+                                          />
+                                     )}
+                                      rules={{ required: true }}
+                                      
+                                  />
+             {errors.category && (
                     <span className="text-red-500">
-                      Price of Product is required
+                      Category is required
                     </span>
                   )}
-                  </div>
-                  <div>
+          </div>
+          <div className="w-full">
                   <label className="font-medium">Discount</label>
                   <div className="flex gap-2">
             <input
@@ -180,10 +241,74 @@ const [selectedGallery,setSelectedGallery]=useState([])
                     </span>
                   )}
                   </div>
-                  </div>
-          </div>
+       
+         
             </div>
           
+          
+            <div className="sm:flex sm:space-y-0 justify-between ">
+
+          
+<label className="font-bold  text-black">Weight and Price </label>
+<button
+type="button"
+className=" border rounded-md  bg-pink-700 text-white font-semibold text-xl px-2 hover:bg-slate-950"
+onClick={() => appendPrice({ price: ""})}
+>
++
+</button>
+</div>
+<ul>
+{priceFields.map((item, index) => (
+<li key={item.id}>
+
+<div className="sm:flex gap-10 ">
+<div className="w-full">
+
+<input
+{...register(`price.${index}.weight`, { required: 'Weight is required' })}
+  type="text"
+  placeholder=" Weight "
+  className="w-full mt-2 px-5 py-2 text-gray-500 border-slate-300 bg-transparent outline-none border focus:border-teal-400 shadow-sm rounded-lg"
+/>
+
+</div>
+<div className="w-full">
+
+<input
+{...register(`price.${index}.price`, { required: 'Price is required' })}
+  type="text"
+  placeholder=" Regular Price "
+  className="w-full mt-2 px-5 py-2 text-gray-500 border-slate-300 bg-transparent outline-none border focus:border-teal-400 shadow-sm rounded-lg"
+/>
+
+</div>
+
+</div>
+{ index>0 && (
+<button className=" border rounded-md bg-rose-500 text-white text-xs px-2 hover:bg-slate-950" type="button" onClick={() => removePrice(index)}>Delete</button>)
+}
+</li>
+
+))}
+</ul>
+{errors.price && (
+<span className="text-red-500">
+  Both Fields are required
+</span>
+)}
+
+                  <div className="sm:flex space-y-6 sm:space-y-0 justify-between gap-10">
+          <div className="mt-2 w-full">
+          <div class="flex items-center mb-4">
+    <label for="default-checkbox" className="font-medium text-gray-900 dark:text-gray-300">New In Store</label>
+    <input
+    {...register("newInStore")}
+     id="default-checkbox" type="checkbox" value="" class="ms-2 me-2 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>(Check to display in New in Store) 
+</div>
+            </div>
+            
+            </div>
           <div className="sm:flex space-y-6 sm:space-y-0 justify-between gap-10">
           <div className="w-full">
           
@@ -253,7 +378,7 @@ const [selectedGallery,setSelectedGallery]=useState([])
             <div className="sm:flex space-y-6 sm:space-y-0 justify-between gap-10">
           <div className="w-full">
           <label className="font-medium">About</label>
-  <textarea {...register('about', { required: 'About is required' })}  rows="4" class="resize-none w-full mt-2 px-5 py-2 text-gray-500 border-slate-300 bg-transparent outline-none border focus:border-teal-400 shadow-sm rounded-lg" placeholder="Leave a comment..."></textarea>
+  <textarea {...register('about', { required: 'About is required' })}  rows="6" class="resize-none w-full mt-2 px-5 py-2 text-gray-500 border-slate-300 bg-transparent outline-none border focus:border-teal-400 shadow-sm rounded-lg" placeholder="Leave a comment..."></textarea>
   {errors.about && (
                     <span className="text-red-500">
                       About of Product is required
@@ -262,7 +387,7 @@ const [selectedGallery,setSelectedGallery]=useState([])
           </div>
           <div className="w-full">
           <label className="font-medium">Description</label>
-          <textarea {...register('description', { required: 'Description is required' })} rows="4" class="resize-none w-full mt-2 px-5 py-2 text-gray-500 border-slate-300 bg-transparent outline-none border focus:border-teal-400 shadow-sm rounded-lg" placeholder="Leave a comment..."></textarea>
+          <textarea {...register('description', { required: 'Description is required' })} rows="6" class="resize-none w-full mt-2 px-5 py-2 text-gray-500 border-slate-300 bg-transparent outline-none border focus:border-teal-400 shadow-sm rounded-lg" placeholder="Leave a comment..."></textarea>
           {errors.description && (
                     <span className="text-red-500">
                       Description of Product is required

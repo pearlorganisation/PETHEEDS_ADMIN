@@ -24,12 +24,12 @@ const CardThree = () => {
       <div className="mt-4 flex items-end justify-between">
         <div>
           <h4 className="text-title-md font-bold text-black dark:text-white">
-            2.450
+            99...
           </h4>
-          <span className="text-sm font-medium">Total Product</span>
+          <span className="text-sm font-medium">Total Enquiry Requests</span>
         </div>
 
-        <span className="flex items-center gap-1 text-sm font-medium text-meta-3">
+        {/* <span className="flex items-center gap-1 text-sm font-medium text-meta-3">
           2.59%
           <svg
             className="fill-meta-3"
@@ -44,7 +44,7 @@ const CardThree = () => {
               fill=""
             />
           </svg>
-        </span>
+        </span> */}
       </div>
     </div>
   );

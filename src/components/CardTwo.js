@@ -28,12 +28,12 @@ const CardTwo = () => {
       <div className="mt-4 flex items-end justify-between">
         <div>
           <h4 className="text-title-md font-bold text-black dark:text-white">
-            $45,2K
+            99...
           </h4>
-          <span className="text-sm font-medium">Total Profit</span>
+          <span className="text-sm font-medium">Total Appointments</span>
         </div>
 
-        <span className="flex items-center gap-1 text-sm font-medium text-meta-3">
+        {/* <span className="flex items-center gap-1 text-sm font-medium text-meta-3">
           4.35%
           <svg
             className="fill-meta-3"
@@ -48,7 +48,7 @@ const CardTwo = () => {
               fill=""
             />
           </svg>
-        </span>
+        </span> */}
       </div>
     </div>
   );

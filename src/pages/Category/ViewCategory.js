@@ -3,35 +3,36 @@
 import React, { useEffect, useState } from 'react';
 import Delete from '../../components/Delete';
 import { useSelector, useDispatch } from 'react-redux';
-import {  useNavigate } from 'react-router';
+import { useNavigate } from 'react-router';
+import { deleteCategory, getAllCategorys } from '../../features/actions/category';
 import { Stack,Skeleton } from '@mui/material';
-import { deleteBlog, getAllBlogs } from '../../features/actions/blog';
-import ViewBlogModal from './ViewBlogModal';
 
-const ViewBlog = () => {
-  const { blogData, isLoading, isDeleted } = useSelector((state) => state.blog);
- 
+
+
+
+
+const ViewCategory = () => {
+  const { categoryData, isDeleted, isLoading } = useSelector((state) => state.category);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getAllBlogs());
-   }, []);
- 
-   useEffect(() => {
- if(isDeleted){
-   dispatch(getAllBlogs());
- }
-   }, [isDeleted]);
+   dispatch(getAllCategorys());
+  }, []);
+
+  useEffect(() => {
+if(isDeleted){
+  dispatch(getAllCategorys());
+}
+  }, [isDeleted]);
+
+
  
 
-   const [showDeleteModal, setShowDeleteModal] = useState(false);
-   const [showViewModal, setShowViewModal] = useState(false);
-   const [viewData, setViewData] = useState();
-
-   const [id, setId] = useState();
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [id, setId] = useState();
   const handleDelete = () => {
-    dispatch(deleteBlog(id));
+    dispatch(deleteCategory(id));
 
     setShowDeleteModal(false);
     setId('');
@@ -40,37 +41,28 @@ const ViewBlog = () => {
   const handleModal = (ID) => {
     setShowDeleteModal(true);
     setId(ID);
+  }; 
+  const handleAddCategory = () => {
+    navigate('/createCategory');
   };
-  const handleAddBlog = () => {
-    navigate('/createBlog');
-  };
-
-  const handleViewModal=(item)=>{
- setShowViewModal(true)
- setViewData(item)
-  }
- 
-
-  console.log();
-
   return (
     <>
-      <div className="max-w-screen-xl">
+      <div className="max-w-screen-xl mx-auto px-4 md:px-8">
         <div className="items-start justify-between md:flex">
           <div className="max-w-lg">
             <h3 className="text-gray-800 text-xl font-bold sm:text-2xl">
-              Manage Blogs
+              Manage Category
             </h3>
             <p className="text-gray-600 mt-2">
-            This page is for handle blogs by Create, View, Update and Delete
+            This page is for handle Category by Create, Update and Delete
             </p>
           </div>
           <div className="mt-3 md:mt-0">
             <a
-              onClick={handleAddBlog}
+              onClick={handleAddCategory}
               className="inline-block px-4 py-2 text-white duration-150 font-medium bg-indigo-600 rounded-lg hover:bg-indigo-500 active:bg-indigo-700 md:text-sm"
             >
-              Add Blog
+              Add Category
             </a>
           </div>
         </div>
@@ -79,11 +71,11 @@ const ViewBlog = () => {
             <thead className="bg-gray-50 text-gray-600 font-medium border-b">
               <tr>
                 <th className="py-3 px-6">ID</th>
-                <th className="py-3 px-6">Created By</th>
-                <th className="py-3 px-6">Blog Topic</th>
-               
-
-               
+                <th className="py-3 px-6">Category Title</th>
+                <th className="py-3 px-6">Category Image</th>
+                <th className="py-3 px-6">Actions</th>
+              
+                
               </tr>
             </thead>
             <tbody className="text-gray-600 divide-y">
@@ -100,36 +92,26 @@ const ViewBlog = () => {
             </td>
           </tr>
           ) : (
-                blogData &&  Array.isArray(blogData) &&
-                blogData?.map((item, idx) => (
+               Array.isArray(categoryData) && categoryData.length > 0 && categoryData?.map((item, idx) => (
                   <tr key={idx}>
-                    <td className="px-6 py-4 whitespace-nowrap">{idx+1}</td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      {/* {item?.createdBy} */}
-                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">{item?._id}</td>
                     <td className="px-6 py-4 whitespace-nowrap ">
-                      {item?.topic}
+                      {item?.title}
                     </td>
-
-                  
-
-                    <td className="text-right px-6 whitespace-nowrap">
-                      <button
-                         onClick={() => {
-                          handleViewModal(item);
-                        }}
-                        className="py-2 px-3 font-semibold text-green-600 hover:text-green-700 duration-150 hover:bg-gray-50 rounded-lg"
-                      >
-                        View
-                      </button>
-                      <button
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <img className='rounded-lg h-20 w-25' src={`${item?.categoryImg}`} />
+                    </td>
+                    
+                   
+                    <td className=" whitespace-nowrap">
+                      <a
                         onClick={() => {
-                          navigate(`/updateBlog/${item?._id}`, { state: item });
+                          navigate(`/updateCategory/${item?._id}`, { state: item  });
                         }}
                         className="py-2 px-3 font-semibold text-indigo-500 hover:text-indigo-600 duration-150 hover:bg-gray-50 rounded-lg"
                       >
                         Edit
-                      </button>
+                      </a>
                       <button
                         onClick={() => {
                           handleModal(item?._id);
@@ -141,6 +123,7 @@ const ViewBlog = () => {
                     </td>
                   </tr>
                 ))
+              
               )}
             </tbody>
           </table>
@@ -149,11 +132,8 @@ const ViewBlog = () => {
       {showDeleteModal && (
         <Delete setModal={setShowDeleteModal} handleDelete={handleDelete} />
       )}
-      {showViewModal && (
-        <ViewBlogModal setModal={setShowViewModal} viewData={viewData} />
-      )}
     </>
   );
 };
 
-export default ViewBlog;
+export default ViewCategory;

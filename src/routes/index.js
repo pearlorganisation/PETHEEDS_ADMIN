@@ -5,6 +5,7 @@ import ViewBanners from '../pages/Banners/ViewBanners';
 
 
 
+
 // ------------------------------------------------------------------------------
 
 // New Routes
@@ -38,6 +39,12 @@ const CreateAppointment = lazy(() =>
 );
 const ViewAppointments = lazy(() =>
   import('../pages/Appointments/ViewAppointments')
+);
+const CreateCategory = lazy(() =>
+  import('../pages/Category/CreateCategory')
+);
+const ViewCategory = lazy(() =>
+  import('../pages/Category/ViewCategory')
 );
 
 const CreateSubject = lazy(() => import('../pages/Subjects/CreateSubject'));
@@ -146,6 +153,19 @@ const coreRoutes = [
     path: '/banner',
     title: 'View Banners',
     component: ViewBanners,
+  },
+  
+
+  // Category Routes
+  {
+    path: '/createCategory',
+    title: 'Create Category',
+    component: CreateCategory,
+  },
+  {
+    path: '/category',
+    title: 'View Category',
+    component: ViewCategory,
   },
   
 ];
