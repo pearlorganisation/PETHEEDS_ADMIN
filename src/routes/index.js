@@ -1,6 +1,9 @@
 import { lazy } from 'react';
 import createBanner from '../pages/Banners/createBanner';
 import ViewBanners from '../pages/Banners/ViewBanners';
+import ViewBrands from '../pages/Brand/ViewBrand';
+import CreateBrand from '../pages/Brand/CreateBrand';
+import UpdateBrand from '../pages/Brand/UpdateBrand';
 
 
 
@@ -166,6 +169,22 @@ const coreRoutes = [
     path: '/category',
     title: 'View Category',
     component: ViewCategory,
+  },
+  // Brand Routes
+  {
+    path: '/createBrand',
+    title: 'Create Brand',
+    component: CreateBrand,
+  },
+  {
+    path: '/updateBrand/:id',
+    title: 'Update Brand',
+    component: UpdateBrand,
+  },
+  {
+    path: '/brand',
+    title: 'View Brand',
+    component: ViewBrands,
   },
   
 ];

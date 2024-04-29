@@ -60,7 +60,7 @@ export default function ViewProductModal ({viewData,setModal}) {
     <tbody className="text-gray-600">
       <tr>
         <td className="py-2 px-4 border border-gray-300">Brand Name</td>
-        <td className="py-2 px-4 border border-gray-300">{viewData ? viewData?.brand : ''}</td>
+        <td className="py-2 px-4 border border-gray-300">{viewData ? viewData?.brand?.brand : ''}</td>
       </tr>
       <tr>
         <td className="py-2 px-4 border border-gray-300">Product Name</td>

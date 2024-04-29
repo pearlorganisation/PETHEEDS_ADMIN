@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
-import SidebarLinkGroup from './SidebarLinkGroup';
-import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
+
 import InventoryOutlinedIcon from '@mui/icons-material/InventoryOutlined';
 import CalendarMonthOutlinedIcon from '@mui/icons-material/CalendarMonthOutlined';
 import SubjectOutlinedIcon from '@mui/icons-material/SubjectOutlined';
@@ -9,6 +8,7 @@ import MessageOutlinedIcon from '@mui/icons-material/MessageOutlined';
 import BorderColorOutlinedIcon from '@mui/icons-material/BorderColorOutlined';
 import ViewCarouselIcon from '@mui/icons-material/ViewCarousel';
 import GridViewOutlinedIcon from '@mui/icons-material/GridViewOutlined';
+import CategoryOutlinedIcon from '@mui/icons-material/CategoryOutlined';
 // -------------------------------------------------------------------------------
 
 const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
@@ -126,6 +126,18 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                       </li>
                       <li>
                 <NavLink
+                  to="/brand"
+                  className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
+                    pathname.includes('/roles/viewRoles') &&
+                    'bg-graydark dark:bg-meta-4'
+                  }`}
+                >
+                  <InventoryOutlinedIcon />
+                  Manage Brands
+                </NavLink>
+              </li>
+                      <li>
+                <NavLink
                   to="/product"
                   className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
                     pathname.includes('/roles/viewRoles') &&
@@ -206,7 +218,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                     'bg-graydark dark:bg-meta-4'
                   }`}
                 >
-                  <ViewCarouselIcon/>
+                  <CategoryOutlinedIcon/>
            
                   Manage Category
                 </NavLink>

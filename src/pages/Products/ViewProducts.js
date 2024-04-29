@@ -7,28 +7,45 @@ import { useNavigate } from 'react-router';
 import { deleteProduct, getAllProducts } from '../../features/actions/product';
 import { Stack,Skeleton } from '@mui/material';
 import ViewProductModal from './ViewProductModal';
-
+import Pagination from '@mui/material/Pagination'
 
 
 
 
 
 const ViewProduct = () => {
+  
   const { productData, isDeleted, isLoading } = useSelector((state) => state.product);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  const [page,setPage] = useState(1)
+  const pageCount= productData?.totalPages
+
+  const itemsPerPage= 2;
+  
+ 
+
   useEffect(() => {
-   dispatch(getAllProducts());
-  }, []);
+    const payload= {
+      page: page
+    }
+   dispatch(getAllProducts(payload));
+  }, [page]);
 
   useEffect(() => {
 if(isDeleted){
-  dispatch(getAllProducts());
+  const payload= {
+    page: page
+  }
+ dispatch(getAllProducts(payload));
 }
-  }, [isDeleted]);
+  }, [isDeleted,page]);
 
+const handlePagination = (e,p)=>{
 
+  setPage(p)
+}
  
 const [showViewModal,setShowViewModal] = useState(false)
 const [viewData,setViewData]= useState()
@@ -101,9 +118,12 @@ const [viewData,setViewData]= useState()
             </td>
           </tr>
           ) : (
-               Array?.isArray(productData) && productData?.length > 0 && productData?.map((item, idx) => (
+               Array?.isArray(productData?.data) && productData?.data?.length > 0 && productData?.data?.map((item, idx) =>{
+                const serialNumber = (page - 1) * itemsPerPage + idx + 1;
+                return (
+                
                   <tr key={idx}>
-                    <td className="px-6 py-4 whitespace-nowrap">{idx+1}</td>
+                    <td className="px-6 py-4 whitespace-nowrap">{serialNumber}</td>
                     <td className="px-6 py-4 whitespace-nowrap ">
                       {item?.productName}
                     </td>
@@ -145,12 +165,13 @@ const [viewData,setViewData]= useState()
                       </button>
                     </td>
                   </tr>
-                ))
+                )})
               
               )}
             </tbody>
           </table>
         </div>
+     <div className='flex justify-center mt-5'> <Pagination count={pageCount} color='primary' onChange={handlePagination}></Pagination></div>
       </div>
       {showDeleteModal && (
         <Delete setModal={setShowDeleteModal} handleDelete={handleDelete} />
