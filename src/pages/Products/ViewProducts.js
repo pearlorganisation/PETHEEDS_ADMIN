@@ -5,29 +5,24 @@ import Delete from '../../components/Delete';
 import { useSelector, useDispatch } from 'react-redux';
 import { Navigate, useNavigate } from 'react-router';
 import { deleteProduct, getAllProducts } from '../../features/actions/product';
-import { Stack,Skeleton } from '@mui/material';
-
-
-
-
+import { Stack, Skeleton } from '@mui/material';
 
 const ViewProduct = () => {
-  const { productData, isDeleted, isLoading } = useSelector((state) => state.product);
+  const { productData, isDeleted, isLoading } = useSelector(
+    (state) => state.product
+  );
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   useEffect(() => {
-   dispatch(getAllProducts());
+    dispatch(getAllProducts());
   }, []);
 
   useEffect(() => {
-if(isDeleted){
-  dispatch(getAllProducts());
-}
+    if (isDeleted) {
+      dispatch(getAllProducts());
+    }
   }, [isDeleted]);
-
-
- 
 
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [id, setId] = useState();
@@ -41,7 +36,7 @@ if(isDeleted){
   const handleModal = (ID) => {
     setShowDeleteModal(true);
     setId(ID);
-  }; 
+  };
   const handleAddProduct = () => {
     navigate('/createProduct');
   };
@@ -75,40 +70,46 @@ if(isDeleted){
                 <th className="py-3 px-6">Product Name</th>
                 <th className="py-3 px-6">Product Image</th>
                 <th className="py-3 px-6">Price</th>
-                
               </tr>
             </thead>
             <tbody className="text-gray-600 divide-y">
-            {isLoading ? (
-            <tr>
-            <td colSpan="4" className="text-center px-6 py-8">
-              <Stack spacing={4}>
-                <Skeleton variant="rounded" height={30} />
-                <Skeleton variant="rounded" height={25}/>
-                <Skeleton variant="rounded" height={20}/>
-                <Skeleton variant="rounded" height={20}/>
-                <Skeleton variant="rounded" height={20}/>
-              </Stack>
-            </td>
-          </tr>
-          ) : (
-               Array.isArray(productData) && productData.length > 0 && productData?.map((item, idx) => (
+              {isLoading ? (
+                <tr>
+                  <td colSpan="4" className="text-center px-6 py-8">
+                    <Stack spacing={4}>
+                      <Skeleton variant="rounded" height={30} />
+                      <Skeleton variant="rounded" height={25} />
+                      <Skeleton variant="rounded" height={20} />
+                      <Skeleton variant="rounded" height={20} />
+                      <Skeleton variant="rounded" height={20} />
+                    </Stack>
+                  </td>
+                </tr>
+              ) : (
+                Array.isArray(productData) &&
+                productData.length > 0 &&
+                productData?.map((item, idx) => (
                   <tr key={idx}>
                     <td className="px-6 py-4 whitespace-nowrap">{item?._id}</td>
                     <td className="px-6 py-4 whitespace-nowrap ">
                       {item?.productName}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <img className='rounded-lg h-20 w-25' src={`${item?.productImg?.path}`} />
+                      <img
+                        className="rounded-lg h-20 w-25"
+                        src={`${item?.productImg?.path}`}
+                      />
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       {item?.price}
                     </td>
-                   
+
                     <td className=" whitespace-nowrap">
                       <a
                         onClick={() => {
-                          navigate(`/updateProduct/${item?._id}`, { state: item  });
+                          navigate(`/updateProduct/${item?._id}`, {
+                            state: item,
+                          });
                         }}
                         className="py-2 px-3 font-semibold text-indigo-500 hover:text-indigo-600 duration-150 hover:bg-gray-50 rounded-lg"
                       >
@@ -125,7 +126,6 @@ if(isDeleted){
                     </td>
                   </tr>
                 ))
-              
               )}
             </tbody>
           </table>

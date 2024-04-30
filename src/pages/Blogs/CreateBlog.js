@@ -45,7 +45,7 @@ const CreateBlog = () => {
     formData.append('description', data.description);
     formData.append('topic', data.topic);
     formData.append('topicDescription', data.topicDescription);
-    console.log(data);
+    console.log(data.topicDescription);
     dispatch(createBlog({ formData, rest }));
   };
   // Function to dynamically resize textarea

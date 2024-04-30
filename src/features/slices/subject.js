@@ -1,18 +1,16 @@
 import { createSlice } from '@reduxjs/toolkit';
-
+import toast from 'react-toastify';
 import {
   deleteSubject,
   getAllSubjects,
   updateSubject,
   createSubject,
 } from '../actions/subject';
-import toast from 'react-hot-toast';
 
 const initialState = {
   isLoading: false,
   isUpdated: false,
   isSuccess: false,
-  isDeleted: false,
   errorMessage: '',
   subjectData: [],
 };
@@ -27,10 +25,11 @@ const subjectSlice = createSlice({
       .addCase(getAllSubjects.pending, (state, action) => {
         state.isLoading = true;
         state.errorMessage = '';
+        state.isUpdated = false;
       })
       .addCase(getAllSubjects.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.isDeleted = false;
+        state.isUpdated = true;
         state.errorMessage = '';
         console.log('API Response Payload:', action.payload);
         state.subjectData = action.payload.data;
@@ -38,79 +37,54 @@ const subjectSlice = createSlice({
       })
       .addCase(getAllSubjects.rejected, (state, action) => {
         state.isLoading = false;
+        state.isUpdated = false;
         state.errorMessage = action.payload;
-        toast.error(state?.errorMessage, {
-          position: "top-right",
-        });
-        
       })
       .addCase(deleteSubject.pending, (state, action) => {
         state.isLoading = true;
-        state.isDeleted = false;
+        state.isUpdated = false;
       })
       .addCase(deleteSubject.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.isDeleted = true;
-        state.subjectData = state.subjectData.filter(
-          (subject) => subject._id !== action?.payload?.payload
-        );
-        toast.success("Product Deleted successfully", {
-          position: "top-right",
-         }); 
+        state.isUpdated = false;
       })
       .addCase(deleteSubject.rejected, (state, action) => {
         state.isLoading = false;
-        state.isDeleted = false;
+        state.isUpdated = false;
         state.errorMessage = action.payload;
-        toast.error(state?.errorMessage, {
-          position: "top-right",
-        });
-        
-
-        
+        state.subjectData = state.subjectData.filter(
+          (subject) => subject._id !== action?.payload?.payload
+        );
       })
       .addCase(updateSubject.pending, (state, action) => {
         state.isLoading = true;
+        state.isUpdated = false;
       })
       .addCase(updateSubject.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.subjectData = action.payload.data;
-        toast.success("Product Updated successfully", {
-          position: "top-right",
-         }); 
+        state.isUpdated = true;
       })
-
+      // .addCase(updateSubject.pending, (state, action) => {})
       .addCase(updateSubject.rejected, (state, action) => {
         state.isLoading = false;
+        state.isUpdated = false;
         state.errorMessage = action.payload;
-        toast.error(state?.errorMessage, {
-          position: "top-right",
-        });
-        
-
       })
       .addCase(createSubject.pending, (state, action) => {
         state.isLoading = true;
+        state.isUpdated = false;
       })
       .addCase(createSubject.fulfilled, (state, action) => {
         state.isLoading = false;
-
-        state.subjectData = action.payload.data;
-        toast.success("Product created successfully", {
-          position: "top-right",
-         }); 
+        state.isUpdated = true;
       })
 
       .addCase(createSubject.rejected, (state, action) => {
         state.isLoading = false;
-
+        state.isUpdated = false;
         state.errorMessage = action.payload
           ? action.payload
           : 'An error occurred while creating the Subject.';
-          toast.error(state?.errorMessage, {
-            position: "top-right",
-          });
-          
       });
   },
 });
