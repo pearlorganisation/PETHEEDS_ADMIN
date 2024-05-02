@@ -1,6 +1,10 @@
 import { lazy } from 'react';
 import createBanner from '../pages/Banners/createBanner';
 import ViewBanners from '../pages/Banners/ViewBanners';
+import ViewBrands from '../pages/Brand/ViewBrand';
+import CreateBrand from '../pages/Brand/CreateBrand';
+import UpdateBrand from '../pages/Brand/UpdateBrand';
+
 
 
 
@@ -38,6 +42,12 @@ const CreateAppointment = lazy(() =>
 );
 const ViewAppointments = lazy(() =>
   import('../pages/Appointments/ViewAppointments')
+);
+const CreateCategory = lazy(() =>
+  import('../pages/Category/CreateCategory')
+);
+const ViewCategory = lazy(() =>
+  import('../pages/Category/ViewCategory')
 );
 
 const CreateSubject = lazy(() => import('../pages/Subjects/CreateSubject'));
@@ -146,6 +156,35 @@ const coreRoutes = [
     path: '/banner',
     title: 'View Banners',
     component: ViewBanners,
+  },
+  
+
+  // Category Routes
+  {
+    path: '/createCategory',
+    title: 'Create Category',
+    component: CreateCategory,
+  },
+  {
+    path: '/category',
+    title: 'View Category',
+    component: ViewCategory,
+  },
+  // Brand Routes
+  {
+    path: '/createBrand',
+    title: 'Create Brand',
+    component: CreateBrand,
+  },
+  {
+    path: '/updateBrand/:id',
+    title: 'Update Brand',
+    component: UpdateBrand,
+  },
+  {
+    path: '/brand',
+    title: 'View Brand',
+    component: ViewBrands,
   },
   
 ];

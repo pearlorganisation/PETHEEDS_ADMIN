@@ -1,11 +1,13 @@
 import React, { useState,useEffect } from "react";
 import { useDispatch,useSelector } from "react-redux";
-import { useForm } from "react-hook-form";
-
+import { useForm ,Controller,useFieldArray} from "react-hook-form";
+import Select from "react-select";
 import InsertPhotoOutlinedIcon from '@mui/icons-material/InsertPhotoOutlined';
 import { createProduct } from "../../features/actions/product";
 import { useNavigate } from "react-router-dom";
 import { ClipLoader } from "react-spinners";
+import { getAllCategorys } from "../../features/actions/category";
+import { getAllBrands } from "../../features/actions/brand";
 
 
 
@@ -13,22 +15,45 @@ const CreateProduct = () => {
 const navigate=useNavigate()
   const dispatch = useDispatch();
 
+  const {categoryData}= useSelector((state)=>state.category)
+  const {brandData}= useSelector((state)=>state.brand)
+  
+
   const {productData,isLoading} = useSelector((state)=>state.product)
 
 
 const [selectedGallery,setSelectedGallery]=useState([])
 
 
-    const {register,handleSubmit,formState: { errors },}=useForm()
+const {register,handleSubmit,formState: { errors },control}=useForm({
+  defaultValues:{
+    
+    price:[ {weight:"", price:""},]
+    
+  }
+})
 
+const { fields: priceFields, append: appendPrice, remove: removePrice } = useFieldArray({
+  control,
+  name: "price"
+});
         const onSubmit = data =>{
-          console.log(data)
+          const {category,brand} = data
+         const categoryValue= category.value
+         const brandValue= brand.value
+
           const formData = new FormData()
+          formData.append("brand",brandValue)
           formData.append("productName",data?.productName)
-          formData.append("price",data?.price)
+          formData.append("category",categoryValue)
+          formData.append("newInStore",data?.newInStore)
+          formData.append("price",JSON.stringify(data?.price))
           formData.append("discount",data?.discount)
           formData.append("about",data?.about)
           formData.append("description",data?.description)
+          Array.from(data?.productBanner).forEach((img) => {
+          formData.append("productBanner",img)
+          })
           Array.from(data?.productImg).forEach((img) => {
           formData.append("productImg",img)
           })
@@ -37,9 +62,9 @@ const [selectedGallery,setSelectedGallery]=useState([])
           });
         
           // console.log("formdata", formData.getAll('gallery'));
-          // console.log("productImg", formData.getAll('productImg'));
+          console.log("category", formData.getAll('category'));
           
-          // console.log("gallery::",data?.gallery)
+          console.log("category::",categoryValue)
           // console.log("productImg::",data?.productImg)
           dispatch(createProduct(formData));
           
@@ -47,11 +72,24 @@ const [selectedGallery,setSelectedGallery]=useState([])
           }
 
           const [photo, setPhoto] = useState("");
+          const [banner, setBanner] = useState("");
           const defaultPhoto =
             "https://media.istockphoto.com/id/1147544807/vector/thumbnail-image-vector-graphic.jpg?s=612x612&w=0&k=20&c=rnCKVbdxqkjlcs3xH87-9gocETqpspHFXu5dIGB4wuM=";
         
             const [gallery, setGallery] = useState([]);
           
+           const handleBannerChange = (e) => {
+                const selectedPhoto = e.target.files[0];
+                
+                if (selectedPhoto) {
+                  
+                  const reader = new FileReader();
+                  reader.readAsDataURL(selectedPhoto);
+                  reader.onloadend = () => {
+                    setBanner(reader.result);
+                  };
+                }
+              };
            const handlePhotoChange = (e) => {
                 const selectedPhoto = e.target.files[0];
                 
@@ -122,6 +160,11 @@ const [selectedGallery,setSelectedGallery]=useState([])
                 }
               }, [productData]);
 
+              useEffect(() => {
+                dispatch(getAllCategorys())
+                dispatch(getAllBrands())
+              }, [dispatch]);
+
   return (
     <div>
         <div className="bg-gray-800">
@@ -135,6 +178,43 @@ const [selectedGallery,setSelectedGallery]=useState([])
         <form className="space-y-6 mx-8 sm:mx-2" onSubmit={handleSubmit(onSubmit)}  >
           <div className="sm:flex space-y-6 sm:space-y-0 justify-between gap-10">
           <div className="w-full">
+            <label className="font-medium">Brand</label>
+            <Controller 
+                                      control={control}
+                                      name="brand"
+                                      render={({ field }) => (
+                                          <Select
+                                              value={field.value}
+                                              options={Array.isArray(brandData)&& brandData?.length> 0 && brandData?.map(item=> ({ value: item?._id, label: item?.brand }))}
+                                              onChange={(selectedOption) => field.onChange(selectedOption)}
+                                              className="mt-2 "
+                                              placeholder="Choose Brand "
+                                             
+                                              styles={{
+                                                  control: (provided) => ({
+                                                      ...provided,
+                                                      border: '1px solid #CBD5E1', // Set custom border style
+                                                      borderRadius: '0.400rem', // Set custom border radius
+                                                      height: '40px', // Add height here
+                                                  }),
+                                                  placeholder: (provided) => ({
+                                                      ...provided,
+                                                      color: '#9CA3AF', // Set custom placeholder color
+                                                  }),
+                                              }}
+ 
+                                          />
+                                     )}
+                                      rules={{ required: true }}
+                                      
+                                  />
+             {errors.brand && (
+                    <span className="text-red-500">
+                      Brand is required
+                    </span>
+                  )}
+          </div>
+          <div className="w-full">
             <label className="font-medium">Product Name</label>
             <input 
             {...register('productName', { required: 'Name is required' })}
@@ -147,22 +227,48 @@ const [selectedGallery,setSelectedGallery]=useState([])
                     </span>
                   )}
           </div>
+       
+         
+            </div>
+          <div className="sm:flex space-y-6 sm:space-y-0 justify-between gap-10">
           <div className="w-full">
-            <div className="flex gap-4">
-              <div className="w-full">
-            <label className="font-medium">Price</label>
-            <input
-            {...register('price', { required: 'Price is required' })}
-              type="text"
-              className="w-full mt-2  px-5 py-2 text-gray-500 border-slate-300 bg-transparent outline-none border focus:border-teal-400 shadow-sm rounded-lg"
-            />
-             {errors.price && (
+            <label className="font-medium">Category</label>
+            <Controller 
+                                      control={control}
+                                      name="category"
+                                      render={({ field }) => (
+                                          <Select
+                                              value={field.value}
+                                              options={Array.isArray(categoryData)&& categoryData.length> 0 && categoryData.map(item=> ({ value: item?._id, label: item?.title }))}
+                                              onChange={(selectedOption) => field.onChange(selectedOption)}
+                                              className="mt-2 "
+                                              placeholder="Choose Category "
+                                             
+                                              styles={{
+                                                  control: (provided) => ({
+                                                      ...provided,
+                                                      border: '1px solid #CBD5E1', // Set custom border style
+                                                      borderRadius: '0.400rem', // Set custom border radius
+                                                      height: '40px', // Add height here
+                                                  }),
+                                                  placeholder: (provided) => ({
+                                                      ...provided,
+                                                      color: '#9CA3AF', // Set custom placeholder color
+                                                  }),
+                                              }}
+ 
+                                          />
+                                     )}
+                                      rules={{ required: true }}
+                                      
+                                  />
+             {errors.category && (
                     <span className="text-red-500">
-                      Price of Product is required
+                      Category is required
                     </span>
                   )}
-                  </div>
-                  <div>
+          </div>
+          <div className="w-full">
                   <label className="font-medium">Discount</label>
                   <div className="flex gap-2">
             <input
@@ -180,10 +286,64 @@ const [selectedGallery,setSelectedGallery]=useState([])
                     </span>
                   )}
                   </div>
-                  </div>
-          </div>
+       
+         
             </div>
           
+          
+            <div className="sm:flex sm:space-y-0 justify-between ">
+
+          
+<label className="font-bold  text-black">Weight and Price </label>
+<button
+type="button"
+className=" border rounded-md  bg-pink-700 text-white font-semibold text-xl px-2 hover:bg-slate-950"
+onClick={() => appendPrice({ price: ""})}
+>
++
+</button>
+</div>
+<ul>
+{priceFields.map((item, index) => (
+<li key={item.id}>
+
+<div className="sm:flex gap-10 ">
+<div className="w-full">
+
+<input
+{...register(`price.${index}.weight`, { required: 'Weight is required' })}
+  type="text"
+  placeholder=" Weight "
+  className="w-full mt-2 px-5 py-2 text-gray-500 border-slate-300 bg-transparent outline-none border focus:border-teal-400 shadow-sm rounded-lg"
+/>
+
+</div>
+<div className="w-full">
+
+<input
+{...register(`price.${index}.price`, { required: 'Price is required' })}
+  type="text"
+  placeholder=" Regular Price "
+  className="w-full mt-2 px-5 py-2 text-gray-500 border-slate-300 bg-transparent outline-none border focus:border-teal-400 shadow-sm rounded-lg"
+/>
+
+</div>
+
+</div>
+{ index>0 && (
+<button className=" border rounded-md bg-rose-500 text-white text-xs px-2 hover:bg-slate-950" type="button" onClick={() => removePrice(index)}>Delete</button>)
+}
+</li>
+
+))}
+</ul>
+{errors.price && (
+<span className="text-red-500">
+  Both Fields are required
+</span>
+)}
+
+               
           <div className="sm:flex space-y-6 sm:space-y-0 justify-between gap-10">
           <div className="w-full">
           
@@ -253,7 +413,7 @@ const [selectedGallery,setSelectedGallery]=useState([])
             <div className="sm:flex space-y-6 sm:space-y-0 justify-between gap-10">
           <div className="w-full">
           <label className="font-medium">About</label>
-  <textarea {...register('about', { required: 'About is required' })}  rows="4" class="resize-none w-full mt-2 px-5 py-2 text-gray-500 border-slate-300 bg-transparent outline-none border focus:border-teal-400 shadow-sm rounded-lg" placeholder="Leave a comment..."></textarea>
+  <textarea {...register('about', { required: 'About is required' })}  rows="6" class="resize-none w-full mt-2 px-5 py-2 text-gray-500 border-slate-300 bg-transparent outline-none border focus:border-teal-400 shadow-sm rounded-lg" placeholder="Leave a comment..."></textarea>
   {errors.about && (
                     <span className="text-red-500">
                       About of Product is required
@@ -262,7 +422,7 @@ const [selectedGallery,setSelectedGallery]=useState([])
           </div>
           <div className="w-full">
           <label className="font-medium">Description</label>
-          <textarea {...register('description', { required: 'Description is required' })} rows="4" class="resize-none w-full mt-2 px-5 py-2 text-gray-500 border-slate-300 bg-transparent outline-none border focus:border-teal-400 shadow-sm rounded-lg" placeholder="Leave a comment..."></textarea>
+          <textarea {...register('description', { required: 'Description is required' })} rows="6" class="resize-none w-full mt-2 px-5 py-2 text-gray-500 border-slate-300 bg-transparent outline-none border focus:border-teal-400 shadow-sm rounded-lg" placeholder="Leave a comment..."></textarea>
           {errors.description && (
                     <span className="text-red-500">
                       Description of Product is required
@@ -270,6 +430,35 @@ const [selectedGallery,setSelectedGallery]=useState([])
                   )}
           </div>
           </div>
+
+          <div className="text-2xl text-black">New In Store section <span className="text-slate-400 text-sm">(Only if you want to display)</span> </div>
+          <div className="sm:flex space-y-6 sm:space-y-0 justify-between gap-10">
+            <div className=" w-full">
+            <div className="font-medium space-y-6"> Product Banner <span className="text-sm text-slate-400 font-normal">(To display in New in Store) </span>
+             
+             <img class="mt-2 w-20 h:20 sm:w-35 sm:h-35 rounded" src={banner || defaultPhoto} alt="No Image"/>
+             <label htmlFor="banner_input" className="flex
+             " ><InsertPhotoOutlinedIcon/>
+             <div className="w-full px-2 border rounded-md border-slate-300 ">Click here to upload</div></label>
+            
+             <input
+              {...register('productBanner', {onChange:(e)=>{handleBannerChange(e)} })}
+            
+              className="hidden w-54 sm:w-[455px] border-slate-300 text-sm text-gray-500 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" id="banner_input" type="file"/>
+            
+             </div>
+            </div>
+          <div className=" w-full">
+          <div class="flex items-center mb-4">
+    <label for="default-checkbox" className="font-medium text-gray-900 dark:text-gray-300">New In Store</label>
+    <input
+    {...register("newInStore")}
+     id="default-checkbox" type="checkbox" value="" class="ms-2 me-2 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
+      <span className="text-sm text-slate-400">(Check to display in New in Store) </span>
+</div>
+            </div>
+            
+            </div>
           <div style={{ marginTop: '4rem' }}>
           
               <button className="w-full px-4 py-2 text-white bg-pink-700  font-medium hover:bg-slate-950 active:bg-indigo-600 rounded-lg duration-150"

@@ -2,30 +2,30 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { instance } from '../../services/axiosInterceptor';
 
 
-//get all product api
-export const getAllProducts = createAsyncThunk(
-  'getProduct',
+//get all brand api
+export const getAllBrands = createAsyncThunk(
+  'getBrand',
   async (payload, { rejectWithValue }) => {
     try {
-      const response = await instance.get(`/product/?page=${payload.page}&limit=2`, payload, {
+      const response = await instance.get(`/brand`, payload, {
         withCredentials: true,
       });
       
-      return response;
+      return response?.data;
     } catch (e) {
       return rejectWithValue(e?.message);
     }
   }
 );
 
-//delete product api
-export const deleteProduct = createAsyncThunk(
-  'deleteProduct',
+//delete brand api
+export const deleteBrand = createAsyncThunk(
+  'deleteBrand',
   async (id, { rejectWithValue }) => {
     try {
       console.log(id, 'id');
       const response = await instance.delete(
-        `/product/${id}`,
+        `/brand/${id}`,
 
         { withCredentials: true }
       );
@@ -36,12 +36,12 @@ export const deleteProduct = createAsyncThunk(
   }
 );
 
-//update Product api
-export const updateProduct = createAsyncThunk(
-  'updateProduct',
+//update Brand api
+export const updateBrand = createAsyncThunk(
+  'updateBrand',
   async ({ id, payload }, { rejectWithValue }) => {
     try {
-      const response = await instance.patch(`/product/${id}`, payload, {
+      const response = await instance.patch(`/brand/${id}`, payload, {
         withCredentials: true,
         headers: {
           'Content-type': 'multipart/form-data',
@@ -54,12 +54,12 @@ export const updateProduct = createAsyncThunk(
   }
 );
 
-//create Product api
-export const createProduct = createAsyncThunk(
-  'createProduct',
+//create Brand api
+export const createBrand = createAsyncThunk(
+  'createBrand',
   async (payload, { rejectWithValue }) => {
     try {
-      const response = await instance.post(`/product`, payload, {
+      const response = await instance.post(`/brand`, payload, {
         withCredentials: true,
         headers: {
           'Content-type': 'multipart/form-data',

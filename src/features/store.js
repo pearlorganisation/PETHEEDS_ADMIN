@@ -11,8 +11,8 @@ import user from './slices/user';
 import blog from './slices/blog';
 import enquiryRequest from './slices/enquiryRequest';
 import banner from './slices/banner';
-
-
+import category from './slices/category';
+import brand from './slices/brand';
 
 // ---------------------------------------------------------
 
@@ -40,7 +40,9 @@ const reducer = combineReducers({
   user,
   blog,
   enquiryRequest,
-  banner
+  banner,
+  category,
+  brand
 
   // omitedPart: OmitReducer // not persisting this reducer
 });
