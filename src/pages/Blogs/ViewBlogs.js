@@ -79,7 +79,7 @@ const ViewBlog = () => {
             <thead className="bg-gray-50 text-gray-600 font-medium border-b">
               <tr>
                 <th className="py-3 px-6">ID</th>
-                <th className="py-3 px-6">Created By</th>
+                {/* <th className="py-3 px-6">Created By</th> */}
                 <th className="py-3 px-6">Blog Topic</th>
                
 
@@ -104,9 +104,7 @@ const ViewBlog = () => {
                 blogData?.map((item, idx) => (
                   <tr key={idx}>
                     <td className="px-6 py-4 whitespace-nowrap">{idx+1}</td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      {/* {item?.createdBy} */}
-                    </td>
+                  
                     <td className="px-6 py-4 whitespace-nowrap ">
                       {item?.topic}
                     </td>

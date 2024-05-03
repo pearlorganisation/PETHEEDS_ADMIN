@@ -55,3 +55,20 @@ export const createCategory = createAsyncThunk(
     }
   );
   
+  //update Category api
+export const updateCategory = createAsyncThunk(
+  'updateCategory',
+  async ({ id, payload }, { rejectWithValue }) => {
+    try {
+      const response = await instance.patch(`/category/${id}`, payload, {
+        withCredentials: true,
+        headers: {
+          'Content-type': 'multipart/form-data',
+        },
+      });
+      return response;
+    } catch (e) {
+      return rejectWithValue(e?.message);
+    }
+  }
+);

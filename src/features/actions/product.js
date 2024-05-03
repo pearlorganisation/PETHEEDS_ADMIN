@@ -7,7 +7,7 @@ export const getAllProducts = createAsyncThunk(
   'getProduct',
   async (payload, { rejectWithValue }) => {
     try {
-      const response = await instance.get(`/product/?page=${payload.page}&limit=2`, payload, {
+      const response = await instance.get(`/product${payload.search}`, {
         withCredentials: true,
       });
       

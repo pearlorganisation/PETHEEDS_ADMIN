@@ -4,6 +4,7 @@ import {
   deleteBanner,
   getAllBanners,
   createBanner,
+  updateBanner,
 } from '../actions/banner';
 import toast from 'react-hot-toast';
 
@@ -80,6 +81,26 @@ const bannerSlice = createSlice({
       })
      
       .addCase(createBanner.rejected, (state, action) => {
+        state.isLoading = false;
+      
+        state.errorMessage = action.payload ? action.payload : 'An error occurred while creating the banner.';
+        toast.error(state?.errorMessage, {
+          position: "top-right",
+        });
+      })
+      .addCase(updateBanner.pending, (state, action) => {
+        state.isLoading = true;
+       
+      })
+      .addCase(updateBanner.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.bannerData = action.payload.data;
+        toast.success("Banner Updated successfully", {
+          position: "top-right",
+        });
+      })
+     
+      .addCase(updateBanner.rejected, (state, action) => {
         state.isLoading = false;
       
         state.errorMessage = action.payload ? action.payload : 'An error occurred while creating the banner.';

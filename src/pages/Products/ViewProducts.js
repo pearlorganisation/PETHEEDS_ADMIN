@@ -1,5 +1,3 @@
-// AdminPanel.js
-
 import React, { useEffect, useState } from 'react';
 import Delete from '../../components/Delete';
 import { useSelector, useDispatch } from 'react-redux';
@@ -8,6 +6,7 @@ import { deleteProduct, getAllProducts } from '../../features/actions/product';
 import { Stack,Skeleton } from '@mui/material';
 import ViewProductModal from './ViewProductModal';
 import Pagination from '@mui/material/Pagination'
+import { useSearchParams,useLocation } from 'react-router-dom';
 
 
 
@@ -16,19 +15,27 @@ import Pagination from '@mui/material/Pagination'
 const ViewProduct = () => {
   
   const { productData, isDeleted, isLoading } = useSelector((state) => state.product);
+  const {search} = useLocation()
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
 
   const [page,setPage] = useState(1)
   const pageCount= productData?.totalPages
 
-  const itemsPerPage= 2;
+  const itemsPerPage= 3;
+
+  const[searchParams,setSearchParams]= useSearchParams()
+  
+  // useEffect(() => {
+  //   console.log(search,"::search")
+  // }, [search])
   
  
 
   useEffect(() => {
     const payload= {
-      page: page
+      search: search || `?page=1&limit=${itemsPerPage}`
     }
    dispatch(getAllProducts(payload));
   }, [page]);
@@ -45,6 +52,7 @@ if(isDeleted){
 const handlePagination = (e,p)=>{
 
   setPage(p)
+  setSearchParams({ page: p, limit: itemsPerPage });
 }
  
 const [showViewModal,setShowViewModal] = useState(false)
@@ -69,6 +77,13 @@ const [viewData,setViewData]= useState()
     setShowViewModal(true)
     setViewData(itemData)
   }
+
+useEffect(()=>{
+  setPage(searchParams.get("page"))
+  console.log(searchParams.get("page"))
+},[])
+
+
   return (
     <>
       <div className="max-w-screen-xl ">
@@ -171,7 +186,7 @@ const [viewData,setViewData]= useState()
             </tbody>
           </table>
         </div>
-     <div className='flex justify-center mt-5'> <Pagination count={pageCount} color='primary' onChange={handlePagination}></Pagination></div>
+     <div className='flex justify-center mt-5'> <Pagination count={pageCount} page={page} color='primary' onChange={handlePagination}></Pagination></div>
       </div>
       {showDeleteModal && (
         <Delete setModal={setShowDeleteModal} handleDelete={handleDelete} />

@@ -42,10 +42,13 @@ export const updateBlog = createAsyncThunk(
     try {
       const response = await instance.patch(`/blog/${id}`, payload, {
         withCredentials: true,
+        headers: {
+          'Content-type': 'multipart/form-data',
+        },
       });
       return response;
     } catch (e) {
-      return rejectWithValue;
+      return rejectWithValue(e);
     }
   }
 );

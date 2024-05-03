@@ -3,20 +3,24 @@ import { useDispatch,useSelector } from "react-redux";
 import {useForm } from "react-hook-form";
 
 import InsertPhotoOutlinedIcon from '@mui/icons-material/InsertPhotoOutlined';
-import { createCategory } from "../../features/actions/category";
-import { useNavigate } from "react-router-dom";
+import { updateCategory } from "../../features/actions/category";
+import { useLocation, useNavigate } from "react-router-dom";
 import { ClipLoader } from "react-spinners";
 
 
 
-const CreateCategory = () => {
+const UpdateCategory = () => {
 const navigate=useNavigate()
   const dispatch = useDispatch();
-
+const {state:item}= useLocation()
   const {categoryData,isLoading} = useSelector((state)=>state.category)
 
 
     const {register,handleSubmit,formState: { errors }}=useForm(
+        {
+            defaultValues:
+            {title: item?.title|| ""}
+        }
         )
 
         // const { fields: subTitleFields, append: appendSubTitle, remove: removeSubTitle } = useFieldArray({
@@ -25,20 +29,20 @@ const navigate=useNavigate()
         // });
 
         const onSubmit = data =>{
-          console.log(data)
+         
           const formData = new FormData()
           formData.append("title",data?.title)
         //  formData.append("subTitle",JSON.stringify(data?.subTitle))
           Array.from(data?.categoryImg).forEach((img) => {
           formData.append("categoryImg",img)
           })
-       
-          
-          dispatch(createCategory(formData))
+         
+      
+          dispatch(updateCategory({id:item?._id,payload:formData}))
         
           }
 
-          const [photo, setPhoto] = useState("");
+          const [photo, setPhoto] = useState(item?.categoryImg || "");
           const defaultPhoto =
             "https://media.istockphoto.com/id/1147544807/vector/thumbnail-image-vector-graphic.jpg?s=612x612&w=0&k=20&c=rnCKVbdxqkjlcs3xH87-9gocETqpspHFXu5dIGB4wuM=";
         
@@ -69,7 +73,7 @@ const navigate=useNavigate()
         <div className="bg-gray-800">
       <div className=" flex justify-center">
         <h3 className="text-gray-600 text-2xl font-semibold sm:text-3xl">
-          Create category details
+          Update category details
         </h3>
       </div>
       <div className="bg-white rounded-lg shadow p-4 py-6  sm:rounded-lg sm:max-w-5xl mt-8 mx-auto">
@@ -136,14 +140,10 @@ onClick={() => appendSubTitle("")}
              <div className=" px-2 border rounded-md border-slate-300 ">Click here to upload</div></label>
             
              <input
-              {...register('categoryImg', { required: true,onChange:(e)=>{handlePhotoChange(e)} })}
+              {...register('categoryImg', {onChange:(e)=>{handlePhotoChange(e)} })}
             
               className="hidden w-54 sm:w-[455px] border-slate-300 text-sm text-gray-500 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" id="file_input" type="file"/>
-               {errors.categoryImg && (
-                     <span className="text-red-500">
-                       Image of Category is required
-                     </span>
-                   )}
+             
              </div>
      
           
@@ -151,7 +151,7 @@ onClick={() => appendSubTitle("")}
               >
               {isLoading ? (
                 <ClipLoader color="#c4c2c2" />
-              ) : (<>Create</>)}
+              ) : (<>Update</>)}
               </button>
                
            
@@ -162,4 +162,4 @@ onClick={() => appendSubTitle("")}
   )
 }
 
-export default CreateCategory
+export default UpdateCategory

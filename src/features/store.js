@@ -43,8 +43,6 @@ const reducer = combineReducers({
   banner,
   category,
   brand
-
-  // omitedPart: OmitReducer // not persisting this reducer
 });
 
 const rootReducer = (state, action) => {

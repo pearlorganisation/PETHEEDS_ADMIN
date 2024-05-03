@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
-
+import PanoramaVerticalIcon from '@mui/icons-material/PanoramaVertical';
 import InventoryOutlinedIcon from '@mui/icons-material/InventoryOutlined';
 import CalendarMonthOutlinedIcon from '@mui/icons-material/CalendarMonthOutlined';
 import SubjectOutlinedIcon from '@mui/icons-material/SubjectOutlined';
@@ -132,7 +132,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                     'bg-graydark dark:bg-meta-4'
                   }`}
                 >
-                  <InventoryOutlinedIcon />
+                  <PanoramaVerticalIcon />
                   Manage Brands
                 </NavLink>
               </li>

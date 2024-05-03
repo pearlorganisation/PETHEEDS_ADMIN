@@ -4,6 +4,8 @@ import ViewBanners from '../pages/Banners/ViewBanners';
 import ViewBrands from '../pages/Brand/ViewBrand';
 import CreateBrand from '../pages/Brand/CreateBrand';
 import UpdateBrand from '../pages/Brand/UpdateBrand';
+import UpdateCategory from '../pages/Category/UpdateCategory';
+import UpdateBanner from '../pages/Banners/updateBanner';
 
 
 
@@ -153,6 +155,11 @@ const coreRoutes = [
     component: createBanner,
   },
   {
+    path: '/updateBanner/:id',
+    title: 'Update Banner',
+    component: UpdateBanner,
+  },
+  {
     path: '/banner',
     title: 'View Banners',
     component: ViewBanners,
@@ -164,6 +171,11 @@ const coreRoutes = [
     path: '/createCategory',
     title: 'Create Category',
     component: CreateCategory,
+  },
+  {
+    path: '/updateCategory/:id',
+    title: 'Update Category',
+    component: UpdateCategory,
   },
   {
     path: '/category',

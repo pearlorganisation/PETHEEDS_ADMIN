@@ -94,7 +94,7 @@ if(isDeleted){
           ) : (
                Array.isArray(categoryData) && categoryData.length > 0 && categoryData?.map((item, idx) => (
                   <tr key={idx}>
-                    <td className="px-6 py-4 whitespace-nowrap">{item?._id}</td>
+                    <td className="px-6 py-4 whitespace-nowrap">{idx+1}</td>
                     <td className="px-6 py-4 whitespace-nowrap ">
                       {item?.title}
                     </td>

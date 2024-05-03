@@ -14,7 +14,7 @@ export const getAllBanners = createAsyncThunk(
       console.log(data, 'datatattatatatat');
       return data;
     } catch (e) {
-      return rejectWithValue(e.message);
+      return rejectWithValue(e);
     }
   }
 );
@@ -32,7 +32,7 @@ export const deleteBanner = createAsyncThunk(
         );
         return response;
       } catch (e) {
-        return rejectWithValue(e.message);
+        return rejectWithValue(e);
       }
     }
   );
@@ -50,7 +50,25 @@ export const createBanner = createAsyncThunk(
         });
         return response;
       } catch (e) {
-        return rejectWithValue(e.message);
+        return rejectWithValue(e);
+      }
+    }
+  );
+  
+  //update Banner api
+export const updateBanner = createAsyncThunk(
+    'updateBanner',
+    async ({id,payload}, { rejectWithValue }) => {
+      try {
+        const response = await instance.patch(`/banner/${id}`, payload, {
+          withCredentials: true,
+          headers: {
+            "Content-type": "multipart/form-data",
+          },
+        });
+        return response;
+      } catch (e) {
+        return rejectWithValue(e);
       }
     }
   );

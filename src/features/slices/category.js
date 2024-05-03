@@ -4,6 +4,7 @@ import {
   deleteCategory,
   getAllCategorys,
   createCategory,
+  updateCategory,
 } from '../actions/category';
 import toast from 'react-hot-toast';
 
@@ -83,6 +84,27 @@ const categorySlice = createSlice({
         state.isLoading = false;
       
         state.errorMessage = action.payload ? action.payload : 'An error occurred while creating the category.';
+        toast.error(state?.errorMessage, {
+          position: "top-right",
+        });
+      })
+
+      .addCase(updateCategory.pending, (state, action) => {
+        state.isLoading = true;
+       
+      })
+      .addCase(updateCategory.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.categoryData = action.payload.data;
+        toast.success("Category Updated successfully", {
+          position: "top-right",
+        });
+      })
+     
+      .addCase(updateCategory.rejected, (state, action) => {
+        state.isLoading = false;
+      
+        state.errorMessage = action.payload ? action.payload : 'An error occurred while updating the category.';
         toast.error(state?.errorMessage, {
           position: "top-right",
         });

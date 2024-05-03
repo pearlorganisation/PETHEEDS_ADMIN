@@ -88,7 +88,7 @@ const ViewBrands = () => {
           ) : (
             Array.isArray(brandData)  && brandData?.map((item, idx) => (
                   <tr key={idx}>
-                    <td className="px-6 py-4 whitespace-nowrap">{item?._id}</td>
+                    <td className="px-6 py-4 whitespace-nowrap">{idx+1}</td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       {item?.brand}
                     </td>

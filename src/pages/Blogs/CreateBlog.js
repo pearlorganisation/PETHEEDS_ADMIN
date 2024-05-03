@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useForm, useFieldArray, Controller } from 'react-hook-form';
+import { useForm,Controller } from 'react-hook-form';
 import { createBlog } from '../../features/actions/blog';
 import { useNavigate } from 'react-router-dom';
 import { ClipLoader } from 'react-spinners';
@@ -11,18 +11,8 @@ const CreateBlog = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    // Add event listener to each textarea on component mount
-    document.querySelectorAll('textarea').forEach((textarea) => {
-      textarea.addEventListener('input', resizeTextarea);
-    });
-    // Remove event listener on component unmount
-    return () => {
-      document.querySelectorAll('textarea').forEach((textarea) => {
-        textarea.removeEventListener('input', resizeTextarea);
-      });
-    };
-  }, []);
+  const [watchBannerName, setWatchBannerName] = useState({})
+  
   useEffect(() => {
     if (blogData?.status) {
       navigate('/blog');
@@ -34,32 +24,25 @@ const CreateBlog = () => {
     handleSubmit,
     formState: { errors },
     control,
+    watch
   } = useForm({
     defaultValues: {},
   });
 
   const onSubmit = (data) => {
     const formData = new FormData();
-    const { banner, ...rest } = data;
+    const { banner} = data;
     formData.append('banner', banner[0]);
     formData.append('description', data.description);
     formData.append('topic', data.topic);
-    formData.append('topicDescription', data.topicDescription);
-    console.log(data);
-    dispatch(createBlog({ formData, rest }));
+    dispatch(createBlog({ formData}));
   };
-  // Function to dynamically resize textarea
-  const resizeTextarea = (event) => {
-    const textarea = event.target;
-    textarea.style.height = 'auto';
-    textarea.style.height = textarea.scrollHeight + 'px';
-  };
-
-  const receiveTextEditorContent = (textEditorContent) => {
-    if (textEditorContent) {
-      console.log('Receive textEditorContent:: ', textEditorContent);
-    }
-  };
+ 
+  const temp =  watch("banner")
+  
+  useEffect(() => {
+   setWatchBannerName(temp)
+  }, [temp])
 
   return (
     <div>
@@ -84,22 +67,7 @@ const CreateBlog = () => {
               <span className="text-red-500">Topic is required</span>
             )}
 
-            <div>
-              <label className="font-medium">Topic Description</label>
-              <textarea
-                {...register('topicDescription', {
-                  required: true,
-                })}
-                className="w-full resize-none mt-2 me-50 px-5 py-2 text-gray-500 border-slate-300 bg-transparent outline-none border focus:border-teal-400 shadow-sm rounded-lg"
-                id=""
-                cols="30"
-                rows="6"
-              ></textarea>
-
-              {errors.topicDescription && (
-                <span className="text-red-500">This Field is required</span>
-              )}
-            </div>
+        
 
             <div className="flex-1 items-center mx-auto mb-3 space-y-4 sm:flex sm:space-y-0">
               <div className="relative w-full space-y-1">
@@ -127,7 +95,7 @@ const CreateBlog = () => {
                         />
                       </svg>
                       <span className="font-medium text-gray-600">
-                        Drop files to Attach, or
+                      {Array.isArray(Array.from(watchBannerName || {})) && Array.from(watchBannerName || {}).length > 0 ? watchBannerName[0]?.name : 'Drop files to Attach, or '}
                         <span className="text-blue-600 underline ml-[4px]">
                           browse
                         </span>
@@ -137,7 +105,7 @@ const CreateBlog = () => {
                       type="file"
                       {...register('banner', { required: 'topic is required' })}
                       className="hidden"
-                      accept="image/png,image/jpeg"
+                      accept="image/png,image/jpeg,image/webp"
                       id="input"
                     />
                   </label>
@@ -148,17 +116,7 @@ const CreateBlog = () => {
               </div>
             </div>
 
-            {/* <div>
-              <label className="font-medium">Banner</label>
-              <input
-                {...register('banner', { required: 'topic is required' })}
-                type="file"
-                className="w-full mt-2 me-50 px-5 py-2 text-gray-500 border-slate-300 bg-transparent outline-none border focus:border-teal-400 shadow-sm rounded-lg"
-              />
-              {errors.banner && (
-                <span className="text-red-500">Banner is required</span>
-              )}
-            </div> */}
+  
 
             <div>
               <label className="font-medium">Description</label>
@@ -167,11 +125,9 @@ const CreateBlog = () => {
                 control={control}
                 render={({ field: { onChange, value, ref } }) => (
                   <ReactTextEditor
-                    sendContent={receiveTextEditorContent}
+                    
                     onChange={(data) => onChange(data)}
-                    // existingTextEditorData={
-                    //   examDescriptionsApiData?.description
-                    // }
+              
                   />
                 )}
                 rules={{ required: true }}
@@ -179,7 +135,7 @@ const CreateBlog = () => {
 
               {errors?.description && (
                 <span className="fw-normal fs-6 text-danger">
-                  Exam Description is required
+                 Description is required
                 </span>
               )}
             </div>

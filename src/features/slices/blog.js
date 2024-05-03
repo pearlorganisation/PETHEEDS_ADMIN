@@ -72,6 +72,7 @@ const blogSlice = createSlice({
       .addCase(updateBlog.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isUpdated = true;
+        state.blogData = action.payload?.data
         toast.success("Blog Updated successfully", {
           position: "top-right",
          }); 

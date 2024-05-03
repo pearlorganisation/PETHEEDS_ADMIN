@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { instance } from '../../services/axiosInterceptor';
-import axios from 'axios';
+
 
 //get all subject api
 export const getAllSubjects = createAsyncThunk(
@@ -10,7 +10,7 @@ export const getAllSubjects = createAsyncThunk(
       const { data } = await instance.get('/subject', payload, {
         withCredentials: true,
       });
-      console.log(data, 'datatattatatatat');
+
       return data;
     } catch (e) {
       return rejectWithValue(e);
@@ -23,7 +23,7 @@ export const deleteSubject = createAsyncThunk(
   'deleteSubject',
   async (payload, { rejectWithValue }) => {
     try {
-      console.log(payload, 'payloaad');
+      
       const response = await instance.delete(
         `/subject/${payload}`,
         {},
