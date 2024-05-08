@@ -3,23 +3,7 @@ import { instance } from "../../services/axiosInterceptor";
 
 // ------------------------------------Async Actions----------------------------------
 
-//Signup send OTP and verify Otp Api bith in single Api
-export const generateSignupOTP = createAsyncThunk(
-  "auth/sendOtpForSignUp",
-  async (payload, { rejectWithValue }) => {
-    try {
-      const response = await instance.post("mail/generateSignUpOtp", payload, {
-        withCredentials: true,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      return response;
-    } catch (error) {
-      return rejectWithValue(error);
-    }
-  }
-);
+
 
 //Signup Api
 export const signUp = createAsyncThunk(
@@ -41,23 +25,59 @@ export const signUp = createAsyncThunk(
   }
 );
 
-//Login send OTP Api and verify OTP Api both work in one Api
+//Login send OTP Api 
 export const generateLoginOTP = createAsyncThunk(
   "auth/sendOtpForLogin",
   async (payload, { rejectWithValue }) => {
     try {
-      const response = await instance.post("/mail/generateLoginOtp", payload, {
+      const response = await instance.post("/mail/sendOtp", payload, {
         withCredentials: true,
         headers: {
           "Content-Type": "application/json",
         },
       });
-      return response?.data;
+      return response;
     } catch (error) {
       return rejectWithValue(error);
     }
   }
 );
+
+//verify OTP Api 
+export const verifyOTP = createAsyncThunk(
+  "auth/verifyOtp",
+  async (payload, { rejectWithValue }) => {
+    try {
+      const response = await instance.post("/mail/verifyOtp", payload, {
+        withCredentials: true,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      return response;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  }
+);
+//reset Password
+export const resetPassword= createAsyncThunk(
+  "auth/resetPassword",
+  async (payload, { rejectWithValue }) => {
+    try {
+      const response = await instance.put("/auth/resetPassword", payload, {
+        withCredentials: true,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      return response;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  }
+);
+
 
 //Login Api
 export const logIn = createAsyncThunk(

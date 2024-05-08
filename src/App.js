@@ -4,11 +4,14 @@ import { Toaster } from 'react-hot-toast';
 
 import SignIn from './pages/Authentication/SignIn';
 import SignUp from './pages/Authentication/SignUp';
+import OtpVerification from "./pages/Authentication/OtpVerification";
 import Loader from './common/Loader';
 import routes from './routes';
 import Dashboard from './pages/Dashboard/Dashboard';
 import PageNotFound from './pages/PageNotFound';
 import { useSelector } from 'react-redux';
+import MailSent from './pages/Authentication/MailSent';
+import ChangePassword from './pages/Authentication/ChangePassword';
 
 
 // ----------------------------------------------------------------------
@@ -17,7 +20,7 @@ const DefaultLayout = lazy(() => import('./layout/DefaultLayout'));
 
 function App() {
   
- const {isUserLoggedIn , isLoading} = useSelector((state)=>state.auth)
+ const {isUserLoggedIn , isLoading,isOtpSentSuccessfully, isOtpVerified} = useSelector((state)=>state.auth)
 //  
   const [loading, setLoading] = useState(true);
 
@@ -27,24 +30,6 @@ function App() {
     setTimeout(() => setLoading(false), 1000);
   }, []);
 
-   // Function to handle login
-  //  const handleLogin = async (userData) => {
-  //   try {
-  //     // Make API call to login
-  //     const response = await loginUser(userData); // Example: loginUser is a function from your API file
-
-  //     // Assuming the login API returns a success response
-  //     if (response.success) {
-  //       // Update isUserLoggedIn state to true
-  //       setIsUserLoggedIn(true);
-  //     } else {
-  //       // Handle login failure, show error message etc.
-  //     }
-  //   } catch (error) {
-  //     // Handle API call error
-  //     console.error('Login API error:', error);
-  //   }
-  // };
 
   return loading ? (
     <Loader />
@@ -65,6 +50,9 @@ function App() {
             path="/auth/signup"
             element={isUserLoggedIn ? <Navigate to="/" /> : <SignUp />}
           />
+          <Route path='/auth/changePassword' element={!isUserLoggedIn && isOtpVerified ? <ChangePassword/> :  <Navigate to="/" />} />
+          <Route path='/auth/otp' element={!isUserLoggedIn && isOtpSentSuccessfully ? <OtpVerification/> : <Navigate to="/" /> } />
+          <Route path='/auth/reset' element={isUserLoggedIn ? <Navigate to="/" />: <MailSent/>} />
           <Route path="*" element={<PageNotFound />} />
         <Route path="/" element={<DefaultLayout />}>
 

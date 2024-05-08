@@ -19,13 +19,13 @@ const ViewProduct = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-
-  const [page,setPage] = useState(1)
-  const pageCount= productData?.totalPages
-
   const itemsPerPage= 3;
+  const[searchParams,setSearchParams]= useSearchParams({ page: 1, limit: itemsPerPage })
 
-  const[searchParams,setSearchParams]= useSearchParams()
+  const [page,setPage] = useState( searchParams.get("page") || 1)
+  const pageCount= productData?.totalPages
+// console.log(page,"::page")
+
   
   // useEffect(() => {
   //   console.log(search,"::search")
@@ -80,7 +80,7 @@ const [viewData,setViewData]= useState()
 
 useEffect(()=>{
   setPage(searchParams.get("page"))
-  console.log(searchParams.get("page"))
+  // console.log(searchParams.get("page"))
 },[])
 
 
@@ -186,7 +186,7 @@ useEffect(()=>{
             </tbody>
           </table>
         </div>
-     <div className='flex justify-center mt-5'> <Pagination count={pageCount} page={page} color='primary' onChange={handlePagination}></Pagination></div>
+     <div className='flex justify-center mt-5'> <Pagination count={pageCount} page={Number(page)} color='primary' onChange={handlePagination}></Pagination></div>
       </div>
       {showDeleteModal && (
         <Delete setModal={setShowDeleteModal} handleDelete={handleDelete} />

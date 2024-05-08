@@ -5,7 +5,8 @@ import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { ClipLoader } from "react-spinners";
 import { logIn } from "../../features/actions/authenticationActions";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { clearReduxStoreData } from "../../features/slices/authenticationSlice";
 
 
 
@@ -30,9 +31,15 @@ const SignIn = () => {
   const {register,handleSubmit,formState: { errors },} =useForm()
 
   const onSubmit = data=>{
-    console.log("data",data)
-    dispatch(logIn(data))}
- 
+    const newData = {...data,type:"Admin"}
+    dispatch(logIn(newData))}
+ const handleResetNavigate = ()=>{
+navigate("/auth/reset")
+ }
+
+ useEffect(()=>{
+  dispatch(clearReduxStoreData())
+ },[])
 
   return (
     <>
@@ -266,15 +273,19 @@ const SignIn = () => {
 
               
 
-                <div className="mt-6 text-center">
-                  <p>
-                    Don’t have any account?{" "}
-                    <Link to="/auth/signup" className="text-primary">
-                     Sign Up
-                    </Link>
-                  </p>
-                </div>
+             
               </form>
+              
+              <div className="mt-6 text-center">
+                <button
+                    onClick={handleResetNavigate}
+                    title=""
+                    className="text-sm font-semibold text-black hover:underline"
+                  >
+                    {" "}
+                    Forgot password?{""}
+                  </button>
+                </div>
             </div>
           </div>
         </div>

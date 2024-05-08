@@ -33,9 +33,9 @@ const productSlice = createSlice({
         state.isLoading = false;
         state.errorMessage = '';
         state.isDeleted = false;
-        console.log('API Response Payload:', action.payload);
+
         state.productData = action.payload.data;
-        console.log('Reducer - Updated productData:', state.productData);
+
       })
       .addCase(getAllProducts.rejected, (state, action) => {
         state.isLoading = false;
