@@ -19,7 +19,7 @@ const ViewProduct = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const itemsPerPage= 3;
+  const itemsPerPage= 5;
   const[searchParams,setSearchParams]= useSearchParams({ page: 1, limit: itemsPerPage })
 
   const [page,setPage] = useState( searchParams.get("page") || 1)
