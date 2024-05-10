@@ -101,7 +101,7 @@ const {state:item} = useLocation()
              </div>
      
           
-              <button className="w-full px-4 py-2 text-white bg-pink-700  font-medium hover:bg-slate-950 active:bg-indigo-600 rounded-lg duration-150"
+              <button className="w-full btn-grad:hover btn-grad"
               >
               {isLoading ? (
                 <ClipLoader color="#c4c2c2" />

@@ -96,8 +96,8 @@ const [selectedGallery,setSelectedGallery]=useState([])
 
          
 
-          const [photo, setPhoto] = useState([item?.productImg?.path] || defaultPhoto );
-          const [banner, setBanner] = useState([item?.productBanner?.path] ||"");
+          const [photo, setPhoto] = useState([item?.productImg] || defaultPhoto );
+          const [banner, setBanner] = useState([item?.productBanner] ||"");
           const defaultPhoto =
             "https://via.placeholder.com/130?text=No+Image+Selected";
         
@@ -447,7 +447,7 @@ onClick={() => appendPrice({ price: ""})}
             <div className=" w-full">
             <div className="font-medium space-y-6"> Product Banner (Image Size has to be 742 X 197) 
              
-             <img class="mt-2 w-20 h:20 sm:w-35 sm:h-35 rounded" src={banner || defaultPhoto} alt="No Image"/>
+             <img class="mt-2 w-60 h:20 sm:w-[742px] sm:h-48 rounded" src={banner || defaultPhoto} alt="No Image"/>
              <label htmlFor="banner_input" className="flex
              " ><InsertPhotoOutlinedIcon/>
              <div className="w-full px-2 border rounded-md border-slate-300 ">Click here to upload</div></label>
@@ -471,7 +471,7 @@ onClick={() => appendPrice({ price: ""})}
             </div>
           <div style={{ marginTop: '4rem' }}>
           
-              <button className="w-full px-4 py-2 text-white bg-pink-700  font-medium hover:bg-slate-950 active:bg-indigo-600 rounded-lg duration-150"
+              <button className="w-full btn-grad:hover btn-grad"
               type="submit"
               >
               {isLoading ? (

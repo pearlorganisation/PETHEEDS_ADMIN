@@ -68,7 +68,7 @@ export default function ViewProductModal ({viewData,setModal}) {
       </tr>
       <tr>
         <td className="py-2 px-4 border border-gray-300">Product Image</td>
-        <td className="py-2 px-4 border border-gray-300">{viewData ? <img src={viewData?.productImg.path} alt="Theater Logo" className="rounded-lg h-30 w-50" /> : ''}</td>
+        <td className="py-2 px-4 border border-gray-300">{viewData ? <img src={viewData?.productImg} alt="Theater Logo" className="rounded-lg h-30 w-50" /> : ''}</td>
       </tr>
    
 
@@ -132,7 +132,7 @@ export default function ViewProductModal ({viewData,setModal}) {
       {viewData && viewData.gallery ? (
         viewData.gallery.map((item, idx) => (
           <div key={idx} className="sm:w-[26%] "> {/* Set width to 1/3 for 3 images per row */}
-            <img src={item.path} alt={`Gallery Image ${idx}`} className="rounded-lg h-30 w-50 mb-2" />
+            <img src={item} alt={`Gallery Image ${idx}`} className="rounded-lg h-30 w-50 mb-2" />
           </div>
         ))
       ) : (

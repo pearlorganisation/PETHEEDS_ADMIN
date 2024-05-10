@@ -93,7 +93,7 @@ const ViewBrands = () => {
                       {item?.brand}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                     <img className='w-24 h-20 rounded-lg' src={item?.brandBanner?.path} />
+                     <img className='w-24 h-20 rounded-lg' src={item?.brandBanner} />
                     </td>
 
                     <td className="px-3 whitespace-nowrap">
@@ -101,7 +101,7 @@ const ViewBrands = () => {
                         onClick={() => {
                           navigate(`/updateBrand/${item?._id}`, { state: item });
                         }}
-                        className="py-2 px-3 font-semibold text-indigo-500 hover:text-indigo-600 duration-150 hover:bg-gray-50 rounded-lg
+                        className="cursor-pointer py-2 px-3 font-semibold text-indigo-500 hover:text-indigo-600 duration-150 hover:bg-gray-50 rounded-lg
                         "
                       >
                         Edit
