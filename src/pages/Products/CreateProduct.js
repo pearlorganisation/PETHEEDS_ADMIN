@@ -434,7 +434,11 @@ onClick={() => appendPrice({ price: ""})}
           <div className="text-2xl text-black">New In Store section <span className="text-slate-400 text-sm">(Only if you want to display)</span> </div>
           <div className="sm:flex space-y-6 sm:space-y-0 justify-between gap-10">
             <div className=" w-full">
+
             <div className="font-medium space-y-6"> Product Banner <span className="text-sm text-slate-400 font-normal">(Image Size has to be 742 X 197 px) </span>
+
+
+
              
              <img class="mt-2 w-60 h:20 sm:w-[742px] sm:h-48 rounded" src={banner || defaultPhoto} alt="No Image"/>
              <label htmlFor="banner_input" className="flex
