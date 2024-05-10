@@ -143,7 +143,7 @@ useEffect(()=>{
                       {item?.productName}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap min-w-25 min-h-20">
-                      <img className='rounded-lg h-20 w-25' src={`${item?.productImg?.path}`} />
+                      <img className='rounded-lg h-20 w-25' src={`${item?.productImg}`} />
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       {item?.category?.title}
@@ -166,7 +166,7 @@ useEffect(()=>{
                         onClick={() => {
                           navigate(`/updateProduct/${item?._id}`, { state: item  });
                         }}
-                        className="py-2 px-3 font-semibold text-indigo-500 hover:text-indigo-600 duration-150 hover:bg-gray-50 rounded-lg"
+                        className="cursor-pointer py-2 px-3 font-semibold text-indigo-500 hover:text-indigo-600 duration-150 hover:bg-gray-50 rounded-lg"
                       >
                         Edit
                       </button>

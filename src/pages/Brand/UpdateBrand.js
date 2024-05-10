@@ -38,7 +38,7 @@ const UpdateBrand = () => {
           }, [brandData]);
 
 
-          const [photo, setPhoto] = useState([item?.brandBanner?.path]|| defaultPhoto);
+          const [photo, setPhoto] = useState([item?.brandBanner]|| defaultPhoto);
           const defaultPhoto =
           "https://media.istockphoto.com/id/1147544807/vector/thumbnail-image-vector-graphic.jpg?s=612x612&w=0&k=20&c=rnCKVbdxqkjlcs3xH87-9gocETqpspHFXu5dIGB4wuM=";
           const handlePhotoChange = (e) => {
@@ -88,14 +88,10 @@ const UpdateBrand = () => {
         <div className="w-1/3 px-2 border rounded-md border-slate-300 ">Click here to upload</div></label>
        
         <input
-         {...register('brandBanner', { required: 'Photo is required',onChange:(e)=>{handlePhotoChange(e)} })}
+         {...register('brandBanner', {onChange:(e)=>{handlePhotoChange(e)} })}
        
          className="hidden w-54 sm:w-[455px] border-slate-300 text-sm text-gray-500 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" id="file_input" type="file"/>
-          {errors.productImg && (
-                <span className="text-red-500">
-                  Image of Brand is required
-                </span>
-              )}
+     
         </div>
        
         </div>
@@ -104,7 +100,7 @@ const UpdateBrand = () => {
     
     
       <div style={{ marginTop: '4rem' }}>
-          <button className="w-full px-4 py-2 text-white bg-pink-700  font-medium hover:bg-pink-900 active:bg-indigo-600 rounded-lg duration-150">
+          <button className="w-full btn-grad:hover btn-grad">
           {isLoading ? (
             <ClipLoader color="#c4c2c2" />
           ) : (<>Update</>)}

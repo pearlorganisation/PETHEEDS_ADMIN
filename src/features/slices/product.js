@@ -49,9 +49,7 @@ const productSlice = createSlice({
       .addCase(deleteProduct.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isDeleted = true;
-        state.productData = state.productData.filter(
-          (product) => product._id !== action?.payload?.payload
-        );
+     
         toast.success('Product Deleted successfully', {
           position: 'top-right',
         });

@@ -108,7 +108,7 @@ if(isDeleted){
                         onClick={() => {
                           navigate(`/updateBanner/${item?._id}`, { state: item  });
                         }}
-                        className="py-2 px-3 font-semibold text-indigo-500 hover:text-indigo-600 duration-150 hover:bg-gray-50 rounded-lg"
+                        className="cursor-pointer py-2 px-3 font-semibold text-indigo-500 hover:text-indigo-600 duration-150 hover:bg-gray-50 rounded-lg"
                       >
                         Edit
                       </a>
