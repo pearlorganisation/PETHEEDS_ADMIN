@@ -9,6 +9,7 @@ import BorderColorOutlinedIcon from '@mui/icons-material/BorderColorOutlined';
 import ViewCarouselIcon from '@mui/icons-material/ViewCarousel';
 import GridViewOutlinedIcon from '@mui/icons-material/GridViewOutlined';
 import CategoryOutlinedIcon from '@mui/icons-material/CategoryOutlined';
+import PaymentIcon from '@mui/icons-material/Payment';
 // -------------------------------------------------------------------------------
 
 const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
@@ -121,6 +122,21 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                       >
                         <GridViewOutlinedIcon/>
                         Dashboard
+                     
+                      </NavLink>
+                      </li>
+              <li>
+                  <NavLink
+                        to="/order"
+                        className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
+                          (pathname === '/' ||
+                            pathname.includes('dashboard')) &&
+                          'bg-graydark dark:bg-meta-4'
+                        }`}
+                      
+                      >
+                        <PaymentIcon/>
+                        Manage Orders
                      
                       </NavLink>
                       </li>

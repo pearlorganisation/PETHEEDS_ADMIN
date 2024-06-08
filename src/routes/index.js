@@ -58,6 +58,9 @@ const UpdateSubject = lazy(() => import('../pages/Subjects/UpdateSubject'));
 const ViewEnquiryRequests = lazy(() =>
   import('../pages/EnquiryRequests/ViewEnquiryRequest')
 );
+const ViewBookings = lazy(() =>
+  import('../pages/Booking/ViewBookings')
+);
 
 
 // ------------------------------------------------------------------------------
@@ -197,6 +200,13 @@ const coreRoutes = [
     path: '/brand',
     title: 'View Brand',
     component: ViewBrands,
+  },
+  // Booking Routes
+
+  {
+    path: '/order',
+    title: 'View Order',
+    component: ViewBookings,
   },
   
 ];

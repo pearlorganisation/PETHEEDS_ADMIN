@@ -13,6 +13,7 @@ import enquiryRequest from './slices/enquiryRequest';
 import banner from './slices/banner';
 import category from './slices/category';
 import brand from './slices/brand';
+import booking from './slices/booking';
 
 // ---------------------------------------------------------
 
@@ -42,7 +43,8 @@ const reducer = combineReducers({
   enquiryRequest,
   banner,
   category,
-  brand
+  brand,
+  booking,
 });
 
 const rootReducer = (state, action) => {
