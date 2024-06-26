@@ -431,11 +431,11 @@ onClick={() => appendPrice({ price: ""})}
           </div>
           </div>
 
-          <div className="text-2xl text-black">New In Store section <span className="text-slate-400 text-sm">(Only if you want to display)</span> </div>
+          <div className="text-2xl text-black">New In Store section <span className="font-semibold text-sm">(Only if you want to display)</span> </div>
           <div className="sm:flex space-y-6 sm:space-y-0 justify-between gap-10">
             <div className=" w-full">
 
-            <div className="font-medium space-y-6"> Product Banner <span className="text-sm text-slate-400 font-normal">(Image Size has to be 742 X 197 px) </span>
+            <div className="font-medium space-y-6"> New In Store Banner <span className="text-sm text-black font-semibold">(Image Size has to be 742 X 197 px) </span>
 
 
 
@@ -458,7 +458,7 @@ onClick={() => appendPrice({ price: ""})}
     <input
     {...register("newInStore")}
      id="default-checkbox" type="checkbox" value="" class="ms-2 me-2 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
-      <span className="text-sm text-slate-400">(Check to display in New in Store) </span>
+      <span className="text-sm text-black font-semibold">(Check to display in New in Store) </span>
 </div>
             </div>
             

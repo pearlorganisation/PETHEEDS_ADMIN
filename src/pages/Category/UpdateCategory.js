@@ -23,16 +23,10 @@ const {state:item}= useLocation()
         }
         )
 
-        // const { fields: subTitleFields, append: appendSubTitle, remove: removeSubTitle } = useFieldArray({
-        //   control,
-        //   name: "subTitle"
-        // });
-
         const onSubmit = data =>{
          
           const formData = new FormData()
           formData.append("title",data?.title)
-        //  formData.append("subTitle",JSON.stringify(data?.subTitle))
           Array.from(data?.categoryImg).forEach((img) => {
           formData.append("categoryImg",img)
           })
@@ -93,44 +87,6 @@ const {state:item}= useLocation()
                     </span>
                   )}
           </div>
-{/* 
-          <div className="sm:flex space-y-6 sm:space-y-0 justify-between "> */}
-
-          
-{/* <label className="font-bold  text-black">Sub Category Title</label>
-<button
-type="button"
-className=" border rounded-md  bg-pink-700 text-white font-semibold text-xl px-2 hover:bg-slate-950"
-onClick={() => appendSubTitle("")}
->
-+
-</button> */}
-{/* </div> */}
-{/* <ul> */}
-        {/* {subTitleFields.map((item, index) => (
-          <li key={item.id}>
-         
-<div className="sm:flex gap-10 ">
-<div className="w-full">
-
-            <input
-            {...register(`subTitle.${index}`)}
-              type="text"
-              placeholder=" Sub Category "
-              className="w-full mt-2  px-5 py-2 text-gray-500 border-slate-300 bg-transparent outline-none border focus:border-teal-400 shadow-sm rounded-lg"
-            />
-  
-          </div>
-          
-         
-          </div>
-          { index>0 && (
-            <button className=" border rounded-md bg-rose-500 text-white text-xs px-2 hover:bg-slate-950" type="button" onClick={() => removeSubTitle(index)}>Delete</button>)
-}
-          </li>
-          
-        ))} */}
-      {/* </ul> */}
             
           <div className="font-medium space-y-6"> Category Image 
              

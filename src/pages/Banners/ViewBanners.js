@@ -31,17 +31,17 @@ if(isDeleted){
 
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [id, setId] = useState();
-  const handleDelete = () => {
-    dispatch(deleteBanner(id));
-
-    setShowDeleteModal(false);
-    setId('');
-  };
-
+  
   const handleModal = (ID) => {
     setShowDeleteModal(true);
     setId(ID);
-  }; 
+    }; 
+      const handleDelete = () => {
+        dispatch(deleteBanner(id));
+    
+        setShowDeleteModal(false);
+        setId('');
+      };
   const handleAddBanner = () => {
     navigate('/createBanner');
   };

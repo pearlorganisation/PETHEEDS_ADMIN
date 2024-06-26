@@ -6,6 +6,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { deleteEnquiryRequest, getAllEnquiryRequests } from '../../features/actions/enquiryRequest';
 import { Stack,Skeleton } from '@mui/material';
+import ViewModalEnquiry from './ViewModalEnquiry';
 
 
 const ViewEnquiryRequests = () => {
@@ -37,6 +38,14 @@ const ViewEnquiryRequests = () => {
     setId(ID);
   }; 
 
+  const [showViewModal,setShowViewModal] = useState(false)
+const [viewData,setViewData]= useState()
+
+const handleViewModal=(itemData)=>{
+  setShowViewModal(true)
+  setViewData(itemData)
+}
+
   
  
   return (
@@ -59,6 +68,7 @@ const ViewEnquiryRequests = () => {
               <tr>
                 <th className="py-3 px-6">Name</th>
                 <th className="py-3 px-6">Email</th>
+                <th className="py-3 px-6">Contact Number</th>
                 <th className="py-3 px-6">Subject</th>
                 <th className="py-3 px-6">Message</th>
                
@@ -86,14 +96,24 @@ const ViewEnquiryRequests = () => {
                       {item?.email}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                    {item?.subject?.subject}
+                  {item?.number}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
+                    <td className="px-6 py-4 whitespace-nowrap truncate max-w-30">
+                    {item?.subject} 
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap truncate max-w-30">
                     {item?.message}
                     </td>
                     
                     <td className="text-right px-6 whitespace-nowrap">
-                   
+                    <button
+                        onClick={() => {
+                         handleViewModal(item)
+                        }}
+                        className="py-2 px-3 font-semibold text-green-500 hover:text-green-600 duration-150 hover:bg-gray-50 rounded-lg"
+                      >
+                        View
+                      </button>
                       <button
                         onClick={() => {
                           handleModal(item?._id);
@@ -113,6 +133,9 @@ const ViewEnquiryRequests = () => {
       </div>
       {showDeleteModal && (
         <Delete setModal={setShowDeleteModal} handleDelete={handleDelete} />
+      )}
+         {showViewModal && (
+        <ViewModalEnquiry setModal={setShowViewModal} viewData={viewData} />
       )}
     </>
   );

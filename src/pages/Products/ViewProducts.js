@@ -139,7 +139,7 @@ useEffect(()=>{
                 
                   <tr key={idx}>
                     <td className="px-6 py-4 whitespace-nowrap">{serialNumber}</td>
-                    <td className="px-6 py-4 whitespace-nowrap ">
+                    <td className="px-6 py-4 whitespace-nowrap truncate max-w-70">
                       {item?.productName}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap min-w-25 min-h-20">

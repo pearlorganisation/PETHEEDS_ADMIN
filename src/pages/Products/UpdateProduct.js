@@ -97,9 +97,9 @@ const [selectedGallery,setSelectedGallery]=useState([])
          
 
           const [photo, setPhoto] = useState([item?.productImg] || defaultPhoto );
-          const [banner, setBanner] = useState([item?.productBanner] ||"");
+          const [banner, setBanner] = useState([item?.productBanner] || defaultPhoto);
           const defaultPhoto =
-            "https://via.placeholder.com/130?text=No+Image+Selected";
+            "https://media.istockphoto.com/id/1147544807/vector/thumbnail-image-vector-graphic.jpg?s=612x612&w=0&k=20&c=rnCKVbdxqkjlcs3xH87-9gocETqpspHFXu5dIGB4wuM=";
         
             const [gallery, setGallery] = useState([]);
           
@@ -442,10 +442,14 @@ onClick={() => appendPrice({ price: ""})}
                   )}
           </div>
           </div>
-          <div className="text-2xl text-black">New In Store section</div>
+          <div className="text-2xl text-black">New In Store section <span className="font-semibold text-sm">(Only if you want to display)</span> </div>
           <div className="sm:flex space-y-6 sm:space-y-0 justify-between gap-10">
             <div className=" w-full">
-            <div className="font-medium space-y-6"> Product Banner (Image Size has to be 742 X 197) 
+
+            <div className="font-medium space-y-6"> New In Store Banner <span className="text-sm text-black font-semibold">(Image Size has to be 742 X 197 px) </span>
+
+
+
              
              <img class="mt-2 w-60 h:20 sm:w-[742px] sm:h-48 rounded" src={banner || defaultPhoto} alt="No Image"/>
              <label htmlFor="banner_input" className="flex
@@ -464,7 +468,8 @@ onClick={() => appendPrice({ price: ""})}
     <label for="default-checkbox" className="font-medium text-gray-900 dark:text-gray-300">New In Store</label>
     <input
     {...register("newInStore")}
-     id="default-checkbox" type="checkbox" value="" class="ms-2 me-2 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>(Check to display in New in Store) 
+     id="default-checkbox" type="checkbox" value="" class="ms-2 me-2 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
+      <span className="text-sm text-black font-semibold">(Check to display in New in Store) </span>
 </div>
             </div>
             

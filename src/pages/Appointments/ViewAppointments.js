@@ -3,14 +3,12 @@
 import React, { useEffect, useState } from 'react';
 import Delete from '../../components/Delete';
 import { useSelector, useDispatch } from 'react-redux';
-import { Navigate, useNavigate } from 'react-router';
 import { deleteAppointment, getAllAppointments } from '../../features/actions/appointment';
 import { Stack,Skeleton } from '@mui/material';
 
 
 const ViewAppointments = () => {
   const { appointmentData, isLoading, isDeleted } = useSelector((state) => state.appointment);
-  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -36,11 +34,9 @@ const ViewAppointments = () => {
     setShowDeleteModal(true);
     setId(ID);
   }; 
-  const handleAddAppointment = () => {
-    navigate('/createAppointment');
-  };
 
-  
+
+
  
   return (
     <>
@@ -54,14 +50,7 @@ const ViewAppointments = () => {
             People who have made appointments can be shown here.
             </p>
           </div>
-          {/* <div className="mt-3 md:mt-0">
-            <a
-              onClick={handleAddAppointment}
-              className="inline-block px-4 py-2 text-white duration-150 font-medium bg-indigo-600 rounded-lg hover:bg-indigo-500 active:bg-indigo-700 md:text-sm"
-            >
-              Add appointment
-            </a>
-          </div> */}
+       
         </div>
         <div className="mt-12 shadow-sm border rounded-lg overflow-x-auto">
           <table className="w-full table-auto text-sm text-left">
@@ -99,8 +88,8 @@ const ViewAppointments = () => {
                     {item?.subject.subject}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                    {item?.date}
-                    </td>
+  {item.date ? new Date(item.date).toISOString().split('T')[0] : ''}
+</td>
                     
                     <td className="text-right px-6 whitespace-nowrap">
                      

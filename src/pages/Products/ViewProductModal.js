@@ -1,12 +1,12 @@
 import React from 'react'
 
 export default function ViewProductModal ({viewData,setModal}) {
-    const createdAtDate = viewData?.createdAt ? new Date(viewData?.createdAt) : null;
+    const createdAtDate = viewData?.updatedAt ? new Date(viewData?.updatedAt) : null;
   const formattedDate = createdAtDate ? createdAtDate.toISOString().split('T')[0] : '';
 
   return (
     <div
-    className="fixed top-0 left-0 z-20 flex h-screen w-screen items-center justify-center bg-slate-300/20 backdrop-blur-sm"
+    className="fixed top-0 left-0 z-20 flex h-screen w-screen items-center justify-center bg-slate-300/20 backdroap-blur-sm"
     aria-labelledby="header-3a content-3a"
     aria-modal="true"
     tabindex="-1"
