@@ -6,6 +6,8 @@ import CreateBrand from '../pages/Brand/CreateBrand';
 import UpdateBrand from '../pages/Brand/UpdateBrand';
 import UpdateCategory from '../pages/Category/UpdateCategory';
 import UpdateBanner from '../pages/Banners/updateBanner';
+import ViewReviews from '../pages/Review/ViewReviews';
+import CreateReview from '../pages/Review/CreateReview';
 
 
 
@@ -207,6 +209,18 @@ const coreRoutes = [
     path: '/order',
     title: 'View Order',
     component: ViewBookings,
+  },
+  // Review Routes
+
+  {
+    path: '/review',
+    title: 'View Review',
+    component: ViewReviews,
+  },
+  {
+    path: '/createReview',
+    title: 'Create Review',
+    component: CreateReview,
   },
   
 ];

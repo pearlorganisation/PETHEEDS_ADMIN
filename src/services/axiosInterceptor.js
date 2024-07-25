@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { clearReduxStoreData } from '../features/slices/authenticationSlice';
 
 // This code is used to access redux store in this file.
 let store;
@@ -35,7 +36,8 @@ instance.interceptors.response.use(
   async (error) => {
     let errorMessage = '';
     // Do something with response error
-    let loggedInUserEmail = store.getState()?.auth?.loggedInUserData?.email;
+    let loggedInUserEmail = store.getState()?.auth?.userData?.email;
+    console.log(loggedInUserEmail, 'hellololololo');
     let originalRequest = error.config;
 
     if (
@@ -54,10 +56,12 @@ instance.interceptors.response.use(
           );
           return instance(originalRequest);
         } else {
-          errorMessage = 'Unauthorized Access';
+          store.dispatch(clearReduxStoreData());
+          errorMessage = 'Unauthorized Access. Logging out...';
           return Promise.reject(errorMessage);
         }
       } catch (error) {
+         store.dispatch(clearReduxStoreData());
         return Promise.reject(error);
       }
     }

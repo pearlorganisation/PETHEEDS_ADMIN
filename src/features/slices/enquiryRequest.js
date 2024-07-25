@@ -49,7 +49,7 @@ const enquiryRequestSlice = createSlice({
         state.enquiryRequestData = state.enquiryRequestData.filter(
           (enquiryRequest) => enquiryRequest._id !== action?.payload?.payload
         );
-        toast.success("Product Deleted successfully", {
+        toast.success("Enquiry Request Deleted successfully", {
           position: "top-right",
          }); 
       })

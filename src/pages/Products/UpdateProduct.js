@@ -34,7 +34,7 @@ const [selectedGallery,setSelectedGallery]=useState([])
           category: Array.isArray(categoryData)&& categoryData.length> 0 && categoryData.map(item=> ({ value: item?._id, label: item?.title }))
           ?.find(c=>c?.label===item?.category?.title) || ""
           ,
-          newInStore:item?.newInStore ||"",
+          newInStore:item?.newInStore || false,
           about:item?.about ||"",
           description:item?.description ||"",
         }
@@ -96,10 +96,10 @@ const [selectedGallery,setSelectedGallery]=useState([])
 
          
 
-          const [photo, setPhoto] = useState([item?.productImg] || defaultPhoto );
-          const [banner, setBanner] = useState([item?.productBanner] || defaultPhoto);
           const defaultPhoto =
             "https://media.istockphoto.com/id/1147544807/vector/thumbnail-image-vector-graphic.jpg?s=612x612&w=0&k=20&c=rnCKVbdxqkjlcs3xH87-9gocETqpspHFXu5dIGB4wuM=";
+          const [photo, setPhoto] = useState([item?.productImg] || defaultPhoto );
+          const [banner, setBanner] = useState(item?.productBanner);
         
             const [gallery, setGallery] = useState([]);
           
@@ -451,7 +451,7 @@ onClick={() => appendPrice({ price: ""})}
 
 
              
-             <img class="mt-2 w-60 h:20 sm:w-[742px] sm:h-48 rounded" src={banner || defaultPhoto} alt="No Image"/>
+             <img class="mt-2 w-60 h:20 sm:w-[742px] sm:h-48 rounded" src={banner|| defaultPhoto} alt="No Image"/>
              <label htmlFor="banner_input" className="flex
              " ><InsertPhotoOutlinedIcon/>
              <div className="w-full px-2 border rounded-md border-slate-300 ">Click here to upload</div></label>

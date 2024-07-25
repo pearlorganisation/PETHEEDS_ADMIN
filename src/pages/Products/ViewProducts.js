@@ -24,36 +24,9 @@ const ViewProduct = () => {
 
   const [page,setPage] = useState( searchParams.get("page") || 1)
   const pageCount= productData?.totalPages
-// console.log(page,"::page")
+
 
   
-  // useEffect(() => {
-  //   console.log(search,"::search")
-  // }, [search])
-  
- 
-
-  useEffect(() => {
-    const payload= {
-      search: search || `?page=1&limit=${itemsPerPage}`
-    }
-   dispatch(getAllProducts(payload));
-  }, [page]);
-
-  useEffect(() => {
-if(isDeleted){
-  const payload= {
-    page: page
-  }
- dispatch(getAllProducts(payload));
-}
-  }, [isDeleted,page]);
-
-const handlePagination = (e,p)=>{
-
-  setPage(p)
-  setSearchParams({ page: p, limit: itemsPerPage });
-}
  
 const [showViewModal,setShowViewModal] = useState(false)
 const [viewData,setViewData]= useState()
@@ -78,10 +51,33 @@ const [viewData,setViewData]= useState()
     setViewData(itemData)
   }
 
+  const handlePagination = (e,p)=>{
+
+    setPage(p)
+    setSearchParams({ page: p, limit: itemsPerPage });
+  }
+  
+  useEffect(() => {
+    const payload= {
+      search: search || `?page=1&limit=${itemsPerPage}`
+    }
+   dispatch(getAllProducts(payload));
+  }, [dispatch,page]);
+
+  useEffect(() => {
+if(isDeleted){
+  const payload= {
+      search: search || `?page=1&limit=${itemsPerPage}`
+  }
+ dispatch(getAllProducts(payload));
+}
+  }, [isDeleted,dispatch,page]);
+
+
 useEffect(()=>{
   setPage(searchParams.get("page"))
   // console.log(searchParams.get("page"))
-},[])
+},[page])
 
 
   return (

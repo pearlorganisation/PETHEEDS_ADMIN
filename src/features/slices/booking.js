@@ -26,7 +26,7 @@ const bookingSlice = createSlice({
         state.isDeleted = false;
         state.errorMessage = '';
         console.log('API Response Payload:', action.payload);
-        state.bookingData = action.payload.bookingData;
+        state.bookingData = action.payload;
       })
       .addCase(getAllBookings.rejected, (state, action) => {
         state.isLoading = false;

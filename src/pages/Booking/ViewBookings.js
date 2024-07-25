@@ -7,11 +7,13 @@ import { Stack,Skeleton } from '@mui/material';
 import { getAllBookings } from '../../features/actions/booking';
 import ViewModalBookings from './ViewModalBookings';
 import { format } from 'date-fns';
+import Pagination from '@mui/material/Pagination'
+import { useSearchParams,useLocation } from 'react-router-dom';
 
 
 const ViewBookings = () => {
-  const { bookingData, isLoading, isDeleted } = useSelector((state) => state.booking);
-  const navigate = useNavigate();
+  const { bookingData, isLoading} = useSelector((state) => state.booking);
+  const {search} = useLocation()
   const dispatch = useDispatch();
 
   const [showViewModal,setShowViewModal] = useState(false)
@@ -22,30 +24,26 @@ const [viewData,setViewData]= useState()
     setViewData(itemData)
   }
 
-  useEffect(() => {
-    dispatch(getAllBookings());
-   }, []);
- 
-//    useEffect(() => {
-//  if(isDeleted){
-//    dispatch(getAllEnquiryRequests());
-//  }
-//    }, [isDeleted]);
- 
+  const itemsPerPage= 10;
+  const[searchParams,setSearchParams]= useSearchParams({ page: 1, limit: itemsPerPage })
 
-//   const [showDeleteModal, setShowDeleteModal] = useState(false);
-//   const [id, setId] = useState();
-//   const handleDelete = () => {
-//     dispatch(deleteEnquiryRequest(id));
-//     setShowDeleteModal(false);
-//     setId('');
-//   };
+  const [page,setPage] = useState( searchParams.get("page") || 1)
+  const pageCount= bookingData?.totalPages
 
-//   const handleModal = (ID) => {
-//     setShowDeleteModal(true);
-//     setId(ID);
-//   }; 
+   useEffect(() => {
+    const payload= {
+      search: search || `?page=1&limit=${itemsPerPage}`
+    }
+   dispatch(getAllBookings(payload));
+  }, [page]);
 
+
+
+const handlePagination = (e,p)=>{
+
+  setPage(p)
+  setSearchParams({ page: p, limit: itemsPerPage });
+}
   
  
   return (
@@ -90,7 +88,7 @@ const [viewData,setViewData]= useState()
           </tr>
           ) : (
             
-               Array.isArray(bookingData) && bookingData?.map((item, idx) => (
+               Array.isArray(bookingData?.data) && bookingData?.data?.map((item, idx) => (
                   <tr key={idx}>
                     <td className="px-6 py-4 whitespace-nowrap">{item?._id}</td>
                     <td className="px-6 py-4 whitespace-nowrap">
@@ -133,9 +131,8 @@ const [viewData,setViewData]= useState()
           </table>
         </div>
       </div>
-      {/* {showDeleteModal && (
-        <Delete setModal={setShowDeleteModal} handleDelete={handleDelete} />
-      )} */}
+      <div className='flex justify-center mt-5'> <Pagination count={pageCount} page={Number(page)} color='primary' onChange={handlePagination}></Pagination></div>
+  
        {showViewModal && (
         <ViewModalBookings setModal={setShowViewModal} viewData={viewData} />
       )}

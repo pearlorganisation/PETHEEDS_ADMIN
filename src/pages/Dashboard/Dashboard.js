@@ -15,23 +15,25 @@ import { getAllBookings } from "../../features/actions/booking.js";
 const Dashboard = () => {
 const dispatch = useDispatch()
   const {brandData}= useSelector((state)=>state.brand)
-  const {blogData}= useSelector((state)=>state.blog)
   const {appointmentData}= useSelector((state)=>state.appointment)
   const {enquiryRequestData}= useSelector((state)=>state.enquiryRequest)
   const {bookingData}= useSelector((state)=>state.booking)
  
 
   useEffect(()=>{
+    const payload= {
+      search: ""
+    }
 dispatch(getAllBrands())
 dispatch(getAllAppointments())
 dispatch(getAllEnquiryRequests())
-dispatch(getAllBookings())
+dispatch(getAllBookings(payload))
   },[dispatch])
   
   return (
     <>
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7.5">
-        <CardFour data={bookingData?.length}/>
+        <CardFour data={bookingData?.data?.length}/>
         <CardTwo data={appointmentData?.length}/>
         <CardThree data={enquiryRequestData?.length}/>
         <CardOne data={brandData?.length}/>

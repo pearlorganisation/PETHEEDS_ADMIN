@@ -7,7 +7,7 @@ export const getAllBookings = createAsyncThunk(
   'getAllBookings',
   async (payload, { rejectWithValue }) => {
     try {
-      const { data } = await instance.get('/booking', payload, {
+      const { data } = await instance.get(`/booking${payload.search}`, {
         withCredentials: true,
       });
       console.log(data, 'datatattatatatat');

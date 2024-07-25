@@ -50,7 +50,7 @@ const appointmentSlice = createSlice({
         state.appointmentData = state.appointmentData.filter(
           (appointment) => appointment._id !== action?.payload?.payload
         );
-        toast.success("Product Deleted successfully", {
+        toast.success("Appointment Deleted successfully", {
           position: "top-right",
          }); 
       })

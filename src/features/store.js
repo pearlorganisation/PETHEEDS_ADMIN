@@ -14,6 +14,7 @@ import banner from './slices/banner';
 import category from './slices/category';
 import brand from './slices/brand';
 import booking from './slices/booking';
+import review from './slices/review';
 
 // ---------------------------------------------------------
 
@@ -45,6 +46,7 @@ const reducer = combineReducers({
   category,
   brand,
   booking,
+  review,
 });
 
 const rootReducer = (state, action) => {
