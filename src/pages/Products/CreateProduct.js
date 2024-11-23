@@ -161,7 +161,7 @@ const { fields: priceFields, append: appendPrice, remove: removePrice } = useFie
               }, [productData]);
 
               useEffect(() => {
-                dispatch(getAllCategorys())
+               
                 dispatch(getAllBrands())
               }, [dispatch]);
 

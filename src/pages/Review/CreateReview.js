@@ -22,6 +22,61 @@ const navigate=useNavigate()
     const {register,handleSubmit,formState: { errors },control}=useForm(
         )
 
+        const [selectedGallery,setSelectedGallery]=useState([])
+
+        const [gallery, setGallery] = useState([]);
+
+        const handleGalleryChange = (e) => {
+          const selectedImages = e.target.files;
+      
+          if (selectedImages.length > 0) {
+            // Create an array to store file objects
+            const imagesArray = [];
+      
+            Array.from(selectedImages).forEach((image) => {
+              // Create a new File object
+              const fileObject = new File([image], image.name, {
+                type: image.type,
+              });
+      
+              imagesArray.push(fileObject);
+            });
+      
+            // Update the state with the array of file objects
+            setSelectedGallery((prevGallery) => [...prevGallery, ...imagesArray]);
+      // Convert the file objects to base64 for UI display
+const base64Array = [];
+
+// Create a counter to keep track of when all images are processed
+let counter = 0;
+
+imagesArray.forEach((fileObject) => {
+const reader = new FileReader();
+reader.readAsDataURL(fileObject);
+reader.onloadend = () => {
+  base64Array.push(reader.result);
+
+  // Increment the counter
+  counter++;
+
+  // Check if all images are processed
+  if (counter === imagesArray.length) {
+    // Update the state with the base64Array
+    setGallery(base64Array
+      );
+  }
+};
+});
+}
+};
+        const removeImage = (index) => {
+          setGallery((prevGallery) => {
+            const updatedGallery = [...prevGallery];
+            updatedGallery.splice(index, 1);
+            return updatedGallery;
+          });
+        };
+
         const onSubmit = data =>{
           const {product}= data
           const productValue= product?.value
@@ -31,8 +86,8 @@ const navigate=useNavigate()
           formData.append("message",data?.message)
           formData.append("product",productValue)
         
-          Array.from(data?.photo).forEach((img) => {
-          formData.append("photo",img)
+          Array.from(data?.reviewImages).forEach((img) => {
+          formData.append("reviewImages",img)
           })
          
           console.log("review", formData.getAll('review'));
@@ -41,25 +96,7 @@ const navigate=useNavigate()
         
           }
 
-          const [photo, setPhoto] = useState("");
-          const defaultPhoto =
-            "https://media.istockphoto.com/id/1147544807/vector/thumbnail-image-vector-graphic.jpg?s=612x612&w=0&k=20&c=rnCKVbdxqkjlcs3xH87-9gocETqpspHFXu5dIGB4wuM=";
         
-         
-          
-           const handlePhotoChange = (e) => {
-                const selectedPhoto = e.target.files[0];
-               
-                if (selectedPhoto) {
-                  
-                  const reader = new FileReader();
-                  reader.readAsDataURL(selectedPhoto);
-                  reader.onloadend = () => {
-                    setPhoto(reader.result);
-                  };
-                }
-              };
-              
            
               useEffect(() => {
                 if(reviewData?.status){
@@ -156,19 +193,45 @@ const navigate=useNavigate()
             </div>
             
             <div className="sm:flex space-y-6 sm:space-y-0 justify-between gap-10">
-          <div className="w-full font-medium space-y-6"> Review Image (Optional)
-             
-             <img class="mt-2 w-full h-40  sm:w-47.5 sm:h-40 rounded" src={photo || defaultPhoto} alt="No Image"/>
-             <label htmlFor="file_input" className="flex
-             " ><InsertPhotoOutlinedIcon/>
-             <div className=" px-2 border rounded-md border-slate-300 ">Click here to upload</div></label>
+            <div className="w-full ">
+          
+            <div className="font-medium space-y-6 "> Review Images 
+             <div className="flex mt-2 flex-wrap sm:h-[140px] overflow-auto">
             
-             <input
-              {...register('photo', {onChange:(e)=>{handlePhotoChange(e)} })}
-            
-              className="hidden w-54 sm:w-[455px] border-slate-300 text-sm text-gray-500 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" id="file_input" type="file"/>
+             {gallery.map((image, index) => (
+          <div key={index} className="relative mr-5">
+           <div className="w-full mt-2"> <img
+              className="w-20 h-20 sm:w-18 sm:h-16 mr-5 rounded cursor-pointer"
+              src={image}
+              alt={`Gallery Image ${index + 1}`}
+              onClick={() => removeImage(index)}
+            />
+            </div>
+            <div
+              className="absolute top-0 right-0 px-1 cursor-pointer bg-rose-400 rounded-md hover:bg-red-600"
+              onClick={() => removeImage(index)}
+            >
+              <span className="text-white text-sm">X</span>
+            </div>
+          </div>
+        ))}
+            </div>
+    
+            <label htmlFor="gallery_input" className="flex" >
+    <InsertPhotoOutlinedIcon/>
+    <div className="w-full px-2 border rounded-md border-slate-300 ">Click here to upload</div>
+  </label>
+            <input
+             {...register('reviewImages', {onChange:(e)=>{handleGalleryChange(e)} })}
              
-             </div>
+             className="hidden" 
+             id="gallery_input" 
+             type="file"
+             multiple
+             />
+          
+            </div>
+            </div>
 
              <div className="w-full">
           <label className="font-medium">Review</label>

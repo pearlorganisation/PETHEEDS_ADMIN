@@ -63,6 +63,9 @@ const ViewEnquiryRequests = lazy(() =>
 const ViewBookings = lazy(() =>
   import('../pages/Booking/ViewBookings')
 );
+const ViewParticularProductReviews = lazy(() =>
+  import('../pages/Review/ViewParticularProductReviews')
+);
 
 
 // ------------------------------------------------------------------------------
@@ -216,6 +219,11 @@ const coreRoutes = [
     path: '/review',
     title: 'View Review',
     component: ViewReviews,
+  },
+  {
+    path: '/review/:id',
+    title: 'View Particular Product Reviews',
+    component: ViewParticularProductReviews,
   },
   {
     path: '/createReview',

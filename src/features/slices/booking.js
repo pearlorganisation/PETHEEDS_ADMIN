@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { getAllBookings } from '../actions/booking';
+import { getAllBookings, updateOrderCompletion } from '../actions/booking';
+import toast from 'react-hot-toast';
 
 const initialState = {
   isLoading: false,
@@ -32,6 +33,25 @@ const bookingSlice = createSlice({
         state.isLoading = false;
         state.errorMessage = action.payload;
       })
+      .addCase(updateOrderCompletion.pending, (state, action) => {
+        state.isLoading = true;
+       
+      })
+      .addCase(updateOrderCompletion.fulfilled, (state, action) => {
+        state.isLoading = false;
+        toast.success("Order completion status changed successfully", {
+          position: "top-right",
+        });
+      })
+     
+      .addCase(updateOrderCompletion.rejected, (state, action) => {
+        state.isLoading = false;
+        state.errorMessage = action.payload ? action.payload : 'An error occurred while creating the review.';
+        toast.error(state?.errorMessage, {
+          position: "top-right",
+        });
+      })
+      
 
         
  

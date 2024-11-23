@@ -1,12 +1,11 @@
 // AdminPanel.js
 
 import React, { useEffect, useState } from 'react';
-import Delete from '../../components/Delete';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { deleteReview, getAllReviews } from '../../features/actions/review';
 import { Stack,Skeleton } from '@mui/material';
-import StarIcon from '@mui/icons-material/Star';
+import { format } from 'date-fns';
 
 
 
@@ -17,19 +16,6 @@ const ViewReviews = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [id, setId] = useState();
-  
-  const handleModal = (ID) => {
-    setShowDeleteModal(true);
-    setId(ID);
-    }; 
-      const handleDelete = () => {
-        dispatch(deleteReview(id));
-    
-        setShowDeleteModal(false);
-        setId('');
-      };
   const handleAddReview = () => {
     navigate('/createReview');
   };
@@ -70,13 +56,14 @@ const ViewReviews = () => {
         <div className="mt-12 shadow-sm border rounded-lg overflow-x-auto">
           <table className="w-full table-auto text-sm text-left">
             <thead className="bg-gray-50 text-gray-600 font-medium border-b">
-              <tr>
+              <tr >
                 
                 <th className="py-4 px-6">Product</th>
-                <th className="py-4 px-6">Total Ratings</th>
-                <th className="py-4 px-6">Total Reviews</th>
-                <th className="py-4 px-6">Total Images</th>
-                <th className="py-4 px-6">Actions</th>
+                <th className="py-4 px-6 text-center">Total Ratings</th>
+                <th className="py-4 px-6 text-center">Total Text Reviews</th>
+                <th className="py-4 px-6 text-center">Total Review Images</th>
+                <th className="py-4 px-6 text-center">Latest Review Date</th>
+                <th className="py-4 px-6 text-center">Actions</th>
               
                 
               </tr>
@@ -84,7 +71,7 @@ const ViewReviews = () => {
             <tbody className="text-gray-600 divide-y">
             {isLoading ? (
             <tr>
-            <td colSpan="5" className="text-center px-6 py-8">
+            <td colSpan="6" className="text-center px-6 py-8">
               <Stack spacing={4}>
                 <Skeleton variant="rounded" height={30} />
                 <Skeleton variant="rounded" height={25}/>
@@ -110,24 +97,19 @@ const ViewReviews = () => {
                     <td className="text-center px-6 py-4 whitespace-nowrap">
                     {item?.totalImages}
                     </td>
+                    <td className="text-center px-6 py-4 whitespace-nowrap">
+                    {format(new Date(item?.latestReviewDate), 'EEE, d MMM yyyy')}
+                    </td>
                     
                    
                     <td className=" whitespace-nowrap">
                       <button
                         onClick={() => {
-                          handleModal(item?._id);
+                          navigate(`/review/${item?._id}`,{state:item})
                         }}
                         className="py-2 leading-none px-3 font-semibold text-green-500 hover:text-green-600 duration-150 hover:bg-gray-50 rounded-lg"
                       >
                         Check Reviews
-                      </button>
-                      <button
-                        onClick={() => {
-                          handleModal(item?._id);
-                        }}
-                        className="py-2 leading-none px-3 font-semibold text-red-500 hover:text-red-600 duration-150 hover:bg-gray-50 rounded-lg"
-                      >
-                        Delete
                       </button>
                     </td>
                   </tr>
@@ -138,9 +120,7 @@ const ViewReviews = () => {
           </table>
         </div>
       </div>
-      {showDeleteModal && (
-        <Delete setModal={setShowDeleteModal} handleDelete={handleDelete} />
-      )}
+  
     </>
   );
 };

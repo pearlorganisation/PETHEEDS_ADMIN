@@ -7,7 +7,10 @@ import { Stack,Skeleton } from '@mui/material';
 import ViewProductModal from './ViewProductModal';
 import Pagination from '@mui/material/Pagination'
 import { useSearchParams,useLocation } from 'react-router-dom';
-
+import { IoSearchOutline } from "react-icons/io5";
+import { useDebounce } from "../../utils/debouncing";
+import { getAllCategorys } from '../../features/actions/category';
+import { MdOutlineArrowDropDownCircle } from "react-icons/md";
 
 
 
@@ -15,6 +18,7 @@ import { useSearchParams,useLocation } from 'react-router-dom';
 const ViewProduct = () => {
   
   const { productData, isDeleted, isLoading } = useSelector((state) => state.product);
+  const {categoryData}= useSelector((state)=>state.category)
   const {search} = useLocation()
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -25,13 +29,15 @@ const ViewProduct = () => {
   const [page,setPage] = useState( searchParams.get("page") || 1)
   const pageCount= productData?.totalPages
 
-
-  
- 
+  const [searchBox, setSearchBox] = useState('');
+  const debouncedSearch = useDebounce(searchBox)
+const [filter,setFilter] = useState('');
 const [showViewModal,setShowViewModal] = useState(false)
 const [viewData,setViewData]= useState()
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [id, setId] = useState();
+
+
   const handleDelete = () => {
     dispatch(deleteProduct(id));
 
@@ -57,41 +63,71 @@ const [viewData,setViewData]= useState()
     setSearchParams({ page: p, limit: itemsPerPage });
   }
   
+  const getProduct = () => {
+    dispatch(getAllProducts({search:search || `?page=1&limit=${itemsPerPage}`,productName:searchBox,category:filter
+    }));
+  };
+
+
+ 
   useEffect(() => {
-    const payload= {
-      search: search || `?page=1&limit=${itemsPerPage}`
-    }
-   dispatch(getAllProducts(payload));
-  }, [dispatch,page]);
+    getProduct()
+  }, [page,filter,debouncedSearch]);
 
   useEffect(() => {
 if(isDeleted){
-  const payload= {
-      search: search || `?page=1&limit=${itemsPerPage}`
-  }
- dispatch(getAllProducts(payload));
+  getProduct();
 }
-  }, [isDeleted,dispatch,page]);
+  }, [isDeleted]);
 
 
 useEffect(()=>{
   setPage(searchParams.get("page"))
-  // console.log(searchParams.get("page"))
 },[page])
+
+useEffect(()=>{
+  dispatch(getAllCategorys())
+},[])
 
 
   return (
     <>
       <div className="max-w-screen-xl ">
-        <div className="items-start justify-between md:flex">
-          <div className="max-w-lg">
+        <div className="justify-between md:flex">
+      
             <h3 className="text-gray-800 text-xl font-bold sm:text-2xl">
               Manage Products
             </h3>
-            <p className="text-gray-600 mt-2">
-            This page is for handle products by Create, Update and Delete
-            </p>
+            <div className="flex justify-between items-center  ">
+            <input
+              onChange={(e) => {
+                setSearchBox(e.target.value);
+              }}
+              className="bg-white py-[6px] pl-3 pr-10 rounded-lg focus:ring-offset-2 focus:ring-indigo-600 focus:ring-2  outline-none"
+              placeholder="Search product name"
+            ></input>
+               <div className='-translate-x-6'><IoSearchOutline /></div>
+         
           </div>
+            <div className="flex  items-center justify-center rounded-lg ">
+            <select
+                            value={filter === "" ? "" : filter}
+                            onChange={(e) => setFilter(e.target.value)}
+                            className="py-2 pl-3 pr-10 text-sm text-gray-600  rounded-lg  shadow-sm outline-none appearance-none focus:ring-offset-2 focus:ring-indigo-600 focus:ring-2"
+                          >
+                                <option value="" hidden>
+                             Filter By Category
+                            </option>
+                            {Array.isArray(categoryData)&& categoryData.length> 0 && categoryData.map(item=>
+                            <option value={item?._id} > {item?.title} </option>
+                            )}
+
+                          </select>
+                          <div className='-translate-x-6'> <MdOutlineArrowDropDownCircle className='' /></div>
+                          <button onClick={()=>setFilter("")} className='text-xs bg-red-600 hover:bg-red-500 px-2 py-1 rounded-lg text-white font-semibold'>Remove</button>
+                         
+          </div>
+          
           <div className="mt-3 md:mt-0">
             <a
               onClick={handleAddProduct}
@@ -101,7 +137,7 @@ useEffect(()=>{
             </a>
           </div>
         </div>
-        <div className="mt-12 shadow-sm border rounded-lg overflow-x-auto">
+        <div className="mt-6 shadow-sm border rounded-lg overflow-x-auto">
           <table className="w-full table-auto text-sm text-left">
             <thead className="bg-gray-50 text-gray-600 font-medium border-b">
               <tr>
@@ -128,8 +164,8 @@ useEffect(()=>{
               </Stack>
             </td>
           </tr>
-          ) : (
-               Array?.isArray(productData?.data) && productData?.data?.length > 0 && productData?.data?.map((item, idx) =>{
+          ) :  (
+               Array?.isArray(productData?.data) && productData?.data?.length > 0 ? productData?.data?.map((item, idx) =>{
                 const serialNumber = (page - 1) * itemsPerPage + idx + 1;
                 return (
                 
@@ -177,8 +213,10 @@ useEffect(()=>{
                     </td>
                   </tr>
                 )})
+                : <div className='text-center py-2'>No Data Found</div>
               
-              )}
+              ) 
+              }
             </tbody>
           </table>
         </div>

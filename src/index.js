@@ -18,7 +18,7 @@ let persistor = persistStore(store);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
+
     <Router basename="">
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
@@ -28,7 +28,7 @@ root.render(
         </PersistGate>
       </Provider>
     </Router>
-   </React.StrictMode>
+
 );
 
 // If you want to start measuring performance in your app, pass a function

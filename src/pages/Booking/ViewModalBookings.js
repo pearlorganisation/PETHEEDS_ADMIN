@@ -95,15 +95,15 @@ export default function ViewModalBookings ({viewData,setModal}) {
       </tr>
       <tr>
         <td className="py-2 px-4 border border-b-[1px] border-gray-300">Shipping Contact Number</td>
-        <td className="py-2 px-4 border border-gray-300"><span className={`bg-slate-100 mb-2 rounded-md px-2 py-1`}>{viewData?.address?.phoneNumber}</span></td>
+        <td className="py-2 px-4 border border-gray-300"><span className={`bg-slate-100 mb-2 rounded-md px-2 py-1`}>{viewData?.address?.phoneNumber || "Contact Number is removed."}</span></td>
       </tr>
       <tr>
         <td className="py-2 px-4 border border-b-[1px] border-gray-300">Shipping Address</td>
-        <td className="py-2 px-4 border border-gray-300">{viewData?.address?.address}<br/>
+       { viewData?.address?.address ? <td className="py-2 px-4 border border-gray-300">{viewData?.address?.address} <br/>
         {viewData?.address?.locality}<br/>
         {viewData?.address?.city}, {viewData?.address?.state}<br/>
-        {viewData?.address?.pincode}
-        </td>
+        {viewData?.address?.pincode} 
+        </td> :   <td className="py-2 px-4 border border-gray-300"><span className={`bg-slate-100 mb-2 rounded-md px-2 py-1`}>Address is removed.</span></td>}
       </tr>
    
 

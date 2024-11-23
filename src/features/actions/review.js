@@ -18,6 +18,22 @@ export const getAllReviews = createAsyncThunk(
   }
 );
 
+//get all review api
+export const getParticularProductReviews = createAsyncThunk(
+  'getParticularProductReviews',
+  async (id, { rejectWithValue }) => {
+    try {
+      const response = await instance.get(`/review/${id}`, {
+        withCredentials: true,
+      });
+      
+      return response?.data;
+    } catch (e) {
+      return rejectWithValue(e?.message);
+    }
+  }
+);
+
 //delete review api
 export const deleteReview = createAsyncThunk(
   'deleteReview',
@@ -47,6 +63,21 @@ export const createReview = createAsyncThunk(
         headers: {
           'Content-type': 'multipart/form-data',
         },
+      });
+      return response;
+    } catch (e) {
+      return rejectWithValue(e?.message);
+    }
+  }
+);
+
+//approval Review api
+export const approvalReview = createAsyncThunk(
+  'approvalReview',
+  async (payload, { rejectWithValue }) => {
+    try {
+      const response = await instance.patch(`/review/${payload.reviewId}`, payload, {
+        withCredentials: true
       });
       return response;
     } catch (e) {
