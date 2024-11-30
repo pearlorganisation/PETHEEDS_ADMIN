@@ -22,7 +22,9 @@ const dispatch = useDispatch()
 
   useEffect(()=>{
     const payload= {
-      search: ""
+      search: "",
+      _id:"",
+      orderStatus:""
     }
 dispatch(getAllBrands())
 dispatch(getAllAppointments())
