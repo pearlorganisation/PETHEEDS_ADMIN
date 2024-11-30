@@ -68,7 +68,7 @@ const [viewData,setViewData]= useState()
   }, [bookingData]);
 
   const getBookings = () => {
-    dispatch(getAllBookings({search:search || `?page=1&limit=${itemsPerPage}`,_id:searchBox,orderStatus:filter
+    dispatch(getAllBookings({search:search || `?page=1&limit=${itemsPerPage}`,_id:`&_id=${searchBox}`,orderStatus:`&orderStatus=${filter}`
     }));
   };
   
