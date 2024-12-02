@@ -64,7 +64,7 @@ const [viewData,setViewData]= useState()
   }
   
   const getProduct = () => {
-    dispatch(getAllProducts({search:search || `?page=1&limit=${itemsPerPage}`,productName:searchBox,category:filter
+    dispatch(getAllProducts({search:search || `?page=1&limit=${itemsPerPage}`,productName:`&productName=${searchBox}`,category:`&category=${filter}`
     }));
   };
 
