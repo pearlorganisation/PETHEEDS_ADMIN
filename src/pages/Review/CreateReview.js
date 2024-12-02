@@ -18,6 +18,7 @@ const navigate=useNavigate()
 
   const {reviewData,isLoading} = useSelector((state)=>state.review)
   const {productData} = useSelector((state)=>state.product)
+  const {_id} = useSelector((state)=>state.auth.loggedInUserData.data)
 
     const {register,handleSubmit,formState: { errors },control}=useForm(
         )
@@ -82,6 +83,8 @@ reader.onloadend = () => {
           const productValue= product?.value
           console.log(data)
           const formData = new FormData()
+          
+          formData.append("username",_id)
           formData.append("rating",data?.rating)
           formData.append("message",data?.message)
           formData.append("product",productValue)
@@ -106,8 +109,11 @@ reader.onloadend = () => {
 
               useEffect(()=>{
                 dispatch(getAllProducts( {
-                  search: ""
-                }));
+                  search: "",
+                    productName:"",
+                    category:""
+                  }
+                ));
               },[])
 
   return (
