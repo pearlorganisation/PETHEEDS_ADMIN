@@ -1,16 +1,15 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { instance } from '../../services/axiosInterceptor';
 
-
 //get all product api
 export const getAllProducts = createAsyncThunk(
   'getProduct',
   async (payload, { rejectWithValue }) => {
     try {
-      const response = await instance.get(`/product${payload.search}&productName=${payload.productName}&category=${payload.category}`, {
+      const response = await instance.get(`/product`, {
         withCredentials: true,
       });
-      
+
       return response;
     } catch (e) {
       return rejectWithValue(e?.message);
