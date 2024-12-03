@@ -6,9 +6,13 @@ export const getAllProducts = createAsyncThunk(
   'getProduct',
   async (payload, { rejectWithValue }) => {
     try {
-      const response = await instance.get(`/product`, {
-        withCredentials: true,
-      });
+      console.log(payload, 'dsfSDFFDSFF');
+      const response = await instance.get(
+        `/product${payload.search}${payload.productName}${payload.category}`,
+        {
+          withCredentials: true,
+        }
+      );
 
       return response;
     } catch (e) {

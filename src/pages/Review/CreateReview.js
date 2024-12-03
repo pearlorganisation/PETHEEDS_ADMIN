@@ -16,6 +16,7 @@ const CreateReview = () => {
 
   const { reviewData, isLoading } = useSelector((state) => state.review);
   const { productData } = useSelector((state) => state.product);
+  const { loggedInUserData } = useSelector((state) => state.auth);
 
   const {
     register,
@@ -83,6 +84,8 @@ const CreateReview = () => {
     const productValue = product?.value;
     console.log(data);
     const formData = new FormData();
+
+    formData.append('username', loggedInUserData?.data?._id);
     formData.append('rating', data?.rating);
     formData.append('message', data?.message);
     formData.append('product', productValue);
@@ -103,7 +106,13 @@ const CreateReview = () => {
   }, [reviewData]);
 
   useEffect(() => {
-    dispatch(getAllProducts());
+    dispatch(
+      getAllProducts({
+        search: '',
+        productName: '',
+        category: '',
+      })
+    );
   }, []);
 
   return (
