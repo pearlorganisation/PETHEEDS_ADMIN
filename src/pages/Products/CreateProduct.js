@@ -6,7 +6,6 @@ import InsertPhotoOutlinedIcon from '@mui/icons-material/InsertPhotoOutlined';
 import { createProduct } from '../../features/actions/product';
 import { useNavigate } from 'react-router-dom';
 import { ClipLoader } from 'react-spinners';
-import { getAllCategorys } from '../../features/actions/category';
 import { getAllBrands } from '../../features/actions/brand';
 
 const CreateProduct = () => {
@@ -51,47 +50,41 @@ const CreateProduct = () => {
     formData.append('productName', data?.productName);
     formData.append('productSlug', data?.productSlug);
     formData.append('category', categoryValue);
-    formData.append('newInStore', data?.newInStore);
+    // formData.append('newInStore', data?.newInStore);
     formData.append('price', JSON.stringify(data?.price));
     formData.append('discount', data?.discount);
     formData.append('about', data?.about);
     formData.append('description', data?.description);
-    Array.from(data?.productBanner).forEach((img) => {
-      formData.append('productBanner', img);
-    });
+    // Array.from(data?.productBanner).forEach((img) => {
+    //   formData.append('productBanner', img);
+    // });
     Array.from(data?.productImg).forEach((img) => {
       formData.append('productImg', img);
     });
     Array.from(data?.gallery).forEach((img) => {
       formData.append('gallery', img);
     });
-
-    // console.log("formdata", formData.getAll('gallery'));
-    console.log('category', formData.getAll('category'));
-
-    console.log('category::', categoryValue);
-    // console.log("productImg::",data?.productImg)
     dispatch(createProduct(formData));
   };
 
   const [photo, setPhoto] = useState('');
-  const [banner, setBanner] = useState('');
+  // const [banner, setBanner] = useState('');
   const defaultPhoto =
     'https://media.istockphoto.com/id/1147544807/vector/thumbnail-image-vector-graphic.jpg?s=612x612&w=0&k=20&c=rnCKVbdxqkjlcs3xH87-9gocETqpspHFXu5dIGB4wuM=';
 
   const [gallery, setGallery] = useState([]);
 
-  const handleBannerChange = (e) => {
-    const selectedPhoto = e.target.files[0];
+  // const handleBannerChange = (e) => {
+  //   const selectedPhoto = e.target.files[0];
 
-    if (selectedPhoto) {
-      const reader = new FileReader();
-      reader.readAsDataURL(selectedPhoto);
-      reader.onloadend = () => {
-        setBanner(reader.result);
-      };
-    }
-  };
+  //   if (selectedPhoto) {
+  //     const reader = new FileReader();
+  //     reader.readAsDataURL(selectedPhoto);
+  //     reader.onloadend = () => {
+  //       setBanner(reader.result);
+  //     };
+  //   }
+  // };
   const handlePhotoChange = (e) => {
     const selectedPhoto = e.target.files[0];
 
@@ -490,7 +483,7 @@ const CreateProduct = () => {
               </div>
             </div>
 
-            <div className="text-2xl text-black">
+            {/* <div className="text-2xl text-black">
               New In Store section{' '}
               <span className="font-semibold text-sm">
                 (Only if you want to display)
@@ -551,7 +544,7 @@ const CreateProduct = () => {
                   </span>
                 </div>
               </div>
-            </div>
+            </div> */}
             <div style={{ marginTop: '4rem' }}>
               <button className="w-full btn-grad:hover btn-grad">
                 {isLoading ? <ClipLoader color="#c4c2c2" /> : <>Create</>}

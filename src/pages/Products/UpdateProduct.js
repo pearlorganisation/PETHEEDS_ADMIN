@@ -81,27 +81,21 @@ const UpdateProduct = () => {
     formData.append('productName', data?.productName);
     formData.append('productSlug', data?.productSlug);
     formData.append('category', categoryValue);
-    formData.append('newInStore', data?.newInStore);
+    // formData.append('newInStore', data?.newInStore);
     formData.append('price', JSON.stringify(data?.price));
 
     formData.append('discount', data?.discount);
     formData.append('about', data?.about);
     formData.append('description', data?.description);
-    Array.from(data?.productBanner).forEach((img) => {
-      formData.append('productBanner', img);
-    });
+    // Array.from(data?.productBanner).forEach((img) => {
+    //   formData.append('productBanner', img);
+    // });
     Array.from(data?.productImg).forEach((img) => {
       formData.append('productImg', img);
     });
     Array.from(data?.gallery).forEach((img) => {
       formData.append('gallery', img);
     });
-
-    // console.log("gallery::",data?.gallery)
-    // console.log("productImg::",data?.productImg)
-
-    // console.log("formdata", formData.getAll('gallery'));
-    // console.log("productImg", formData.getAll('productImg'));
 
     dispatch(updateProduct({ id: item._id, payload: formData }));
   };
@@ -124,17 +118,17 @@ const UpdateProduct = () => {
 
   const [gallery, setGallery] = useState([]);
 
-  const handleBannerChange = (e) => {
-    const selectedPhoto = e.target.files[0];
+  // const handleBannerChange = (e) => {
+  //   const selectedPhoto = e.target.files[0];
 
-    if (selectedPhoto) {
-      const reader = new FileReader();
-      reader.readAsDataURL(selectedPhoto);
-      reader.onloadend = () => {
-        setBanner(reader.result);
-      };
-    }
-  };
+  //   if (selectedPhoto) {
+  //     const reader = new FileReader();
+  //     reader.readAsDataURL(selectedPhoto);
+  //     reader.onloadend = () => {
+  //       setBanner(reader.result);
+  //     };
+  //   }
+  // };
 
   const handlePhotoChange = (e) => {
     const selectedPhoto = e.target.files[0];
@@ -532,7 +526,7 @@ const UpdateProduct = () => {
                 )}
               </div>
             </div>
-            <div className="text-2xl text-black">
+            {/* <div className="text-2xl text-black">
               New In Store section{' '}
               <span className="font-semibold text-sm">
                 (Only if you want to display)
@@ -593,7 +587,7 @@ const UpdateProduct = () => {
                   </span>
                 </div>
               </div>
-            </div>
+            </div> */}
             <div style={{ marginTop: '4rem' }}>
               <button className="w-full btn-grad:hover btn-grad" type="submit">
                 {isLoading ? <ClipLoader color="#c4c2c2" /> : <>Update</>}

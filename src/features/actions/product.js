@@ -6,7 +6,6 @@ export const getAllProducts = createAsyncThunk(
   'getProduct',
   async (payload, { rejectWithValue }) => {
     try {
-      console.log(payload, 'dsfSDFFDSFF');
       const response = await instance.get(
         `/product${payload.search}${payload.productName}${payload.category}`,
         {

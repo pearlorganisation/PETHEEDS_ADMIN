@@ -71,7 +71,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
         sidebarOpen ? 'translate-x-0' : '-translate-x-full'
       }`}
     >
-      <div className="flex items-center justify-between gap-2 py-5.5 lg:py-6.5">
+      <div className="flex items-center justify-between gap-2 py-5.5 pt-20 lg:pt-0 lg:py-6.5">
         <NavLink to="/">
           <h2 className="text-white text-3xl font-bold text-center">
             PETHEEDS Admin Panel
@@ -102,7 +102,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
       </div>
 
       <div className="no-scrollbar flex flex-col overflow-y-auto duration-300 ease-linear">
-        <nav className="mt-5 py-4 px-4 lg:mt-9 lg:px-6">
+        <nav className="mt-0 px-4 lg:mt-0 lg:px-6">
           <div>
             <h3 className="mb-4 ml-4 text-sm font-semibold text-bodydark2">
               MENU

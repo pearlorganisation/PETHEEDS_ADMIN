@@ -58,7 +58,7 @@ export const createReview = createAsyncThunk(
   'createReview',
   async (payload, { rejectWithValue }) => {
     try {
-      const response = await instance.post(`/review`, payload, {
+      const response = await instance.post(`/review/adminGenerated`, payload, {
         withCredentials: true,
         headers: {
           'Content-type': 'multipart/form-data',

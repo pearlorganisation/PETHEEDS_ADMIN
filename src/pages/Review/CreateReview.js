@@ -1,21 +1,25 @@
-import React, { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useForm, Controller } from 'react-hook-form';
-
-import Select from 'react-select';
+import React, { useState,useEffect } from "react";
+import { useDispatch,useSelector } from "react-redux";
+import { useForm ,Controller} from "react-hook-form";
+import Select from "react-select";
 import InsertPhotoOutlinedIcon from '@mui/icons-material/InsertPhotoOutlined';
 import { createReview } from '../../features/actions/review';
 import { useNavigate } from 'react-router-dom';
 import { ClipLoader } from 'react-spinners';
 import { getAllProducts } from '../../features/actions/product';
-import { Rating } from '@mui/material';
+import { Rating } from "@mui/material";
+import axios from "axios";
+
+
+
 
 const CreateReview = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
-  const { reviewData, isLoading } = useSelector((state) => state.review);
-  const { productData } = useSelector((state) => state.product);
+const [randomName,setRandomName]= useState()
+  const {reviewData,isLoading} = useSelector((state)=>state.review)
+  const {productData} = useSelector((state)=>state.product)
+  const {_id} = useSelector((state)=>state.auth.loggedInUserData.data)
   const { loggedInUserData } = useSelector((state) => state.auth);
 
   const {
@@ -79,25 +83,38 @@ const CreateReview = () => {
     });
   };
 
-  const onSubmit = (data) => {
-    const { product } = data;
-    const productValue = product?.value;
-    console.log(data);
-    const formData = new FormData();
+        const getRandomIndianName = async()=>{
+          try {
+            const {data} = await axios.get(`https://randomuser.me/api/?nat=in`)
+            setRandomName(`${data.results[0].name.first} ${data.results[0].name.last}`)
+          } catch (error) {
+            console.log(error,"Err:")
+          }
+        
+        }
 
-    formData.append('username', loggedInUserData?.data?._id);
-    formData.append('rating', data?.rating);
-    formData.append('message', data?.message);
-    formData.append('product', productValue);
+        console.log(randomName)
 
-    Array.from(data?.reviewImages).forEach((img) => {
-      formData.append('reviewImages', img);
-    });
-
-    console.log('review', formData.getAll('review'));
-
-    dispatch(createReview(formData));
-  };
+        const onSubmit = data =>{
+          const {product}= data
+          const productValue= product?.value
+          console.log(data)
+          const formData = new FormData()
+          
+          formData.append("username",randomName)
+          formData.append("rating",data?.rating)
+          formData.append("message",data?.message)
+          formData.append("product",productValue)
+        
+          Array.from(data?.reviewImages).forEach((img) => {
+          formData.append("reviewImages",img)
+          })
+         
+          console.log("review", formData.getAll('review'));
+          
+          dispatch(createReview(formData))
+        
+          }
 
   useEffect(() => {
     if (reviewData?.status) {
@@ -105,15 +122,15 @@ const CreateReview = () => {
     }
   }, [reviewData]);
 
-  useEffect(() => {
-    dispatch(
-      getAllProducts({
-        search: '',
-        productName: '',
-        category: '',
-      })
-    );
-  }, []);
+              useEffect(()=>{
+                getRandomIndianName()
+                dispatch(getAllProducts( {
+                  search: "",
+                    productName:"",
+                    category:""
+                  }
+                ));
+              },[])
 
   return (
     <div>

@@ -8,13 +8,14 @@ import { useEffect } from "react";
 
 import { getAllAppointments} from "../../features/actions/appointment.js"
 import { getAllEnquiryRequests } from "../../features/actions/enquiryRequest.js";
-import { getAllBrands } from "../../features/actions/brand.js";
 import { getAllBookings } from "../../features/actions/booking.js";
+import { getAllProducts } from "../../features/actions/product.js";
+import { Link } from "react-router-dom";
 // ----------------------------------------------------------------------
 
 const Dashboard = () => {
 const dispatch = useDispatch()
-  const {brandData}= useSelector((state)=>state.brand)
+  const {productData}= useSelector((state)=>state.product)
   const {appointmentData}= useSelector((state)=>state.appointment)
   const {enquiryRequestData}= useSelector((state)=>state.enquiryRequest)
   const {bookingData}= useSelector((state)=>state.booking)
@@ -26,7 +27,11 @@ const dispatch = useDispatch()
       _id:"",
       orderStatus:""
     }
-dispatch(getAllBrands())
+dispatch(getAllProducts({
+  search: "",
+    productName:"",
+    category:""
+  }))
 dispatch(getAllAppointments())
 dispatch(getAllEnquiryRequests())
 dispatch(getAllBookings(payload))
@@ -35,10 +40,13 @@ dispatch(getAllBookings(payload))
   return (
     <>
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7.5">
-        <CardFour data={bookingData?.data?.length}/>
-        <CardTwo data={appointmentData?.length}/>
-        <CardThree data={enquiryRequestData?.length}/>
-        <CardOne data={brandData?.length}/>
+        <Link to={"/order"}><CardFour data={bookingData?.data?.length}/></Link>
+        <Link to={"/appointment"}><CardTwo data={appointmentData?.length}/></Link>
+        <Link to={"/enquiryRequest"}> <CardThree data={enquiryRequestData?.length}/></Link>
+        <Link to={"/product"}><CardOne data={productData?.length}/></Link>
+ 
+       
+        
       </div>
 
       {/* <div className="mt-4 grid grid-cols-12 gap-4 md:mt-6 md:gap-6 2xl:mt-7.5 2xl:gap-7.5">
