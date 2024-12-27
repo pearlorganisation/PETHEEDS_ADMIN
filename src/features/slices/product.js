@@ -35,7 +35,6 @@ const productSlice = createSlice({
         state.isDeleted = false;
 
         state.productData = action.payload.data;
-
       })
       .addCase(getAllProducts.rejected, (state, action) => {
         state.isLoading = false;
@@ -49,7 +48,7 @@ const productSlice = createSlice({
       .addCase(deleteProduct.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isDeleted = true;
-     
+
         toast.success('Product Deleted successfully', {
           position: 'top-right',
         });
@@ -78,6 +77,7 @@ const productSlice = createSlice({
       .addCase(updateProduct.rejected, (state, action) => {
         state.isLoading = false;
         state.errorMessage = action.payload;
+
         toast.error(action.payload, {
           position: 'top-right',
         });

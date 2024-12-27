@@ -3,9 +3,10 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router';
-import { deleteReview, getAllReviews } from '../../features/actions/review';
+import { getAllReviews } from '../../features/actions/review';
 import { Stack,Skeleton } from '@mui/material';
 import { format } from 'date-fns';
+import Tooltip from '@mui/material/Tooltip';
 
 
 
@@ -59,9 +60,10 @@ const ViewReviews = () => {
               <tr >
                 
                 <th className="py-4 px-6">Product</th>
-                <th className="py-4 px-6 text-center">Total Ratings</th>
+                <th className="py-4 px-6 text-center">Total Reviews</th>
                 <th className="py-4 px-6 text-center">Total Text Reviews</th>
                 <th className="py-4 px-6 text-center">Total Review Images</th>
+                <th className="py-4 px-6 text-center">Total Admin Reviews</th>
                 <th className="py-4 px-6 text-center">Latest Review Date</th>
                 <th className="py-4 px-6 text-center">Actions</th>
               
@@ -85,9 +87,9 @@ const ViewReviews = () => {
                Array.isArray(reviewData) && reviewData.length > 0 && reviewData?.map((item, idx) => (
                   <tr key={idx} className=''>
                 
-                    <td className="px-6 py-4 whitespace-nowrap truncate max-w-100">
+               < Tooltip title={item?.productDetails?.productName} arrow>  <td className="cursor-pointer px-6 py-4 whitespace-nowrap truncate max-w-100">
                       {item?.productDetails?.productName}
-                    </td>
+                    </td></Tooltip>
                     <td className="text-center px-6 py-4 whitespace-nowrap ">
                       {item?.totalRatings}
                     </td>
@@ -98,7 +100,10 @@ const ViewReviews = () => {
                     {item?.totalImages}
                     </td>
                     <td className="text-center px-6 py-4 whitespace-nowrap">
-                    {format(new Date(item?.latestReviewDate), 'EEE, d MMM yyyy')}
+                    {item?.totalIsAdmin}
+                    </td>
+                    <td className="text-center px-6 py-4 whitespace-nowrap">
+                    {format(new Date(item?.latestReviewDate||null), 'EEE, d MMM yyyy')}
                     </td>
                     
                    

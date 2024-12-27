@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import Delete from '../../components/Delete';
 import { useSelector, useDispatch } from 'react-redux';
-import { useNavigate, useLocation } from 'react-router';
+import { useLocation } from 'react-router';
 import { approvalReview, deleteReview, getAllReviews, getParticularProductReviews } from '../../features/actions/review';
 import { Stack, Skeleton } from '@mui/material';
 import StarIcon from '@mui/icons-material/Star';
+import Tooltip from '@mui/material/Tooltip';
 
 const ViewParticularProductReviews = () => {
   const { particularProductData, isDeleted, isLoading } = useSelector((state) => state.review);
-  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { state: productId } = useLocation();
 
@@ -74,6 +74,7 @@ const ViewParticularProductReviews = () => {
               <tr>
                 <th className="py-4 px-3">S.No.</th>
                 <th className="py-4 px-3">Rating</th>
+                <th className="py-4 px-3">User Name</th>
                 <th className="py-4 px-3">Text Review</th>
                 <th className="py-4 px-3">Review Images</th>
                 <th className="py-4 px-3">Actions</th>
@@ -105,7 +106,12 @@ const ViewParticularProductReviews = () => {
                           <StarIcon key={index} className="text-yellow-500 inline-block" />
                         ))}
                     </td>
-                    <td className="text-start px-3 py-4 max-w-50 truncate ">{item?.message}</td>
+                    <Tooltip title={item?.username} arrow><td className="cursor-pointer text-start px-3 py-4 max-w-34 truncate ">
+                      {item?.username}{item?.isAdmin? <><br/><span className='bg-blue-600 rounded-md  px-1 text-white'>Admin Generated</span></> :""}</td>
+                      </Tooltip>
+                    <Tooltip title={item?.message} arrow>
+                    <td className="text-start px-3 py-4 max-w-50 truncate cursor-pointer ">{item?.message}</td>
+    </Tooltip> 
                     <td className="flex flex-wrap gap-3 px-3 py-4 whitespace-nowrap">
                       {item?.reviewImages?.length > 0 ? (
                         item?.reviewImages.map((img, idx) => (

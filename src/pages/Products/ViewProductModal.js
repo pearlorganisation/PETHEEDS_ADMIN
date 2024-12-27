@@ -72,14 +72,14 @@ export default function ViewProductModal ({viewData,setModal}) {
       </tr>
    
 
-      <tr>
+      {/* <tr>
         <td className="py-2 px-4 border border-gray-300">Added to New In Store</td>
         <td className="py-2 px-4 border border-gray-300">
         
         {viewData?.newInStore ? "YES": 'NO'}
           
         </td>
-      </tr>
+      </tr> */}
       <tr>
         <td className="py-2 px-4 border border-gray-300">Category</td>
         <td className="py-2 px-4 border border-gray-300">
