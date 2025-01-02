@@ -15,6 +15,7 @@ import category from './slices/category';
 import brand from './slices/brand';
 import booking from './slices/booking';
 import review from './slices/review';
+import couponCode from './slices/couponCode';
 
 // ---------------------------------------------------------
 
@@ -47,6 +48,7 @@ const reducer = combineReducers({
   brand,
   booking,
   review,
+  couponCode,
 });
 
 const rootReducer = (state, action) => {

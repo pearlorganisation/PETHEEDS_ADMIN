@@ -80,7 +80,7 @@ const ViewAppointments = () => {
                   </td>
                 </tr>
               ) : (
-                Array.isArray(appointmentData) &&
+                Array.isArray(appointmentData) && appointmentData.length > 0 ?
                 appointmentData?.map((item, idx) => (
                   <tr key={idx}>
                     <td className="px-6 py-4 whitespace-nowrap">
@@ -118,7 +118,7 @@ const ViewAppointments = () => {
                       </button>
                     </td>
                   </tr>
-                ))
+                )) : <div className=' p-2'>NO APPOINTMENTS DATA</div>
               )}
             </tbody>
           </table>
