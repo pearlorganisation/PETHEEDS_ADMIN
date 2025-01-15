@@ -69,7 +69,7 @@ const handleViewModal=(itemData)=>{
                 <th className="py-3 px-6">Name</th>
                 <th className="py-3 px-6">Email</th>
                 <th className="py-3 px-6">Contact No.</th>
-                <th className="py-3 px-6">Subject</th>
+                <th className="py-3 px-6">Service</th>
              
                
               </tr>

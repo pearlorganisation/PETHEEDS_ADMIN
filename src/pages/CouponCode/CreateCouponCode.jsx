@@ -47,8 +47,9 @@ export const CreateCouponCode = () => {
                       {...register('couponCode', { required: 'Coupon Code is required' })}
                       type="text"
                       className="w-full mt-2  px-5 py-2 text-gray-500 border-slate-300 bg-transparent outline-none border focus:border-teal-400 shadow-sm rounded-lg"
+                      onInput={(e) => e.target.value = e.target.value.toUpperCase()}
                     />
-                    {errors.productName && (
+                    {errors.couponCode && (
                       <span className="text-red-500">
                        Coupon Code is required
                       </span>
@@ -61,7 +62,7 @@ export const CreateCouponCode = () => {
                     <label className="font-medium">Minimum Amount</label>
                     <input
                       {...register('minAmount', { required: 'Minimum Amount is required' })}
-                      type="text"
+                      type="number"
                       className="w-full mt-2  px-5 py-2 text-gray-500 border-slate-300 bg-transparent outline-none border focus:border-teal-400 shadow-sm rounded-lg"
                     />
                     {errors.minAmount && (
@@ -80,7 +81,7 @@ export const CreateCouponCode = () => {
                             message: 'Discount must be a number from 1 to 99',
                           },
                         })}
-                        type="text"
+                        type="number"
                         className="w-full mt-2  px-5 py-2 text-gray-500 border-slate-300 bg-transparent outline-none border focus:border-teal-400 shadow-sm rounded-lg"
                       />
                       <span className="font-bold mt-4">%</span>

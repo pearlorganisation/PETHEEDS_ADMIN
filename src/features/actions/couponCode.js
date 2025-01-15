@@ -23,7 +23,7 @@ export const updateCouponCode = createAsyncThunk(
     'updateCouponCode',
     async (id, { rejectWithValue }) => {
       try {
-        const response = await instance.patch(
+        const response = await instance.delete(
           `/couponCode/${id}`,
           
           { withCredentials: true }
