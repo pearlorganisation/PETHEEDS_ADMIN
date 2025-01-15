@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useForm,Controller } from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
 import { updateBlog } from '../../features/actions/blog';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { ClipLoader } from 'react-spinners';
@@ -10,9 +10,9 @@ const UpdateBlog = () => {
   const { blogData, isLoading } = useSelector((state) => state.blog);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-const {state:item}= useLocation()
-  const [watchBannerName, setWatchBannerName] = useState({})
-  
+  const { state: item } = useLocation();
+  const [watchBannerName, setWatchBannerName] = useState({});
+
   useEffect(() => {
     if (blogData?.status) {
       navigate('/blog');
@@ -24,27 +24,29 @@ const {state:item}= useLocation()
     handleSubmit,
     formState: { errors },
     control,
-    watch
+    watch,
   } = useForm({
     defaultValues: {
-      topic: item?.topic || ""
+      topic: item?.topic || '',
+      blogSlug: item?.blogSlug || '',
     },
   });
 
   const onSubmit = (data) => {
     const formData = new FormData();
-    const { banner} = data;
+    const { banner } = data;
     formData.append('banner', banner[0]);
     formData.append('description', data.description);
     formData.append('topic', data.topic);
-    dispatch(updateBlog({ id:item?._id,payload:formData}));
+    formData.append('blogSlug', data.blogSlug);
+    dispatch(updateBlog({ id: item?._id, payload: formData }));
   };
- 
-  const temp =  watch("banner")
-  
+
+  const temp = watch('banner');
+
   useEffect(() => {
-   setWatchBannerName(temp)
-  }, [temp])
+    setWatchBannerName(temp);
+  }, [temp]);
 
   return (
     <div>
@@ -69,7 +71,24 @@ const {state:item}= useLocation()
               <span className="text-red-500">Topic is required</span>
             )}
 
-        
+            <div className="w-full">
+              <label className="font-medium">Blog Slug</label>
+              <input
+                {...register('blogSlug', {
+                  required: 'Slug is required',
+                  pattern: {
+                    value: /^[a-zA-Z0-9-_ ]+$/,
+                    message:
+                      'Blog Slug can only contain letters, numbers, hyphens, and underscores',
+                  },
+                })}
+                type="text"
+                className="w-full mt-2 px-5 py-2 text-gray-500 border-slate-300 bg-transparent outline-none border focus:border-teal-400 shadow-sm rounded-lg"
+              />
+              {errors.blogSlug && (
+                <span className="text-red-500">{errors.blogSlug.message}</span>
+              )}
+            </div>
 
             <div className="flex-1 items-center mx-auto mb-3 space-y-4 sm:flex sm:space-y-0">
               <div className="relative w-full space-y-1">
@@ -97,7 +116,10 @@ const {state:item}= useLocation()
                         />
                       </svg>
                       <span className="font-medium text-gray-600">
-                      {Array.isArray(Array.from(watchBannerName || {})) && Array.from(watchBannerName || {}).length > 0 ? watchBannerName[0]?.name : 'Drop files to Attach, or '}
+                        {Array.isArray(Array.from(watchBannerName || {})) &&
+                        Array.from(watchBannerName || {}).length > 0
+                          ? watchBannerName[0]?.name
+                          : 'Drop files to Attach, or '}
                         <span className="text-blue-600 underline ml-[4px]">
                           browse
                         </span>
@@ -112,11 +134,8 @@ const {state:item}= useLocation()
                     />
                   </label>
                 </div>
-               
               </div>
             </div>
-
-  
 
             <div>
               <label className="font-medium">Description</label>
@@ -127,7 +146,6 @@ const {state:item}= useLocation()
                   <ReactTextEditor
                     sendContent={item?.description}
                     onChange={(data) => onChange(data)}
-              
                   />
                 )}
                 rules={{ required: true }}
@@ -135,7 +153,7 @@ const {state:item}= useLocation()
 
               {errors?.description && (
                 <span className="fw-normal fs-6 text-danger">
-                 Description is required
+                  Description is required
                 </span>
               )}
             </div>

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useForm,Controller } from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
 import { createBlog } from '../../features/actions/blog';
 import { useNavigate } from 'react-router-dom';
 import { ClipLoader } from 'react-spinners';
@@ -11,8 +11,8 @@ const CreateBlog = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const [watchBannerName, setWatchBannerName] = useState({})
-  
+  const [watchBannerName, setWatchBannerName] = useState({});
+
   useEffect(() => {
     if (blogData?.status) {
       navigate('/blog');
@@ -24,25 +24,25 @@ const CreateBlog = () => {
     handleSubmit,
     formState: { errors },
     control,
-    watch
+    watch,
   } = useForm({
     defaultValues: {},
   });
 
   const onSubmit = (data) => {
     const formData = new FormData();
-    const { banner} = data;
+    const { banner } = data;
     formData.append('banner', banner[0]);
     formData.append('description', data.description);
     formData.append('topic', data.topic);
-    dispatch(createBlog({ formData}));
+    dispatch(createBlog({ formData }));
   };
- 
-  const temp =  watch("banner")
-  
+
+  const temp = watch('banner');
+
   useEffect(() => {
-   setWatchBannerName(temp)
-  }, [temp])
+    setWatchBannerName(temp);
+  }, [temp]);
 
   return (
     <div>
@@ -67,7 +67,23 @@ const CreateBlog = () => {
               <span className="text-red-500">Topic is required</span>
             )}
 
-        
+            <div className="w-full">
+              <label className="font-medium">Blog Slug</label>
+              <input
+                {...register('blogSlug', {
+                  required: 'Slug is required',
+                  pattern: {
+                    value: /^[^\\/]+$/, // Regular expression to disallow '/' and '\'
+                    message: "Slug cannot contain '/' or '\\'",
+                  },
+                })}
+                type="text"
+                className="w-full mt-2 px-5 py-2 text-gray-500 border-slate-300 bg-transparent outline-none border focus:border-teal-400 shadow-sm rounded-lg"
+              />
+              {errors.blogSlug && (
+                <span className="text-red-500">{errors.blogSlug.message}</span>
+              )}
+            </div>
 
             <div className="flex-1 items-center mx-auto mb-3 space-y-4 sm:flex sm:space-y-0">
               <div className="relative w-full space-y-1">
@@ -95,7 +111,10 @@ const CreateBlog = () => {
                         />
                       </svg>
                       <span className="font-medium text-gray-600">
-                      {Array.isArray(Array.from(watchBannerName || {})) && Array.from(watchBannerName || {}).length > 0 ? watchBannerName[0]?.name : 'Drop files to Attach, or '}
+                        {Array.isArray(Array.from(watchBannerName || {})) &&
+                        Array.from(watchBannerName || {}).length > 0
+                          ? watchBannerName[0]?.name
+                          : 'Drop files to Attach, or '}
                         <span className="text-blue-600 underline ml-[4px]">
                           browse
                         </span>
@@ -116,26 +135,20 @@ const CreateBlog = () => {
               </div>
             </div>
 
-  
-
             <div>
               <label className="font-medium">Description</label>
               <Controller
                 name={`description`}
                 control={control}
                 render={({ field: { onChange, value, ref } }) => (
-                  <ReactTextEditor
-                    
-                    onChange={(data) => onChange(data)}
-              
-                  />
+                  <ReactTextEditor onChange={(data) => onChange(data)} />
                 )}
                 rules={{ required: true }}
               />
 
               {errors?.description && (
                 <span className="fw-normal fs-6 text-danger">
-                 Description is required
+                  Description is required
                 </span>
               )}
             </div>
