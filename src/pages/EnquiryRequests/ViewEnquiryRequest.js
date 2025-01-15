@@ -68,8 +68,8 @@ const handleViewModal=(itemData)=>{
               <tr>
                 <th className="py-3 px-6">Name</th>
                 <th className="py-3 px-6">Email</th>
-                <th className="py-3 px-6">Contact Number</th>
-                <th className="py-3 px-6">Subject</th>
+                <th className="py-3 px-6">Contact No.</th>
+                <th className="py-3 px-6">Service</th>
              
                
               </tr>
@@ -99,7 +99,7 @@ const handleViewModal=(itemData)=>{
                   {item?.number}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap truncate max-w-30">
-                    {item?.subject} 
+                    {item?.subject || "Enquiry"} 
                     </td>
                   
                     

@@ -19,11 +19,6 @@ const navigate=useNavigate()
     const {register,handleSubmit,formState: { errors }}=useForm(
         )
 
-        // const { fields: subTitleFields, append: appendSubTitle, remove: removeSubTitle } = useFieldArray({
-        //   control,
-        //   name: "subTitle"
-        // });
-
         const onSubmit = data =>{
           console.log(data)
           const formData = new FormData()

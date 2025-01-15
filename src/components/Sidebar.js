@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Link, NavLink, useLocation } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import PanoramaVerticalIcon from '@mui/icons-material/PanoramaVertical';
 import InventoryOutlinedIcon from '@mui/icons-material/InventoryOutlined';
 import CalendarMonthOutlinedIcon from '@mui/icons-material/CalendarMonthOutlined';
@@ -11,6 +11,7 @@ import GridViewOutlinedIcon from '@mui/icons-material/GridViewOutlined';
 import CategoryOutlinedIcon from '@mui/icons-material/CategoryOutlined';
 import PaymentIcon from '@mui/icons-material/Payment';
 import RateReviewIcon from '@mui/icons-material/RateReview';
+import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 // -------------------------------------------------------------------------------
 
 const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
@@ -72,7 +73,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
       }`}
     >
       <div className="flex items-center justify-between gap-2 py-5.5 pt-20 lg:pt-0 lg:py-6.5">
-        <NavLink to="/">
+        <NavLink  to="/">
           <h2 className="text-white text-3xl font-bold text-center">
             PETHEEDS Admin Panel
           </h2>
@@ -114,10 +115,10 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
               <li>
                   <NavLink
                         to="/"
-                        className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
+                        className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4  ${
                           (pathname === '/' ||
                             pathname.includes('dashboard')) &&
-                          'bg-graydark dark:bg-meta-4'
+                          'bg-white text-graydark'
                         }`}
                       
                       >
@@ -129,10 +130,10 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
               <li>
                   <NavLink
                         to="/order"
-                        className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
-                          (pathname === '/' ||
-                            pathname.includes('dashboard')) &&
-                          'bg-graydark dark:bg-meta-4'
+                        className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4  ${
+                          (pathname === '/order' ||
+                            pathname.includes('order')) &&
+                          'bg-white text-graydark'
                         }`}
                       
                       >
@@ -145,9 +146,9 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                   <NavLink
                         to="/review"
                         className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
-                          (pathname === '/' ||
-                            pathname.includes('dashboard')) &&
-                          'bg-graydark dark:bg-meta-4'
+                          (pathname === '/review' ||
+                            pathname.includes('review')) &&
+                          'bg-white text-graydark'
                         }`}
                       
                       >
@@ -171,10 +172,11 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                       <li>
                 <NavLink
                   to="/product"
-                  className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
-                    pathname.includes('/roles/viewRoles') &&
-                    'bg-graydark dark:bg-meta-4'
-                  }`}
+                  className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4  ${
+                          (pathname === '/product' ||
+                            pathname.includes('product')) &&
+                          'bg-white text-graydark'
+                        }`}
                 >
                   <InventoryOutlinedIcon />
                   Manage Products
@@ -183,10 +185,11 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
               <li>
                 <NavLink
                   to="appointment"
-                  className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
-                    pathname.includes('/roles/viewRoles') &&
-                    'bg-graydark dark:bg-meta-4'
-                  }`}
+                  className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4  ${
+                          (pathname === '/appointment' ||
+                            pathname.includes('appointment')) &&
+                          'bg-white text-graydark'
+                        }`}
                 >
                   <CalendarMonthOutlinedIcon />
                   Manage Appointments
@@ -195,10 +198,11 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
               <li>
                 <NavLink
                   to="/subject"
-                  className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
-                    pathname.includes('/permissions/viewPermissions') &&
-                    'bg-graydark dark:bg-meta-4'
-                  }`}
+                  className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4  ${
+                          (pathname === '/subject' ||
+                            pathname.includes('subject')) &&
+                          'bg-white text-graydark'
+                        }`}
                 >
                   <SubjectOutlinedIcon />
                   Manage Subjects
@@ -207,10 +211,11 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
               <li>
                 <NavLink
                   to="/blog"
-                  className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
-                    pathname.includes('/memberships/viewMemberships') &&
-                    'bg-graydark dark:bg-meta-4'
-                  }`}
+                  className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4  ${
+                          (pathname === '/blog' ||
+                            pathname.includes('blog')) &&
+                          'bg-white text-graydark'
+                        }`}
                 >
                   <MessageOutlinedIcon />
                   Manage Blogs
@@ -220,9 +225,10 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                 <NavLink
                   to="/enquiryRequest"
                   className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
-                    pathname.includes('/payments/viewPayments') &&
-                    'bg-graydark dark:bg-meta-4'
-                  }`}
+                          (pathname === '/enquiryRequest' ||
+                            pathname.includes('enquiryRequest')) &&
+                          'bg-white text-graydark'
+                        }`}
                 >
                   <BorderColorOutlinedIcon/>
            
@@ -232,10 +238,11 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
               <li>
                 <NavLink
                   to="/banner"
-                  className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
-                    pathname.includes('/payments/viewPayments') &&
-                    'bg-graydark dark:bg-meta-4'
-                  }`}
+                  className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4  ${
+                          (pathname === '/banner' ||
+                            pathname.includes('banner')) &&
+                          'bg-white text-graydark'
+                        }`}
                 >
                   <ViewCarouselIcon/>
            
@@ -245,14 +252,29 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
               <li>
                 <NavLink
                   to="/category"
-                  className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
-                    pathname.includes('/payments/viewPayments') &&
-                    'bg-graydark dark:bg-meta-4'
-                  }`}
+                  className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4  ${
+                          (pathname === '/category' ||
+                            pathname.includes('category')) &&
+                          'bg-white text-graydark'
+                        }`}
                 >
                   <CategoryOutlinedIcon/>
            
                   Manage Category
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to="/couponCode"
+                  className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4  ${
+                          (pathname === '/couponCode' ||
+                            pathname.includes('couponCode')) &&
+                          'bg-white text-graydark'
+                        }`}
+                >
+                  <LocalOfferIcon/>
+           
+                  Manage Coupon Code
                 </NavLink>
               </li>
             </ul>

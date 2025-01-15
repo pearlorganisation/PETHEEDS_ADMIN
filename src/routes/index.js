@@ -8,6 +8,8 @@ import UpdateCategory from '../pages/Category/UpdateCategory';
 import UpdateBanner from '../pages/Banners/updateBanner';
 import ViewReviews from '../pages/Review/ViewReviews';
 import CreateReview from '../pages/Review/CreateReview';
+import { CreateCouponCode } from '../pages/CouponCode/CreateCouponCode';
+import { ViewCouponCode } from '../pages/CouponCode/ViewCouponCode';
 
 
 
@@ -66,6 +68,7 @@ const ViewBookings = lazy(() =>
 const ViewParticularProductReviews = lazy(() =>
   import('../pages/Review/ViewParticularProductReviews')
 );
+
 
 
 // ------------------------------------------------------------------------------
@@ -229,6 +232,18 @@ const coreRoutes = [
     path: '/createReview',
     title: 'Create Review',
     component: CreateReview,
+  },
+  // coupon Code Routes
+
+  {
+    path: '/couponCode',
+    title: 'View couponCode',
+    component: ViewCouponCode,
+  },
+  {
+    path: '/createCouponCode',
+    title: 'Create couponCode',
+    component: CreateCouponCode,
   },
   
 ];
